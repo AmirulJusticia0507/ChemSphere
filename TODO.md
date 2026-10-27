@@ -22,14 +22,14 @@
 
 ## Pengalaman pengguna
 
-- [ ] Buat tampilan responsif untuk desktop dan perangkat seluler.
-- [ ] Pastikan navigasi keyboard, kontras warna, dan teks alternatif aksesibel.
-- [ ] Tambahkan state loading, kosong, dan error pada halaman utama.
+- [x] Buat tampilan responsif untuk desktop dan perangkat seluler.
+- [x] Pastikan navigasi keyboard, kontras warna, dan teks alternatif aksesibel.
+- [x] Tambahkan state loading, kosong, dan error pada halaman utama.
 
 ## Kualitas
 
-- [ ] Uji alur utama frontend dan API.
-- [ ] Validasi input, tangani error API, dan lindungi endpoint yang memerlukan autentikasi.
+- [x] Uji alur utama frontend dan API.
+- [x] Validasi input, tangani error API, dan lindungi endpoint yang memerlukan autentikasi.
 - [x] Tambahkan seed database untuk lingkungan pengembangan.
-- [ ] Dokumentasikan cara menjalankan aplikasi.
-- [ ] Siapkan konfigurasi deployment, environment produksi, dan backup database.
+- [x] Dokumentasikan cara menjalankan aplikasi.
+- [x] Siapkan konfigurasi deployment, environment produksi, dan backup database.
