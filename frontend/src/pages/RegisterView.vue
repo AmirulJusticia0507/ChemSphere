@@ -29,7 +29,7 @@ async function handleSubmit() {
   <div class="shell flex min-h-[calc(100vh-220px)] items-center justify-center py-14">
     <div class="w-full max-w-md rounded-card border border-line bg-white p-7 shadow-[0_18px_55px_#17213d0d]">
       <div class="mb-6 text-center">
-        <span class="mr-1 text-coral">◉</span>
+        <span class="mr-1 text-coral" aria-hidden="true">◉</span>
         <span class="font-display text-xl font-bold tracking-[-.05em] text-ink">ChemSphere</span>
       </div>
       <h1 class="mb-1 text-center font-display text-2xl font-bold tracking-[-.04em] text-ink">

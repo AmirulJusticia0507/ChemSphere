@@ -45,7 +45,7 @@ onBeforeUnmount(() => { document.body.style.overflow = '' })
       <button type="button" class="absolute inset-0 w-full cursor-default bg-navy/40 backdrop-blur-sm" aria-label="Tutup navigasi" @click="closeSidebar"></button>
       <aside id="sidebar-navigasi" class="absolute top-0 right-0 flex h-full w-[min(88vw,380px)] flex-col bg-white p-5 shadow-[-20px_0_60px_#17213d2b]" aria-label="Navigasi utama">
         <div class="flex items-center justify-between border-b border-line pb-5">
-          <p class="m-0 font-display text-xl font-bold tracking-[-.05em] text-ink"><span class="text-coral">◉</span> ChemSphere</p>
+          <p class="m-0 font-display text-xl font-bold tracking-[-.05em] text-ink"><span class="text-coral" aria-hidden="true">◉</span> ChemSphere</p>
           <button type="button" class="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-paper text-ink" aria-label="Tutup navigasi" @click="closeSidebar">×</button>
         </div>
         <nav class="mt-5 space-y-1">
