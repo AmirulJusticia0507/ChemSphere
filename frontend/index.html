@@ -7,60 +7,13 @@
     <title>ChemSphere | Jelajahi Kimia</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <div class="glow glow-one"></div>
-    <div class="glow glow-two"></div>
-    <header class="site-header">
-      <a class="brand" href="#beranda" aria-label="ChemSphere beranda"><span>◉</span>ChemSphere</a>
-      <nav aria-label="Navigasi utama">
-        <a class="active" href="#beranda">Beranda</a>
-        <a href="#tabel">Tabel periodik</a>
-        <a href="#eksplorasi">Eksplorasi</a>
-      </nav>
-      <button class="profile-button" type="button" aria-label="Buka profil">AR</button>
-    </header>
-
-    <main id="beranda">
-      <section class="hero">
-        <div>
-          <p class="eyebrow">RUANG BELAJAR KIMIA</p>
-          <h1>Kimia terasa lebih <em>dekat.</em></h1>
-          <p class="hero-copy">Jelajahi unsur, pahami sifatnya, dan temukan keterkaitan di balik tabel periodik.</p>
-          <div class="hero-actions">
-            <a class="button button-primary" href="#tabel">Jelajahi tabel <span>→</span></a>
-            <a class="button button-quiet" href="#eksplorasi">Mulai belajar</a>
-          </div>
-        </div>
-        <aside class="element-card" aria-label="Unsur pilihan: oksigen">
-          <span class="card-orbit orbit-a"></span><span class="card-orbit orbit-b"></span>
-          <p>UNSUR HARI INI</p><strong>O</strong><h2>Oksigen</h2>
-          <dl><div><dt>Nomor atom</dt><dd>8</dd></div><div><dt>Massa atom</dt><dd>15,999</dd></div></dl>
-        </aside>
-      </section>
-
-      <section class="quick-stats" aria-label="Ringkasan konten">
-        <div><strong>118</strong><span>Unsur kimia</span></div>
-        <div><strong>7</strong><span>Periode</span></div>
-        <div><strong>18</strong><span>Golongan</span></div>
-        <div><strong>∞</strong><span>Rasa ingin tahu</span></div>
-      </section>
-
-      <section class="explore" id="eksplorasi">
-        <div class="section-heading"><div><p class="eyebrow">MULAI DARI SINI</p><h2>Pilih cara belajarmu</h2></div><a href="#tabel">Lihat semua topik →</a></div>
-        <div class="topic-grid">
-          <article class="topic-card orange"><span>⚛</span><h3>Kenali unsur</h3><p>Pelajari karakter setiap unsur dari hidrogen hingga oganeson.</p><a href="#tabel">Mulai →</a></article>
-          <article class="topic-card blue"><span>⌘</span><h3>Ion poliatomik</h3><p>Temukan kelompok atom bermuatan yang sering muncul dalam reaksi.</p><a href="#tabel">Mulai →</a></article>
-          <article class="topic-card green"><span>◌</span><h3>Kelompok unsur</h3><p>Bandingkan logam, nonlogam, dan karakter unsur lainnya.</p><a href="#tabel">Mulai →</a></article>
-        </div>
-      </section>
-
-      <section class="periodic-section" id="tabel">
-        <div class="section-heading"><div><p class="eyebrow">REFERENSI VISUAL</p><h2>Tabel periodik</h2></div><button class="filter-button" type="button">Semua kategori <span>⌄</span></button></div>
-        <div class="table-shell"><img src="assets/periodic-table-polyatomic-id.svg" alt="Tabel periodik unsur dan ion poliatomik dalam Bahasa Indonesia" /></div>
-      </section>
-    </main>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>
