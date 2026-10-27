@@ -1,0 +1,8 @@
+{
+  "name": "chemsphere",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "vercel-build": "npm install --prefix backend && npm run vercel-build --prefix backend && npm install --prefix frontend && npm run build --prefix frontend"
+  }
+}

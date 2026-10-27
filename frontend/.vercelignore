@@ -1,0 +1,12 @@
+node_modules
+.env
+.env.*
+!.env.example
+.git
+*.log
+backend/node_modules
+frontend/node_modules
+frontend/dist
+.DS_Store
+Thumbs.db
+.qa-*.mjs
