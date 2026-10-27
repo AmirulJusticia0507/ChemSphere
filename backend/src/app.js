@@ -18,6 +18,8 @@ import learnRoutes from './routes/learnRoutes.js'
 import { apiLimiter } from './middlewares/rateLimiters.js'
 import { errorHandler, notFoundHandler } from './middlewares/errorHandler.js'
 import { logger, requestContext } from './utils/logger.js'
+import { reportError } from './utils/errorReporting.js'
+import { getMetrics } from './controllers/metricsController.js'
 
 const app = express()
 
@@ -67,6 +69,9 @@ app.get('/health', (_req, res) => {
   res.json({ status: 'ok', service: 'chemsphere-backend' })
 })
 
+// Metrik operasional (uptime, status DB, jumlah data)
+app.get('/metrics', getMetrics)
+
 // Root
 app.get('/', (_req, res) => {
   res.json({ name: 'ChemSphere API', version: '1.0.0' })
@@ -107,6 +112,34 @@ if (process.env.VERCEL !== '1') {
       env: process.env.NODE_ENV ?? 'development',
     })
   })
+
+  // Jangan biarkan proses mati diam-diam: catat lalu keluar dengan kode error
+  // agar supervisor (Docker, PM2, systemd) dapat me-restart.
+  process.on('unhandledRejection', (reason) => {
+    logger.error('unhandled promise rejection', { message: String(reason) })
+    reportError(reason instanceof Error ? reason : new Error(String(reason)), {
+      source: 'unhandledRejection',
+    })
+  })
+
+  process.on('uncaughtException', (error) => {
+    logger.error('uncaught exception', { message: error.message, stack: error.stack })
+    reportError(error, { source: 'uncaughtException' })
+    // Beri kesempatan log terkirim sebelum keluar.
+    setTimeout(() => process.exit(1), 500)
+  })
+
+  const shutdown = (signal) => {
+    logger.info('mematikan server', { signal })
+    server.close(() => {
+      prisma.$disconnect().finally(() => process.exit(0))
+    })
+    // Paksa keluar bila koneksi menggantung.
+    setTimeout(() => process.exit(1), 10_000)
+  }
+
+  process.on('SIGTERM', () => shutdown('SIGTERM'))
+  process.on('SIGINT', () => shutdown('SIGINT'))
 }
 
 export default app

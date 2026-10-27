@@ -1,4 +1,5 @@
 import { logger } from '../utils/logger.js'
+import { reportError } from '../utils/errorReporting.js'
 
 // Error yang sengaja dilempar aplikasi dengan status dan pesan yang aman
 // ditampilkan ke client.
@@ -31,6 +32,14 @@ export function errorHandler(err, req, res, _next) {
       name: err.name,
       message: err.message,
       stack: err.stack?.split('\n').slice(0, 8),
+    })
+
+    // Teruskan ke layanan pelaporan bila dikonfigurasi.
+    reportError(err, {
+      requestId: req.id,
+      method: req.method,
+      path: req.originalUrl,
+      userId: req.user?.id ?? null,
     })
   } else {
     logger.warn('request rejected', {
