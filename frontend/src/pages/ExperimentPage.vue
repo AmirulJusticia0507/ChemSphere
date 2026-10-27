@@ -1,8 +1,10 @@
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue'
 
-import { getElements } from '../services/api.js'
+import { useElementsStore } from '../stores/elements.js'
 import { generateCompounds, molarMass } from '../utils/formula.js'
+
+const elementsStore = useElementsStore()
 
 const elements = ref([])
 const firstSymbol = ref('H')
@@ -78,7 +80,7 @@ async function load() {
   loading.value = true
   error.value = ''
   try {
-    elements.value = await getElements()
+    elements.value = await elementsStore.ensureLoaded()
   } catch (loadError) {
     error.value = loadError.message ?? 'Data unsur tidak dapat dimuat.'
   } finally {

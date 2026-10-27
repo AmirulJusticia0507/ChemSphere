@@ -5,10 +5,12 @@ import { useRoute, useRouter } from 'vue-router'
 import IonSection from '../components/IonSection.vue'
 import PeriodicTable from '../components/PeriodicTable.vue'
 import { styleForCategory } from '../data/categories.js'
-import { getCategories, getElements, getIons } from '../services/api.js'
+import { getCategories, getIons } from '../services/api.js'
+import { useElementsStore } from '../stores/elements.js'
 
 const route = useRoute()
 const router = useRouter()
+const elementsStore = useElementsStore()
 
 const elements = ref([])
 const categories = ref([])
@@ -132,8 +134,9 @@ async function load() {
   error.value = ''
 
   try {
+    // Data unsur diambil dari store: sekali muat, lalu dipakai ulang antar halaman.
     const [elementData, categoryData, ionData] = await Promise.all([
-      getElements(),
+      elementsStore.ensureLoaded(),
       getCategories().catch(() => []),
       getIons().catch(() => []),
     ])
@@ -151,7 +154,15 @@ async function load() {
 
 onMounted(load)
 watch(() => route.hash, scrollToHash)
-watch([search, categoryFilter, groupFilter, periodFilter], updateQuery)
+
+// Pencarian di-debounce agar URL dan render tidak diperbarui tiap ketikan,
+// sementara filter lain langsung diterapkan.
+let searchTimer = null
+watch(search, () => {
+  clearTimeout(searchTimer)
+  searchTimer = setTimeout(updateQuery, 250)
+})
+watch([categoryFilter, groupFilter, periodFilter], updateQuery)
 watch(() => route.query, applyQueryFilters)
 
 applyQueryFilters()

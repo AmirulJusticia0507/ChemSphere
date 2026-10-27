@@ -1,8 +1,8 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
 
-import { getElements } from '../services/api.js'
 import { prettyFormula } from '../utils/formula.js'
+import { useElementsStore } from '../stores/elements.js'
 import {
   AVOGADRO,
   MOLAR_VOLUME_STP,
@@ -19,6 +19,7 @@ import {
 
 const elements = ref([])
 const loadingElements = ref(true)
+const elementsStore = useElementsStore()
 
 const massBySymbol = computed(() => {
   const map = {}
@@ -38,7 +39,7 @@ const activeTab = ref('massa')
 
 onMounted(async () => {
   try {
-    elements.value = await getElements()
+    elements.value = await elementsStore.ensureLoaded()
   } catch {
     elements.value = []
   } finally {
