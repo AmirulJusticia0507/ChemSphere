@@ -15,6 +15,8 @@ model User {
   isActive      Boolean  @default(true) @map("is_active")
   lastLoginAt   DateTime? @map("last_login_at") @db.Timestamptz(6)
   refreshToken  String?  @map("refresh_token") @db.Text
+  bookmarks     Bookmark[]
+  quizAttempts  QuizAttempt[]
   createdAt     DateTime @default(now()) @db.Timestamptz(6)
   updatedAt     DateTime @updatedAt @db.Timestamptz(6)
 
@@ -72,6 +74,7 @@ model Element {
 
   category          Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   isotopes          Isotope[]
+  bookmarks         Bookmark[]
   createdAt         DateTime   @default(now()) @db.Timestamptz(6)
   updatedAt         DateTime   @updatedAt @db.Timestamptz(6)
 
@@ -100,4 +103,35 @@ model PolyatomicIon {
   createdAt   DateTime @default(now()) @db.Timestamptz(6)
 
   @@map("polyatomic_ions")
+}
+
+model Bookmark {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  elementId String   @map("element_id") @db.Uuid
+  note      String?  @db.VarChar(255)
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  element Element @relation(fields: [elementId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, elementId])
+  @@index([userId])
+  @@map("bookmarks")
+}
+
+model QuizAttempt {
+  id          String   @id @default(uuid()) @db.Uuid
+  userId      String   @map("user_id") @db.Uuid
+  topic       String   @db.VarChar(50)
+  total       Int      @db.Integer
+  correct     Int      @db.Integer
+  score       Int      @db.Integer
+  durationSec Int?     @map("duration_sec") @db.Integer
+  createdAt   DateTime @default(now()) @db.Timestamptz(6)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@map("quiz_attempts")
 }

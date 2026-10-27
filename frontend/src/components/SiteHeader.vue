@@ -11,11 +11,13 @@ const links = [
   { label: 'Tabel periodik', hint: '118 unsur', to: '/tabel', match: (path) => path.startsWith('/tabel') || path.startsWith('/unsur') },
   { label: 'Eksperimen', hint: 'Simulasi senyawa', to: '/eksperimen', match: (path) => path === '/eksperimen' },
   { label: 'Kalkulator', hint: 'Alat hitung', to: '/kalkulator', match: (path) => path === '/kalkulator' },
+  { label: 'Kuis', hint: 'Latihan soal', to: '/kuis', match: (path) => path === '/kuis' },
+  { label: 'Progres', hint: 'Simpanan & skor', to: '/progres', match: (path) => path === '/progres' },
   { label: 'Ion poliatomik', hint: 'Kamus ion', to: '/tabel#ion', match: (path, hash) => path === '/tabel' && hash === '#ion' },
 ]
 const activeIndex = computed(() => {
   const index = links.findIndex((link) => link.match(route.path, route.hash))
-  return index === 4 && route.hash !== '#ion' ? 1 : index
+  return index === 6 && route.hash !== '#ion' ? 1 : index
 })
 function closeSidebar() { sidebarOpen.value = false }
 function onKeydown(event) { if (event.key === 'Escape') closeSidebar() }

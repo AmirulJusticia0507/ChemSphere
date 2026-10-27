@@ -2,11 +2,47 @@
 import { computed, ref, watch } from 'vue'
 
 import { styleForCategory } from '../data/categories.js'
-import { getElement, getElements } from '../services/api.js'
+import { getElement, getElements, addBookmark, removeBookmark, getBookmarks } from '../services/api.js'
+import { useAuth } from '../composables/useAuth.js'
 
 const props = defineProps({
   id: { type: String, required: true },
 })
+
+const auth = useAuth()
+const isBookmarked = ref(false)
+const bookmarkBusy = ref(false)
+const bookmarkNotice = ref('')
+
+async function loadBookmarkState() {
+  if (!auth.isAuthenticated.value) return
+  try {
+    const bookmarks = await getBookmarks()
+    isBookmarked.value = bookmarks.some((item) => item.elementId === props.id)
+  } catch {
+    isBookmarked.value = false
+  }
+}
+
+async function toggleBookmark() {
+  bookmarkBusy.value = true
+  bookmarkNotice.value = ''
+  try {
+    if (isBookmarked.value) {
+      await removeBookmark(props.id)
+      isBookmarked.value = false
+      bookmarkNotice.value = 'Dihapus dari simpanan.'
+    } else {
+      await addBookmark(props.id)
+      isBookmarked.value = true
+      bookmarkNotice.value = 'Tersimpan di progres belajar.'
+    }
+  } catch (bookmarkError) {
+    bookmarkNotice.value = bookmarkError.message ?? 'Gagal memperbarui simpanan.'
+  } finally {
+    bookmarkBusy.value = false
+  }
+}
 
 const element = ref(null)
 const allElements = ref([])
@@ -135,6 +171,7 @@ async function load() {
 }
 
 watch(() => props.id, load, { immediate: true })
+watch(() => props.id, loadBookmarkState, { immediate: true })
 </script>
 
 <template>
@@ -232,6 +269,19 @@ watch(() => props.id, load, { immediate: true })
             <span class="rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-ink shadow-sm">
               Massa {{ formatMass(element.atomicMass) }} u
             </span>
+          </div>
+
+          <div v-if="auth.isAuthenticated.value" class="mt-4 flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              class="cursor-pointer rounded-xl border px-4 py-2 text-xs font-bold transition disabled:opacity-50"
+              :class="isBookmarked ? 'border-[#166534] bg-[#f0fdf4] text-[#166534]' : 'border-line bg-white text-ink hover:border-navy/30'"
+              :disabled="bookmarkBusy"
+              @click="toggleBookmark"
+            >
+              {{ isBookmarked ? '✓ Tersimpan' : 'Simpan unsur' }}
+            </button>
+            <span v-if="bookmarkNotice" class="text-xs font-semibold text-muted">{{ bookmarkNotice }}</span>
           </div>
         </div>
       </header>

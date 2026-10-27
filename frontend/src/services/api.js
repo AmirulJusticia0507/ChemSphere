@@ -204,3 +204,33 @@ export async function deleteUser(id) {
 export async function updateOwnProfile(payload) {
   return request('/profile/me', jsonBody('PUT', payload))
 }
+
+// --- Belajar: simpanan, progres, kuis ---
+
+export async function getBookmarks() {
+  return asList(await request('/learn/bookmarks'))
+}
+
+export async function addBookmark(elementId, note) {
+  return request('/learn/bookmarks', jsonBody('POST', { elementId, note }))
+}
+
+export async function removeBookmark(elementId) {
+  return request(`/learn/bookmarks/${encodeURIComponent(elementId)}`, { method: 'DELETE' })
+}
+
+export async function getProgress() {
+  return request('/learn/progress')
+}
+
+export async function startQuiz(topic, count = 10) {
+  return request('/learn/quiz/start', jsonBody('POST', { topic, count }))
+}
+
+export async function submitQuiz(quizId, answers, durationSec) {
+  return request('/learn/quiz/submit', jsonBody('POST', { quizId, answers, durationSec }))
+}
+
+export async function getQuizAttempts(limit = 20) {
+  return asList(await request(`/learn/quiz/attempts?limit=${limit}`))
+}
