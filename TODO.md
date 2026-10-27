@@ -3,6 +3,7 @@
 ## Fondasi
 
 - [ ] Siapkan aplikasi frontend Vue 3 dan Tailwind CSS.
+- [x] Pasang Prisma dan Prisma Client pada backend.
 - [ ] Lengkapi API Express serta konfigurasi environment backend.
 - [ ] Buat skema dan migrasi PostgreSQL.
 
