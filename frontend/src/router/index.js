@@ -1,13 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import AdminView from '../pages/AdminView.vue'
-import ElementDetailPage from '../pages/ElementDetailPage.vue'
-import HomePage from '../pages/HomePage.vue'
-import LoginView from '../pages/LoginView.vue'
-import NotFoundPage from '../pages/NotFoundPage.vue'
-import RegisterView from '../pages/RegisterView.vue'
-import TablePage from '../pages/TablePage.vue'
-
 import { useAuth } from '@/composables/useAuth.js'
 
 const auth = useAuth()
@@ -15,15 +7,15 @@ const auth = useAuth()
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    { path: '/', name: 'home', component: HomePage },
-    { path: '/tabel', name: 'table', component: TablePage },
-    { path: '/unsur/:id', name: 'element', component: ElementDetailPage, props: true },
-    { path: '/masuk', name: 'login', component: LoginView },
-    { path: '/daftar', name: 'register', component: RegisterView },
+    { path: '/', name: 'home', component: () => import('../pages/HomePage.vue') },
+    { path: '/tabel', name: 'table', component: () => import('../pages/TablePage.vue') },
+    { path: '/unsur/:id', name: 'element', component: () => import('../pages/ElementDetailPage.vue'), props: true },
+    { path: '/masuk', name: 'login', component: () => import('../pages/LoginView.vue') },
+    { path: '/daftar', name: 'register', component: () => import('../pages/RegisterView.vue') },
     {
       path: '/admin',
       name: 'admin',
-      component: AdminView,
+      component: () => import('../pages/AdminView.vue'),
       beforeEnter: async (to) => {
         if (!auth.isAuthenticated.value) {
           return { name: 'login', query: { redirect: to.fullPath } }
@@ -40,7 +32,7 @@ const router = createRouter({
         return true
       },
     },
-    { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFoundPage },
+    { path: '/:pathMatch(.*)*', name: 'not-found', component: () => import('../pages/NotFoundPage.vue') },
   ],
   scrollBehavior(to, _from, savedPosition) {
     if (savedPosition) return savedPosition
