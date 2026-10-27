@@ -124,3 +124,34 @@ test('CORS allows the configured origin', async () => {
   assert.equal(response.status, 200)
   assert.equal(response.headers.get('access-control-allow-origin'), 'http://localhost:5173')
 })
+
+test('GET /openapi.json serves a valid OpenAPI document', async () => {
+  const response = await get('/openapi.json')
+  assert.equal(response.status, 200)
+  const spec = await response.json()
+  assert.match(spec.openapi, /^3\./)
+  assert.ok(Object.keys(spec.paths).length > 20)
+  assert.ok(spec.paths['/api/v1/elements'])
+})
+
+test('every $ref in the OpenAPI document resolves', async () => {
+  const response = await get('/openapi.json')
+  const spec = await response.json()
+  const refs = new Set()
+  JSON.stringify(spec, (key, value) => {
+    if (key === '$ref' && typeof value === 'string') refs.add(value)
+    return value
+  })
+  for (const ref of refs) {
+    const [section, name] = ref.replace('#/components/', '').split('/')
+    assert.ok(spec.components[section]?.[name], `unresolved ref: ${ref}`)
+  }
+})
+
+test('GET /docs returns an HTML documentation page', async () => {
+  const response = await get('/docs')
+  assert.equal(response.status, 200)
+  assert.match(response.headers.get('content-type') ?? '', /text\/html/)
+  const body = await response.text()
+  assert.match(body, /swagger/i)
+})

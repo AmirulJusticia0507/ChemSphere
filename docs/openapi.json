@@ -1,0 +1,1173 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "ChemSphere API",
+    "version": "1.0.0",
+    "description": "API untuk tabel periodik Bahasa Indonesia, ion poliatomik, kuis, dan progres belajar.\n\nSemua endpoint berada di bawah `/api/v1`. Autentikasi memakai JWT Bearer untuk access token (15 menit) dan cookie httpOnly `refreshToken` untuk memperbarui sesi.",
+    "contact": { "name": "ChemSphere" },
+    "license": { "name": "ISC" }
+  },
+  "servers": [
+    { "url": "http://localhost:5000", "description": "Pengembangan lokal" },
+    { "url": "https://chemsphere.vercel.app", "description": "Produksi" }
+  ],
+  "tags": [
+    { "name": "Sistem", "description": "Health check dan metrik" },
+    { "name": "Autentikasi", "description": "Registrasi, login, refresh, logout" },
+    { "name": "Unsur", "description": "Data unsur dan propertinya" },
+    { "name": "Kategori", "description": "Kategori unsur" },
+    { "name": "Ion", "description": "Ion poliatomik" },
+    { "name": "Belajar", "description": "Simpanan, progres, dan kuis" },
+    { "name": "Profil", "description": "Profil pengguna yang sedang masuk" },
+    { "name": "Admin", "description": "Pengelolaan konten dan pengguna" }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" },
+      "refreshCookie": { "type": "apiKey", "in": "cookie", "name": "refreshToken" }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "message": { "type": "string", "example": "Data tidak ditemukan" },
+          "requestId": { "type": "string", "format": "uuid" }
+        }
+      },
+      "Pagination": {
+        "type": "object",
+        "properties": {
+          "page": { "type": "integer", "example": 1 },
+          "limit": { "type": "integer", "example": 10 },
+          "total": { "type": "integer", "example": 118 },
+          "totalPages": { "type": "integer", "example": 12 }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "name": { "type": "string", "example": "Ayu Lestari" },
+          "email": { "type": "string", "format": "email" },
+          "role": { "type": "string", "enum": ["user", "editor", "admin"] },
+          "isActive": { "type": "boolean" },
+          "lastLoginAt": { "type": "string", "format": "date-time", "nullable": true },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "name": { "type": "string", "example": "Logam Alkali" },
+          "slug": { "type": "string", "example": "alkali" }
+        }
+      },
+      "Isotope": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "massNumber": { "type": "integer", "example": 56 },
+          "abundance": { "type": "number", "nullable": true, "example": 91.754 },
+          "halfLife": { "type": "string", "nullable": true },
+          "isRadioactive": { "type": "boolean" }
+        }
+      },
+      "Element": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "atomicNumber": { "type": "integer", "example": 26 },
+          "symbol": { "type": "string", "example": "Fe" },
+          "nameId": { "type": "string", "example": "Besi" },
+          "nameLatin": { "type": "string", "example": "Ferrum" },
+          "atomicMass": { "type": "string", "example": "55.8450" },
+          "electronConfig": { "type": "string", "example": "[Ar] 3d6 4s2" },
+          "period": { "type": "integer", "example": 4 },
+          "group": { "type": "integer", "example": 8 },
+          "description": { "type": "string", "nullable": true },
+          "uses": { "type": "string", "nullable": true },
+          "hazardWarning": { "type": "string", "nullable": true },
+          "meltingPoint": { "type": "number", "nullable": true, "example": 1811 },
+          "boilingPoint": { "type": "number", "nullable": true, "example": 3134 },
+          "density": { "type": "number", "nullable": true, "example": 7.874 },
+          "electronegativity": { "type": "number", "nullable": true, "example": 1.83 },
+          "ionizationEnergy": { "type": "number", "nullable": true, "example": 762.5 },
+          "atomicRadius": { "type": "number", "nullable": true, "example": 140 },
+          "covalentRadius": { "type": "number", "nullable": true, "example": 116 },
+          "molarHeat": { "type": "number", "nullable": true },
+          "oxidationStates": { "type": "string", "nullable": true, "example": "3,2" },
+          "phaseAtRoomTemp": { "type": "string", "nullable": true, "example": "Solid" },
+          "block": { "type": "string", "nullable": true, "example": "d" },
+          "appearance": { "type": "string", "nullable": true },
+          "discoveredBy": { "type": "string", "nullable": true },
+          "yearDiscovered": { "type": "integer", "nullable": true },
+          "category": { "$ref": "#/components/schemas/Category" },
+          "isotopes": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Isotope" }
+          }
+        }
+      },
+      "PolyatomicIon": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "name": { "type": "string", "example": "Sulfat" },
+          "formula": { "type": "string", "example": "SO₄²⁻" },
+          "charge": { "type": "string", "example": "-2" },
+          "description": { "type": "string", "nullable": true }
+        }
+      },
+      "Bookmark": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "elementId": { "type": "string", "format": "uuid" },
+          "note": { "type": "string", "nullable": true },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "element": { "$ref": "#/components/schemas/Element" }
+        }
+      },
+      "QuizQuestion": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "question": { "type": "string" },
+          "options": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "QuizAttempt": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "topic": { "type": "string" },
+          "total": { "type": "integer" },
+          "correct": { "type": "integer" },
+          "score": { "type": "integer", "example": 80 },
+          "durationSec": { "type": "integer", "nullable": true },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
+    "responses": {
+      "Unauthorized": {
+        "description": "Token tidak ada atau tidak valid",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+      },
+      "Forbidden": {
+        "description": "Role tidak mencukupi",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+      },
+      "NotFound": {
+        "description": "Data tidak ditemukan",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+      },
+      "ValidationError": {
+        "description": "Input tidak valid",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+      }
+    }
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": ["Sistem"],
+        "summary": "Health check",
+        "responses": {
+          "200": {
+            "description": "API hidup",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string", "example": "ok" },
+                    "service": { "type": "string", "example": "chemsphere-backend" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metrics": {
+      "get": {
+        "tags": ["Sistem"],
+        "summary": "Metrik operasional",
+        "description": "Uptime, status database, jumlah data, dan penggunaan memori.",
+        "responses": {
+          "200": {
+            "description": "Metrik",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "service": { "type": "string" },
+                    "uptimeSec": { "type": "integer" },
+                    "database": { "type": "string", "enum": ["connected", "disconnected"] },
+                    "counts": {
+                      "type": "object",
+                      "nullable": true,
+                      "properties": {
+                        "elements": { "type": "integer" },
+                        "categories": { "type": "integer" },
+                        "ions": { "type": "integer" },
+                        "users": { "type": "integer" }
+                      }
+                    },
+                    "memory": {
+                      "type": "object",
+                      "properties": {
+                        "rssMb": { "type": "integer" },
+                        "heapUsedMb": { "type": "integer" }
+                      }
+                    },
+                    "errorReporting": { "type": "string", "enum": ["enabled", "disabled"] }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/register": {
+      "post": {
+        "tags": ["Autentikasi"],
+        "summary": "Registrasi pengguna baru",
+        "description": "Dibatasi 10 permintaan per 15 menit per IP.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "email", "password"],
+                "properties": {
+                  "name": { "type": "string", "maxLength": 100, "example": "Ayu Lestari" },
+                  "email": { "type": "string", "format": "email" },
+                  "password": { "type": "string", "minLength": 8 }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Registrasi berhasil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" },
+                    "user": { "$ref": "#/components/schemas/User" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "409": { "description": "Email sudah terdaftar" }
+        }
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": ["Autentikasi"],
+        "summary": "Masuk dan dapatkan access token",
+        "description": "Mengembalikan access token dan menyetel cookie httpOnly `refreshToken`.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties": {
+                  "email": { "type": "string", "format": "email" },
+                  "password": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login berhasil",
+            "headers": {
+              "Set-Cookie": {
+                "schema": { "type": "string" },
+                "description": "refreshToken=<jwt>; HttpOnly; Path=/api/v1/auth"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" },
+                    "accessToken": { "type": "string" },
+                    "user": { "$ref": "#/components/schemas/User" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Email atau password salah" },
+          "403": { "description": "Akun dinonaktifkan" },
+          "429": { "description": "Terlalu banyak percobaan masuk" }
+        }
+      }
+    },
+    "/api/v1/auth/refresh": {
+      "post": {
+        "tags": ["Autentikasi"],
+        "summary": "Perbarui access token",
+        "description": "Menukar cookie refresh token dengan access token baru. Token lama dirotasi dan tidak dapat dipakai lagi.",
+        "security": [{ "refreshCookie": [] }],
+        "responses": {
+          "200": {
+            "description": "Token baru",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accessToken": { "type": "string" },
+                    "user": { "$ref": "#/components/schemas/User" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Sesi tidak ada atau kedaluwarsa" },
+          "403": { "description": "Akun dinonaktifkan" }
+        }
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "tags": ["Autentikasi"],
+        "summary": "Keluar dan cabut sesi",
+        "description": "Menghapus refresh token dari database dan membersihkan cookie.",
+        "security": [{ "refreshCookie": [] }],
+        "responses": {
+          "200": { "description": "Logout berhasil" }
+        }
+      }
+    },
+    "/api/v1/auth/me": {
+      "get": {
+        "tags": ["Autentikasi"],
+        "summary": "Profil pengguna yang sedang masuk",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Profil",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/User" } }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
+        }
+      }
+    },
+    "/api/v1/elements": {
+      "get": {
+        "tags": ["Unsur"],
+        "summary": "Daftar unsur",
+        "description": "Tanpa `page` dan `limit`, seluruh unsur dikembalikan sebagai array. Dengan keduanya, hasil dibungkus `{ data, pagination }`.",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "schema": { "type": "string" },
+            "description": "Cari nama, simbol, atau nomor atom"
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "schema": { "type": "string" },
+            "description": "Nama kategori"
+          },
+          {
+            "name": "group",
+            "in": "query",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 18 }
+          },
+          {
+            "name": "period",
+            "in": "query",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 7 }
+          },
+          { "name": "page", "in": "query", "schema": { "type": "integer", "minimum": 1 } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "minimum": 1 } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Daftar unsur",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    { "type": "array", "items": { "$ref": "#/components/schemas/Element" } },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": { "$ref": "#/components/schemas/Element" }
+                        },
+                        "pagination": { "$ref": "#/components/schemas/Pagination" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/elements/{id}": {
+      "get": {
+        "tags": ["Unsur"],
+        "summary": "Detail satu unsur",
+        "description": "Menyertakan kategori dan daftar isotop.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detail unsur",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Element" } }
+            }
+          },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+    "/api/v1/categories": {
+      "get": {
+        "tags": ["Kategori"],
+        "summary": "Daftar kategori",
+        "parameters": [
+          { "name": "search", "in": "query", "schema": { "type": "string" } },
+          { "name": "page", "in": "query", "schema": { "type": "integer" } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Daftar kategori" }
+        }
+      }
+    },
+    "/api/v1/ions": {
+      "get": {
+        "tags": ["Ion"],
+        "summary": "Daftar ion poliatomik",
+        "parameters": [
+          { "name": "search", "in": "query", "schema": { "type": "string" } },
+          { "name": "page", "in": "query", "schema": { "type": "integer" } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Daftar ion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    { "type": "array", "items": { "$ref": "#/components/schemas/PolyatomicIon" } },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": { "$ref": "#/components/schemas/PolyatomicIon" }
+                        },
+                        "pagination": { "$ref": "#/components/schemas/Pagination" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/learn/bookmarks": {
+      "get": {
+        "tags": ["Belajar"],
+        "summary": "Daftar unsur yang disimpan",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Daftar simpanan",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Bookmark" } }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
+        }
+      },
+      "post": {
+        "tags": ["Belajar"],
+        "summary": "Simpan unsur",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["elementId"],
+                "properties": {
+                  "elementId": { "type": "string", "format": "uuid" },
+                  "note": { "type": "string", "maxLength": 255 }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Simpanan dibuat" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "409": { "description": "Unsur sudah disimpan" }
+        }
+      }
+    },
+    "/api/v1/learn/bookmarks/{elementId}": {
+      "delete": {
+        "tags": ["Belajar"],
+        "summary": "Hapus simpanan",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "elementId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Simpanan dihapus" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+    "/api/v1/learn/progress": {
+      "get": {
+        "tags": ["Belajar"],
+        "summary": "Ringkasan progres belajar",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Statistik progres",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "bookmarkCount": { "type": "integer" },
+                    "attempts": { "type": "integer" },
+                    "averageScore": { "type": "integer", "nullable": true },
+                    "bestScore": { "type": "integer", "nullable": true },
+                    "recentAttempts": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/QuizAttempt" }
+                    },
+                    "weakestTopics": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "topic": { "type": "string" },
+                          "averageScore": { "type": "integer" },
+                          "attempts": { "type": "integer" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/learn/quiz/start": {
+      "post": {
+        "tags": ["Belajar"],
+        "summary": "Mulai sesi kuis",
+        "description": "Soal dibangkitkan dari data unsur. Kunci jawaban disimpan di server dan tidak dikirim ke client.",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "topic": {
+                    "type": "string",
+                    "enum": ["simbol", "nomor-atom", "kategori", "golongan-periode", "campuran"],
+                    "default": "campuran"
+                  },
+                  "count": { "type": "integer", "minimum": 1, "maximum": 30, "default": 10 }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sesi kuis",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "quizId": { "type": "string" },
+                    "topic": { "type": "string" },
+                    "questions": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/QuizQuestion" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" }
+        }
+      }
+    },
+    "/api/v1/learn/quiz/submit": {
+      "post": {
+        "tags": ["Belajar"],
+        "summary": "Kirim jawaban kuis",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["quizId", "answers"],
+                "properties": {
+                  "quizId": { "type": "string" },
+                  "answers": { "type": "array", "items": { "type": "string" } },
+                  "durationSec": { "type": "integer" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Hasil penilaian",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "attemptId": { "type": "string", "format": "uuid" },
+                    "topic": { "type": "string" },
+                    "total": { "type": "integer" },
+                    "correct": { "type": "integer" },
+                    "score": { "type": "integer" },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "index": { "type": "integer" },
+                          "correct": { "type": "string" },
+                          "given": { "type": "string", "nullable": true },
+                          "isCorrect": { "type": "boolean" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": { "description": "Sesi kuis tidak ditemukan atau kedaluwarsa" },
+          "403": { "description": "Sesi kuis milik pengguna lain" }
+        }
+      }
+    },
+    "/api/v1/learn/quiz/attempts": {
+      "get": {
+        "tags": ["Belajar"],
+        "summary": "Riwayat percobaan kuis",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 100, "default": 20 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Riwayat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/QuizAttempt" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/profile/me": {
+      "put": {
+        "tags": ["Profil"],
+        "summary": "Ubah profil sendiri",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "currentPassword": {
+                    "type": "string",
+                    "description": "Wajib bila mengubah password"
+                  },
+                  "newPassword": { "type": "string", "minLength": 8 }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Profil diperbarui" },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "401": { "description": "Password saat ini salah" }
+        }
+      }
+    },
+    "/api/v1/admin/elements": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "Daftar unsur (editor/admin)",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Daftar unsur" },
+          "403": { "$ref": "#/components/responses/Forbidden" }
+        }
+      },
+      "post": {
+        "tags": ["Admin"],
+        "summary": "Tambah unsur",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "atomicNumber",
+                  "symbol",
+                  "nameId",
+                  "nameLatin",
+                  "atomicMass",
+                  "electronConfig",
+                  "period",
+                  "group",
+                  "categoryId"
+                ],
+                "properties": {
+                  "atomicNumber": { "type": "integer", "minimum": 1, "maximum": 118 },
+                  "symbol": { "type": "string" },
+                  "nameId": { "type": "string" },
+                  "nameLatin": { "type": "string" },
+                  "atomicMass": { "type": "number" },
+                  "electronConfig": { "type": "string" },
+                  "period": { "type": "integer", "minimum": 1, "maximum": 7 },
+                  "group": { "type": "integer", "minimum": 1, "maximum": 18 },
+                  "categoryId": { "type": "string", "format": "uuid" },
+                  "description": { "type": "string" },
+                  "uses": { "type": "string" },
+                  "hazardWarning": { "type": "string" },
+                  "meltingPoint": { "type": "number" },
+                  "boilingPoint": { "type": "number" },
+                  "density": { "type": "number" },
+                  "electronegativity": { "type": "number", "minimum": 0, "maximum": 4 },
+                  "ionizationEnergy": { "type": "number" },
+                  "atomicRadius": { "type": "number" },
+                  "covalentRadius": { "type": "number" },
+                  "molarHeat": { "type": "number" },
+                  "oxidationStates": { "type": "string" },
+                  "phaseAtRoomTemp": { "type": "string" },
+                  "block": { "type": "string" },
+                  "appearance": { "type": "string" },
+                  "discoveredBy": { "type": "string" },
+                  "yearDiscovered": { "type": "integer" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Unsur dibuat" },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "409": { "description": "Nomor atom atau simbol sudah dipakai" }
+        }
+      }
+    },
+    "/api/v1/admin/elements/{id}": {
+      "put": {
+        "tags": ["Admin"],
+        "summary": "Ubah unsur",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Unsur diperbarui" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      },
+      "delete": {
+        "tags": ["Admin"],
+        "summary": "Hapus unsur",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Unsur dihapus" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+    "/api/v1/admin/categories": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "Daftar kategori (editor/admin)",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "Daftar kategori" } }
+      },
+      "post": {
+        "tags": ["Admin"],
+        "summary": "Tambah kategori",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name"],
+                "properties": { "name": { "type": "string", "maxLength": 100 } }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Kategori dibuat" },
+          "409": { "description": "Slug sudah ada" }
+        }
+      }
+    },
+    "/api/v1/admin/categories/{id}": {
+      "put": {
+        "tags": ["Admin"],
+        "summary": "Ubah kategori",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": { "200": { "description": "Kategori diperbarui" } }
+      },
+      "delete": {
+        "tags": ["Admin"],
+        "summary": "Hapus kategori",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": { "200": { "description": "Kategori dihapus" } }
+      }
+    },
+    "/api/v1/admin/ions": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "Daftar ion (editor/admin)",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "Daftar ion" } }
+      },
+      "post": {
+        "tags": ["Admin"],
+        "summary": "Tambah ion",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "formula", "charge"],
+                "properties": {
+                  "name": { "type": "string", "maxLength": 100 },
+                  "formula": { "type": "string", "maxLength": 50 },
+                  "charge": { "type": "string", "maxLength": 20 },
+                  "description": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Ion dibuat" } }
+      }
+    },
+    "/api/v1/admin/ions/{id}": {
+      "put": {
+        "tags": ["Admin"],
+        "summary": "Ubah ion",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": { "200": { "description": "Ion diperbarui" } }
+      },
+      "delete": {
+        "tags": ["Admin"],
+        "summary": "Hapus ion",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": { "200": { "description": "Ion dihapus" } }
+      }
+    },
+    "/api/v1/admin/users": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "Daftar pengguna (admin)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "search", "in": "query", "schema": { "type": "string" } },
+          {
+            "name": "role",
+            "in": "query",
+            "schema": { "type": "string", "enum": ["user", "editor", "admin"] }
+          },
+          { "name": "isActive", "in": "query", "schema": { "type": "boolean" } },
+          { "name": "page", "in": "query", "schema": { "type": "integer" } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Daftar pengguna",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    { "type": "array", "items": { "$ref": "#/components/schemas/User" } },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": { "$ref": "#/components/schemas/User" }
+                        },
+                        "pagination": { "$ref": "#/components/schemas/Pagination" }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "403": { "$ref": "#/components/responses/Forbidden" }
+        }
+      },
+      "post": {
+        "tags": ["Admin"],
+        "summary": "Buat pengguna (admin)",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "email", "password"],
+                "properties": {
+                  "name": { "type": "string" },
+                  "email": { "type": "string", "format": "email" },
+                  "password": { "type": "string", "minLength": 8 },
+                  "role": {
+                    "type": "string",
+                    "enum": ["user", "editor", "admin"],
+                    "default": "user"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Pengguna dibuat" },
+          "409": { "description": "Email sudah terdaftar" }
+        }
+      }
+    },
+    "/api/v1/admin/users/{id}": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "Detail pengguna",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Detail pengguna" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      },
+      "put": {
+        "tags": ["Admin"],
+        "summary": "Ubah pengguna",
+        "description": "Perubahan role atau penonaktifan akun mencabut semua sesi pengguna tersebut. Admin terakhir tidak dapat diturunkan atau dinonaktifkan.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "email": { "type": "string", "format": "email" },
+                  "role": { "type": "string", "enum": ["user", "editor", "admin"] },
+                  "isActive": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Pengguna diperbarui" },
+          "409": { "description": "Melanggar aturan admin terakhir atau akun sendiri" }
+        }
+      },
+      "delete": {
+        "tags": ["Admin"],
+        "summary": "Hapus pengguna",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Pengguna dihapus" },
+          "409": { "description": "Tidak dapat menghapus akun sendiri atau admin terakhir" }
+        }
+      }
+    },
+    "/api/v1/admin/users/{id}/password": {
+      "put": {
+        "tags": ["Admin"],
+        "summary": "Atur ulang password pengguna",
+        "description": "Semua sesi pengguna tersebut dicabut setelah password diubah.",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["password"],
+                "properties": { "password": { "type": "string", "minLength": 8 } }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Password diatur ulang" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    }
+  }
+}

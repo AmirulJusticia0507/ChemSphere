@@ -20,6 +20,7 @@ import { errorHandler, notFoundHandler } from './middlewares/errorHandler.js'
 import { logger, requestContext } from './utils/logger.js'
 import { reportError } from './utils/errorReporting.js'
 import { getMetrics } from './controllers/metricsController.js'
+import { getApiDocsPage, getOpenApiSpec } from './controllers/docsController.js'
 
 const app = express()
 
@@ -71,6 +72,10 @@ app.get('/health', (_req, res) => {
 
 // Metrik operasional (uptime, status DB, jumlah data)
 app.get('/metrics', getMetrics)
+
+// Dokumentasi API
+app.get('/openapi.json', getOpenApiSpec)
+app.get('/docs', getApiDocsPage)
 
 // Root
 app.get('/', (_req, res) => {
