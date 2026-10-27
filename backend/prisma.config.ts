@@ -13,5 +13,6 @@ export default defineConfig({
   },
   migrations: {
     migrationsFolder: './prisma/migrations',
+    seed: 'node prisma/seed.mjs',
   },
 })

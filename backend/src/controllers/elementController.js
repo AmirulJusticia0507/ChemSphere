@@ -2,16 +2,35 @@ import prisma from '../config/db.js'
 
 export async function getElements(req, res) {
   try {
-    const { category, search } = req.query
+    const { category, search, group, period } = req.query
     const where = {}
+
     if (category) where.category = { name: category }
-    if (search) {
-      where.OR = [
-        { nameId: { contains: search, mode: 'insensitive' } },
-        { nameLatin: { contains: search, mode: 'insensitive' } },
-        { symbol: { contains: search, mode: 'insensitive' } },
-      ]
+
+    if (group !== undefined && group !== '') {
+      const parsedGroup = Number(group)
+      if (Number.isInteger(parsedGroup)) where.group = parsedGroup
     }
+
+    if (period !== undefined && period !== '') {
+      const parsedPeriod = Number(period)
+      if (Number.isInteger(parsedPeriod)) where.period = parsedPeriod
+    }
+
+    if (search) {
+      const term = String(search).trim()
+      where.OR = [
+        { nameId: { contains: term, mode: 'insensitive' } },
+        { nameLatin: { contains: term, mode: 'insensitive' } },
+        { symbol: { contains: term, mode: 'insensitive' } },
+      ]
+
+      const atomicNumber = Number(term)
+      if (Number.isInteger(atomicNumber) && atomicNumber > 0) {
+        where.OR.push({ atomicNumber })
+      }
+    }
+
     const elements = await prisma.element.findMany({
       where,
       include: { category: true },

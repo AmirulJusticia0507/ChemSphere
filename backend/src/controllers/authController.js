@@ -4,17 +4,21 @@ import prisma from '../config/db.js'
 
 export async function register(req, res) {
   try {
-    const { name, email, password, role } = req.body
+    const { name, email, password } = req.body
     if (!name || !email || !password) {
       return res.status(400).json({ message: 'Nama, email, dan password wajib diisi' })
     }
-    const existing = await prisma.user.findUnique({ where: { email } })
+    if (String(password).length < 8) {
+      return res.status(400).json({ message: 'Password minimal 8 karakter' })
+    }
+    const normalizedEmail = String(email).trim().toLowerCase()
+    const existing = await prisma.user.findUnique({ where: { email: normalizedEmail } })
     if (existing) {
       return res.status(409).json({ message: 'Email sudah terdaftar' })
     }
     const hashed = await bcrypt.hash(password, 10)
     const user = await prisma.user.create({
-      data: { name, email, password: hashed, role: role || 'user' },
+      data: { name: String(name).trim(), email: normalizedEmail, password: hashed, role: 'user' },
     })
     res.status(201).json({
       message: 'Registrasi berhasil',
@@ -31,7 +35,7 @@ export async function login(req, res) {
     if (!email || !password) {
       return res.status(400).json({ message: 'Email dan password wajib diisi' })
     }
-    const user = await prisma.user.findUnique({ where: { email } })
+    const user = await prisma.user.findUnique({ where: { email: String(email).trim().toLowerCase() } })
     if (!user) {
       return res.status(401).json({ message: 'Email atau password salah' })
     }

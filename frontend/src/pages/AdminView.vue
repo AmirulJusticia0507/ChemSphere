@@ -12,7 +12,7 @@
           </span>
           <button
             @click="auth.signOut"
-            class="text-sm font-semibold text-coral hover:underline"
+            class="text-sm font-semibold text-coral-ink hover:underline"
           >
             Keluar
           </button>
@@ -72,7 +72,7 @@
                   </button>
                   <button
                     @click="deleteElement(el.id)"
-                    class="text-xs text-coral font-semibold hover:underline"
+                    class="text-xs text-coral-ink font-semibold hover:underline"
                   >
                     Hapus
                   </button>
@@ -119,7 +119,7 @@
                   </button>
                   <button
                     @click="deleteCategory(cat.id)"
-                    class="text-xs text-coral font-semibold hover:underline"
+                    class="text-xs text-coral-ink font-semibold hover:underline"
                   >
                     Hapus
                   </button>
@@ -168,7 +168,7 @@
                   </button>
                   <button
                     @click="deleteIon(ion.id)"
-                    class="text-xs text-coral font-semibold hover:underline"
+                    class="text-xs text-coral-ink font-semibold hover:underline"
                   >
                     Hapus
                   </button>

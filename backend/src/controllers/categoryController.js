@@ -1,5 +1,13 @@
 import prisma from '../config/db.js'
 
+function slugify(value) {
+  return String(value)
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+}
+
 export async function getCategories(req, res) {
   try {
     const categories = await prisma.category.findMany({
@@ -15,7 +23,12 @@ export async function getCategories(req, res) {
 export async function createCategory(req, res) {
   try {
     const { name } = req.body
-    const category = await prisma.category.create({ data: { name } })
+    if (!name?.trim()) {
+      return res.status(400).json({ message: 'Nama kategori wajib diisi' })
+    }
+    const category = await prisma.category.create({
+      data: { name: name.trim(), slug: slugify(name) },
+    })
     res.status(201).json(category)
   } catch (error) {
     res.status(500).json({ message: error.message })
@@ -25,9 +38,12 @@ export async function createCategory(req, res) {
 export async function updateCategory(req, res) {
   try {
     const { name } = req.body
+    if (!name?.trim()) {
+      return res.status(400).json({ message: 'Nama kategori wajib diisi' })
+    }
     const category = await prisma.category.update({
       where: { id: req.params.id },
-      data: { name },
+      data: { name: name.trim(), slug: slugify(name) },
     })
     res.json(category)
   } catch (error) {

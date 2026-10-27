@@ -13,8 +13,8 @@ export async function getIons(req, res) {
 
 export async function createIon(req, res) {
   try {
-    const { name, formula, charge } = req.body
-    const ion = await prisma.polyatomicIon.create({ data: { name, formula, charge } })
+    const { name, formula, charge, description } = req.body
+    const ion = await prisma.polyatomicIon.create({ data: { name, formula, charge, description } })
     res.status(201).json(ion)
   } catch (error) {
     res.status(500).json({ message: error.message })
@@ -23,10 +23,10 @@ export async function createIon(req, res) {
 
 export async function updateIon(req, res) {
   try {
-    const { name, formula, charge } = req.body
+    const { name, formula, charge, description } = req.body
     const ion = await prisma.polyatomicIon.update({
       where: { id: req.params.id },
-      data: { name, formula, charge },
+      data: { name, formula, charge, description },
     })
     res.json(ion)
   } catch (error) {

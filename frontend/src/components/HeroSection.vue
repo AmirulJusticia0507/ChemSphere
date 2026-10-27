@@ -15,7 +15,7 @@ import ElementCard from './ElementCard.vue'
       <h1
         class="m-0 max-w-[590px] font-display text-[clamp(3.3rem,7vw,6.2rem)] leading-[.94] font-bold tracking-[-.055em]"
       >
-        Kimia terasa lebih <em class="text-coral not-italic">dekat.</em>
+        Kimia terasa lebih <em class="text-coral-ink not-italic">dekat.</em>
       </h1>
       <p class="mt-[25px] mb-[30px] max-w-[470px] text-[1.08rem] leading-[1.65] text-muted">
         Jelajahi unsur, pahami sifatnya, dan temukan keterkaitan di balik tabel periodik.

@@ -1,11 +1,14 @@
 import { ref, computed } from 'vue'
-import { login, logout, getToken, getMe, isAuthenticated } from '../services/auth.js'
+import { getMe, getToken, login, logout } from '../services/auth.js'
 
 const token = ref(getToken())
 const user = ref(null)
 const loading = ref(false)
 
 export function useAuth() {
+  const isAuthenticated = computed(() => Boolean(token.value))
+  const isAdmin = computed(() => user.value?.role === 'admin')
+
   async function signIn(credentials) {
     loading.value = true
     try {
@@ -41,10 +44,10 @@ export function useAuth() {
   }
 
   return {
-    token: computed(() => token.value),
-    user: computed(() => user.value),
-    isAuthenticated: computed(() => isAuthenticated()),
-    isAdmin: computed(() => user.value?.role === 'admin'),
+    token,
+    user,
+    isAuthenticated,
+    isAdmin,
     loading: computed(() => loading.value),
     signIn,
     fetchMe,

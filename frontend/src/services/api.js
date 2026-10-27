@@ -34,7 +34,7 @@ export async function getElement(id) {
 }
 
 export async function createElement(payload) {
-  return request('/elements', {
+  return request('/admin/elements', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
@@ -42,7 +42,7 @@ export async function createElement(payload) {
 }
 
 export async function updateElement(id, payload) {
-  return request(`/elements/${encodeURIComponent(id)}`, {
+  return request(`/admin/elements/${encodeURIComponent(id)}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
@@ -50,7 +50,7 @@ export async function updateElement(id, payload) {
 }
 
 export async function deleteElement(id) {
-  return request(`/elements/${encodeURIComponent(id)}`, { method: 'DELETE' })
+  return request(`/admin/elements/${encodeURIComponent(id)}`, { method: 'DELETE' })
 }
 
 export async function getCategories() {
@@ -58,7 +58,7 @@ export async function getCategories() {
 }
 
 export async function createCategory(payload) {
-  return request('/categories', {
+  return request('/admin/categories', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
@@ -66,7 +66,7 @@ export async function createCategory(payload) {
 }
 
 export async function updateCategory(id, payload) {
-  return request(`/categories/${encodeURIComponent(id)}`, {
+  return request(`/admin/categories/${encodeURIComponent(id)}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
@@ -74,7 +74,7 @@ export async function updateCategory(id, payload) {
 }
 
 export async function deleteCategory(id) {
-  return request(`/categories/${encodeURIComponent(id)}`, { method: 'DELETE' })
+  return request(`/admin/categories/${encodeURIComponent(id)}`, { method: 'DELETE' })
 }
 
 export async function getIons() {
@@ -82,7 +82,7 @@ export async function getIons() {
 }
 
 export async function createIon(payload) {
-  return request('/ions', {
+  return request('/admin/ions', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
@@ -90,7 +90,7 @@ export async function createIon(payload) {
 }
 
 export async function updateIon(id, payload) {
-  return request(`/ions/${encodeURIComponent(id)}`, {
+  return request(`/admin/ions/${encodeURIComponent(id)}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
@@ -98,5 +98,5 @@ export async function updateIon(id, payload) {
 }
 
 export async function deleteIon(id) {
-  return request(`/ions/${encodeURIComponent(id)}`, { method: 'DELETE' })
+  return request(`/admin/ions/${encodeURIComponent(id)}`, { method: 'DELETE' })
 }

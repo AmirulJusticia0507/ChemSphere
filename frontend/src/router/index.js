@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import HomePage from '../pages/HomePage.vue'
-import TablePage from '../pages/TablePage.vue'
-import ElementDetailPage from '../pages/ElementDetailPage.vue'
-import LoginView from '../pages/LoginView.vue'
 import AdminView from '../pages/AdminView.vue'
+import ElementDetailPage from '../pages/ElementDetailPage.vue'
+import HomePage from '../pages/HomePage.vue'
+import LoginView from '../pages/LoginView.vue'
 import NotFoundPage from '../pages/NotFoundPage.vue'
+import RegisterView from '../pages/RegisterView.vue'
+import TablePage from '../pages/TablePage.vue'
 
 import { useAuth } from '@/composables/useAuth.js'
 
@@ -18,18 +19,25 @@ const router = createRouter({
     { path: '/tabel', name: 'table', component: TablePage },
     { path: '/unsur/:id', name: 'element', component: ElementDetailPage, props: true },
     { path: '/masuk', name: 'login', component: LoginView },
+    { path: '/daftar', name: 'register', component: RegisterView },
     {
       path: '/admin',
       name: 'admin',
       component: AdminView,
-      beforeEnter: (to, from, next) => {
+      beforeEnter: async (to) => {
         if (!auth.isAuthenticated.value) {
-          return next({ name: 'login', query: { redirect: to.fullPath } })
+          return { name: 'login', query: { redirect: to.fullPath } }
         }
+
+        if (!auth.user.value) {
+          await auth.fetchMe()
+        }
+
         if (auth.user.value?.role !== 'admin') {
-          return next({ name: 'home' })
+          return { name: 'home' }
         }
-        next()
+
+        return true
       },
     },
     { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFoundPage },

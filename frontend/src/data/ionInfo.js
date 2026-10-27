@@ -124,8 +124,11 @@ export const ionInfo = {
 }
 
 export function ionBaseFormula(formula) {
+  const subscripts = '₀₁₂₃₄₅₆₇₈₉'
+
   return String(formula ?? '')
-    .replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹₀₁₂₃₄₅₆₇₈₉⁺⁻]/g, '')
+    .replace(/[₀₁₂₃₄₅₆₇₈₉]/g, (character) => String(subscripts.indexOf(character)))
+    .replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻]/g, '')
     .replace(/\s/g, '')
 }
 
