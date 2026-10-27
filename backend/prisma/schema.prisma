@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String   @id @default(uuid()) @db.Uuid
+  name          String   @db.VarChar(100)
+  email         String   @unique @db.VarChar(255)
+  password      String   @db.VarChar(255)
+  role          String   @default("user") @db.VarChar(20)
+  createdAt     DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime @updatedAt @db.Timestamptz(6)
+
+  @@map("users")
+}
+
+model Category {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String   @db.VarChar(100)
+  elements  Element[]
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+
+  @@map("categories")
+}
+
+model Element {
+  id                String     @id @default(uuid()) @db.Uuid
+  atomicNumber      Int        @unique @db.Integer
+  symbol            String     @unique @db.VarChar(10)
+  nameId            String     @db.VarChar(100)
+  nameLatin         String     @db.VarChar(100)
+  atomicMass        Decimal    @db.Decimal(10, 4)
+  electronConfig    String     @db.VarChar(255)
+  categoryId        String     @db.Uuid
+  period            Int        @db.Integer
+  group             Int        @db.Integer
+  description       String?    @db.Text
+  uses              String?    @db.Text
+  hazardWarning     String?    @db.Text
+  category          Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  createdAt         DateTime   @default(now()) @db.Timestamptz(6)
+  updatedAt         DateTime   @updatedAt @db.Timestamptz(6)
+
+  @@map("elements")
+}
+
+model PolyatomicIon {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String   @db.VarChar(100)
+  formula   String   @db.VarChar(50)
+  charge    String   @db.VarChar(20)
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+
+  @@map("polyatomic_ions")
+}
