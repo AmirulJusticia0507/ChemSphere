@@ -1,6 +1,6 @@
 <script setup>
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 import IonSection from '../components/IonSection.vue'
 import PeriodicTable from '../components/PeriodicTable.vue'
@@ -8,6 +8,7 @@ import { styleForCategory } from '../data/categories.js'
 import { getCategories, getElements, getIons } from '../services/api.js'
 
 const route = useRoute()
+const router = useRouter()
 
 const elements = ref([])
 const categories = ref([])
@@ -22,6 +23,34 @@ const periodFilter = ref('')
 
 const groups = Array.from({ length: 18 }, (_, index) => index + 1)
 const periods = Array.from({ length: 7 }, (_, index) => index + 1)
+
+function stringQuery(value) {
+  return typeof value === 'string' ? value : ''
+}
+
+function applyQueryFilters() {
+  search.value = stringQuery(route.query.q)
+  categoryFilter.value = stringQuery(route.query.kategori)
+
+  const group = Number(stringQuery(route.query.golongan))
+  groupFilter.value = groups.includes(group) ? String(group) : ''
+
+  const period = Number(stringQuery(route.query.periode))
+  periodFilter.value = periods.includes(period) ? String(period) : ''
+}
+
+function updateQuery() {
+  const query = {}
+  if (search.value.trim()) query.q = search.value.trim()
+  if (categoryFilter.value) query.kategori = categoryFilter.value
+  if (groupFilter.value) query.golongan = groupFilter.value
+  if (periodFilter.value) query.periode = periodFilter.value
+
+  const currentQuery = Object.fromEntries(
+    Object.entries(route.query).filter(([, value]) => typeof value === 'string'),
+  )
+  if (JSON.stringify(currentQuery) !== JSON.stringify(query)) router.replace({ query })
+}
 
 const categoryOptions = computed(() => {
   if (categories.value.length) {
@@ -101,6 +130,10 @@ async function load() {
 
 onMounted(load)
 watch(() => route.hash, scrollToHash)
+watch([search, categoryFilter, groupFilter, periodFilter], updateQuery)
+watch(() => route.query, applyQueryFilters)
+
+applyQueryFilters()
 </script>
 
 <template>

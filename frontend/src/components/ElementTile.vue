@@ -22,6 +22,8 @@ const palette = computed(() => styleForCategory(props.element.category?.name))
     ]"
     :style="{ backgroundColor: palette.background, color: palette.foreground }"
     :aria-label="`${element.nameId}, nomor atom ${element.atomicNumber}`"
+    :aria-hidden="dimmed ? 'true' : undefined"
+    :tabindex="dimmed ? -1 : undefined"
   >
     <span class="text-[9px] leading-none font-bold opacity-70">{{ element.atomicNumber }}</span>
     <span class="text-center font-display text-[clamp(.8rem,1.5vw,1.15rem)] leading-none font-bold">
