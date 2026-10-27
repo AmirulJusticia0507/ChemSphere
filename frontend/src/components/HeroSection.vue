@@ -1,4 +1,6 @@
 <script setup>
+import { RouterLink } from 'vue-router'
+
 import ElementCard from './ElementCard.vue'
 </script>
 
@@ -19,12 +21,12 @@ import ElementCard from './ElementCard.vue'
         Jelajahi unsur, pahami sifatnya, dan temukan keterkaitan di balik tabel periodik.
       </p>
       <div class="flex items-center gap-3">
-        <a
+        <RouterLink
           class="rounded-xl bg-navy px-[18px] py-[13px] text-[.9rem] font-bold text-white no-underline shadow-[0_9px_24px_#16213e33]"
-          href="#tabel"
+          to="/tabel"
         >
           Jelajahi tabel <span class="ml-[14px]">→</span>
-        </a>
+        </RouterLink>
         <a
           class="rounded-xl px-[18px] py-[13px] text-[.9rem] font-bold text-ink no-underline"
           href="#eksplorasi"

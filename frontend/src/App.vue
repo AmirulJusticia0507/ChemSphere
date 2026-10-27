@@ -1,13 +1,10 @@
 <script setup>
-import HeroSection from './components/HeroSection.vue'
-import QuickStats from './components/QuickStats.vue'
-import ExploreSection from './components/ExploreSection.vue'
-import PeriodicTableSection from './components/PeriodicTableSection.vue'
+import SiteFooter from './components/SiteFooter.vue'
 import SiteHeader from './components/SiteHeader.vue'
 </script>
 
 <template>
-  <div class="relative min-h-screen overflow-x-clip bg-paper font-sans text-ink">
+  <div class="relative flex min-h-screen flex-col overflow-x-clip bg-paper font-sans text-ink">
     <div
       class="pointer-events-none fixed inset-0 -z-20 bg-[linear-gradient(130deg,#fbfdff_0%,#f5f8ff_55%,#fff8f4_100%)]"
     ></div>
@@ -20,11 +17,10 @@ import SiteHeader from './components/SiteHeader.vue'
 
     <SiteHeader />
 
-    <main id="beranda" class="shell">
-      <HeroSection />
-      <QuickStats />
-      <ExploreSection />
-      <PeriodicTableSection />
+    <main class="flex-1">
+      <RouterView />
     </main>
+
+    <SiteFooter />
   </div>
 </template>

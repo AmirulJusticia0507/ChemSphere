@@ -1,21 +1,26 @@
 <script setup>
+import { RouterLink } from 'vue-router'
+
 const topics = [
   {
     icon: '⚛',
     title: 'Kenali unsur',
     description: 'Pelajari karakter setiap unsur dari hidrogen hingga oganeson.',
+    to: '/tabel',
     tone: 'bg-[#ffe3d9]',
   },
   {
     icon: '⌘',
     title: 'Ion poliatomik',
     description: 'Temukan kelompok atom bermuatan yang sering muncul dalam reaksi.',
+    to: '/tabel#ion',
     tone: 'bg-sky',
   },
   {
     icon: '◌',
     title: 'Kelompok unsur',
     description: 'Bandingkan logam, nonlogam, dan karakter unsur lainnya.',
+    to: '/tabel#kategori',
     tone: 'bg-mint',
   },
 ]
@@ -32,12 +37,9 @@ const topics = [
           Pilih cara belajarmu
         </h2>
       </div>
-      <a
-        class="text-[.88rem] font-bold text-ink no-underline max-md:hidden"
-        href="#tabel"
-      >
+      <RouterLink class="text-[.88rem] font-bold text-ink no-underline max-md:hidden" to="/tabel">
         Lihat semua topik →
-      </a>
+      </RouterLink>
     </div>
 
     <div class="grid grid-cols-3 gap-[18px] max-md:grid-cols-1">
@@ -58,7 +60,9 @@ const topics = [
         <p class="mt-0 mb-[15px] min-h-[43px] text-[.88rem] leading-[1.55] text-[#39455e] max-md:min-h-0">
           {{ topic.description }}
         </p>
-        <a class="text-[.84rem] font-bold text-ink no-underline" href="#tabel">Mulai →</a>
+        <RouterLink class="text-[.84rem] font-bold text-ink no-underline" :to="topic.to">
+          Mulai →
+        </RouterLink>
       </article>
     </div>
   </section>
