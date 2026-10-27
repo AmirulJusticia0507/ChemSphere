@@ -8,7 +8,8 @@ import { useAuth } from './composables/useAuth.js'
 const auth = useAuth()
 
 onMounted(() => {
-  if (auth.isAuthenticated.value) auth.fetchMe()
+  // Memulihkan sesi dari cookie refresh httpOnly saat aplikasi dimuat.
+  auth.bootstrap()
 })
 </script>
 

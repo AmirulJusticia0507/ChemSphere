@@ -2,6 +2,7 @@ const BASE_URL = import.meta.env.VITE_API_URL ?? '/api/v1'
 
 async function request(path, options = {}) {
   const response = await fetch(`${BASE_URL}${path}`, {
+    credentials: 'include',
     headers: { 'Content-Type': 'application/json', Accept: 'application/json', ...options.headers },
     ...options,
   })
@@ -34,7 +35,21 @@ export async function getMe(token) {
   })
 }
 
-export function logout() {
+// Menukar cookie refresh httpOnly dengan access token baru.
+export async function refreshSession() {
+  const data = await request('/auth/refresh', { method: 'POST' })
+  if (data?.accessToken) {
+    localStorage.setItem('accessToken', data.accessToken)
+  }
+  return data
+}
+
+export async function logout() {
+  try {
+    await request('/auth/logout', { method: 'POST' })
+  } catch {
+    // Sesi lokal tetap dibersihkan walau server tidak dapat dihubungi.
+  }
   localStorage.removeItem('accessToken')
 }
 

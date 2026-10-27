@@ -1,6 +1,27 @@
 import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
 import prisma from '../config/db.js'
+import {
+  REFRESH_COOKIE_NAME,
+  hashToken,
+  publicUser,
+  refreshCookieOptions,
+  signAccessToken,
+  signRefreshToken,
+  verifyRefreshToken,
+} from '../utils/tokens.js'
+
+async function issueSession(res, user) {
+  const accessToken = signAccessToken(user)
+  const refreshToken = signRefreshToken(user)
+
+  await prisma.user.update({
+    where: { id: user.id },
+    data: { refreshToken: hashToken(refreshToken) },
+  })
+
+  res.cookie(REFRESH_COOKIE_NAME, refreshToken, refreshCookieOptions())
+  return accessToken
+}
 
 export async function register(req, res) {
   try {
@@ -22,7 +43,7 @@ export async function register(req, res) {
     })
     res.status(201).json({
       message: 'Registrasi berhasil',
-      user: { id: user.id, name: user.name, email: user.email, role: user.role },
+      user: publicUser(user),
     })
   } catch (error) {
     res.status(500).json({ message: error.message })
@@ -43,30 +64,72 @@ export async function login(req, res) {
     if (!valid) {
       return res.status(401).json({ message: 'Email atau password salah' })
     }
-    const accessToken = jwt.sign(
-      { id: user.id, email: user.email, role: user.role },
-      process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_ACCESS_EXPIRES_IN || '15m' }
-    )
-    const refreshToken = jwt.sign(
-      { id: user.id },
-      process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d' }
-    )
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    })
+    const accessToken = await issueSession(res, user)
     res.json({
       message: 'Login berhasil',
       accessToken,
-      user: { id: user.id, name: user.name, email: user.email, role: user.role },
+      user: publicUser(user),
     })
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
+}
+
+// Menukar refresh token (cookie httpOnly) dengan access token baru.
+// Token lama langsung diganti (rotasi) sehingga token yang dicuri hanya
+// bisa dipakai sekali sebelum sesi asli memutusnya.
+export async function refresh(req, res) {
+  try {
+    const token = req.cookies?.[REFRESH_COOKIE_NAME]
+    if (!token) {
+      return res.status(401).json({ message: 'Sesi tidak ditemukan, silakan masuk kembali' })
+    }
+
+    let payload
+    try {
+      payload = verifyRefreshToken(token)
+    } catch {
+      res.clearCookie(REFRESH_COOKIE_NAME, refreshCookieOptions())
+      return res.status(401).json({ message: 'Sesi kedaluwarsa, silakan masuk kembali' })
+    }
+
+    const user = await prisma.user.findUnique({ where: { id: payload.id } })
+    if (!user || !user.refreshToken || user.refreshToken !== hashToken(token)) {
+      res.clearCookie(REFRESH_COOKIE_NAME, refreshCookieOptions())
+      return res.status(401).json({ message: 'Sesi tidak valid, silakan masuk kembali' })
+    }
+
+    const accessToken = await issueSession(res, user)
+    res.json({ accessToken, user: publicUser(user) })
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
+export async function logout(req, res) {
+  try {
+    const token = req.cookies?.[REFRESH_COOKIE_NAME]
+    if (token) {
+      try {
+        const payload = verifyRefreshToken(token)
+        await prisma.user.updateMany({
+          where: { id: payload.id, refreshToken: hashToken(token) },
+          data: { refreshToken: null },
+        })
+      } catch {
+        // Token sudah tidak valid; cookie tetap dibersihkan di bawah.
+      }
+    }
+    res.clearCookie(REFRESH_COOKIE_NAME, refreshCookieOptions())
+    res.json({ message: 'Logout berhasil' })
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
+// Mencabut semua sesi pengguna (mis. setelah ganti password atau dari panel admin).
+export async function revokeAllSessions(userId) {
+  await prisma.user.update({ where: { id: userId }, data: { refreshToken: null } })
 }
 
 export async function me(req, res) {

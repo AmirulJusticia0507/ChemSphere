@@ -1,9 +1,10 @@
 import { ref, computed } from 'vue'
-import { getMe, getToken, login, logout } from '../services/auth.js'
+import { getMe, getToken, login, logout, refreshSession } from '../services/auth.js'
 
 const token = ref(getToken())
 const user = ref(null)
 const loading = ref(false)
+let bootstrapped = false
 
 export function useAuth() {
   const isAuthenticated = computed(() => Boolean(token.value))
@@ -37,8 +38,30 @@ export function useAuth() {
     }
   }
 
-  function signOut() {
-    logout()
+  // Dipanggil sekali saat aplikasi dimuat: memulihkan sesi dari cookie
+  // refresh httpOnly supaya pengguna tidak perlu login ulang tiap refresh.
+  async function bootstrap() {
+    if (bootstrapped) return user.value
+    bootstrapped = true
+
+    if (!token.value) {
+      try {
+        const data = await refreshSession()
+        token.value = data.accessToken
+        user.value = data.user ?? null
+      } catch {
+        return null
+      }
+    }
+
+    if (token.value && !user.value) {
+      await fetchMe()
+    }
+    return user.value
+  }
+
+  async function signOut() {
+    await logout()
     token.value = null
     user.value = null
   }
@@ -51,6 +74,7 @@ export function useAuth() {
     loading: computed(() => loading.value),
     signIn,
     fetchMe,
+    bootstrap,
     signOut,
   }
 }
