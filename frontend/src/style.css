@@ -1,20 +1,30 @@
 @import 'tailwindcss';
 
 @theme {
-  --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
-  --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Bricolage Grotesque', 'Space Grotesk', ui-sans-serif, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
-  --color-ink: #17213d;
-  --color-muted: #667085;
-  --color-paper: #f8fafc;
-  --color-line: #e6eaf1;
-  --color-navy: #16213e;
-  --color-coral: #ff795b;
+  --color-ink: #060606;
+  --color-muted: #6a655e;
+  --color-paper: #fff9f1;
+  --color-line: #e4dccb;
+  --color-navy: #101015;
+  --color-coral: #fc9073;
   --color-coral-ink: #b8442f;
   --color-mint: #d8f7e8;
-  --color-sky: #dcecff;
+  --color-sky: #cdeeff;
+  --color-brand: #2b6cb0;
 
   --radius-card: 24px;
+}
+
+@utility label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 @utility shell {
@@ -37,9 +47,14 @@
   }
 
   :focus-visible {
-    outline: 3px solid var(--color-navy);
+    outline: 3px solid var(--color-ink);
     outline-offset: 2px;
     border-radius: 4px;
+  }
+
+  ::selection {
+    background: #71b7f4;
+    color: #060606;
   }
 
   main:focus,

@@ -63,25 +63,27 @@ onMounted(load)
 
     <ExploreSection />
 
-    <section class="mt-24 overflow-hidden rounded-card bg-navy px-8 py-12 text-white sm:px-12">
+    <section
+      class="relative mt-24 overflow-hidden rounded-card bg-[linear-gradient(180deg,#3d8fdb_0%,#3176b9_55%,#2f6aa4_100%)] px-8 py-14 text-white sm:px-12"
+    >
       <div class="flex flex-wrap items-center justify-between gap-8">
         <div>
-          <p class="m-0 text-[.7rem] font-bold tracking-[.14em] text-[#f0d56e] uppercase">
+          <p class="label m-0 text-[#ffda3f]">
             {{ loading ? 'Memuat data unsur…' : `${elements.length} unsur menanti` }}
           </p>
-          <h2 class="mt-2 mb-0 max-w-xl font-display text-[clamp(1.8rem,4vw,2.6rem)] font-bold tracking-[-.055em]">
+          <h2 class="mt-3 mb-0 max-w-xl font-display text-[clamp(1.8rem,4vw,2.6rem)] font-extrabold tracking-[-.04em]">
             Mulai dari satu unsur, pahami semuanya.
           </h2>
-          <p class="mt-3 mb-0 max-w-lg text-sm leading-relaxed text-white/70">
+          <p class="mt-3 mb-0 max-w-lg text-sm leading-relaxed text-white/80">
             Cari berdasarkan nama, lambang, atau nomor atom. Klik unsur untuk melihat sifat,
             kegunaan, dan peringatan bahayanya.
           </p>
         </div>
         <RouterLink
-          class="rounded-xl bg-coral px-6 py-3.5 text-sm font-bold text-navy no-underline"
+          class="inline-flex items-center gap-3 rounded-full bg-white px-7 py-4 font-mono text-[.72rem] font-medium tracking-[.14em] text-ink uppercase no-underline transition-transform duration-200 hover:scale-[1.03] active:scale-[.97]"
           to="/tabel"
         >
-          Buka tabel periodik →
+          Buka tabel periodik <span aria-hidden="true">→</span>
         </RouterLink>
       </div>
     </section>

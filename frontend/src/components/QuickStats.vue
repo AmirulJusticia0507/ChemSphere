@@ -32,10 +32,12 @@ defineProps({
       <div
         v-for="(stat, index) in stats"
         :key="stat.label"
-        class="grid gap-1 border-l border-line pl-6.25 first:border-l-0 first:pl-0 max-md:even:border-l-0 max-md:even:pl-0 max-md:nth-3:border-l-0 max-md:nth-3:pl-0"
+        class="grid gap-1.5 border-l border-line pl-6.25 first:border-l-0 first:pl-0 max-md:even:border-l-0 max-md:even:pl-0 max-md:nth-3:border-l-0 max-md:nth-3:pl-0"
       >
-        <strong class="font-display text-[1.8rem] font-bold">{{ stat.value }}</strong>
-        <span class="text-[.84rem] text-muted">{{ stat.label }}</span>
+        <strong class="font-display text-[1.8rem] leading-none font-extrabold tracking-[-.03em]">
+          {{ stat.value }}
+        </strong>
+        <span class="label text-muted">{{ stat.label }}</span>
       </div>
     </template>
   </section>

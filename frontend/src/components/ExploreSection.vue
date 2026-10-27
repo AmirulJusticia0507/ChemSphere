@@ -30,14 +30,17 @@ const topics = [
   <section id="eksplorasi">
     <div class="mb-[27px] flex items-end justify-between gap-[25px] max-md:items-start">
       <div>
-        <p class="mt-0 mb-[13px] text-[.7rem] font-bold tracking-[.14em] text-coral-ink uppercase">
-          Mulai dari sini
+        <p class="label mt-0 mb-[13px] inline-flex items-center gap-2 text-muted">
+          <span class="text-coral-ink">[</span> Mulai dari sini <span class="text-coral-ink">]</span>
         </p>
-        <h2 class="m-0 font-display text-[clamp(2rem,4vw,3rem)] font-bold tracking-[-.055em]">
+        <h2 class="m-0 font-display text-[clamp(2rem,4vw,3rem)] font-extrabold tracking-[-.04em]">
           Pilih cara belajarmu
         </h2>
       </div>
-      <RouterLink class="text-[.88rem] font-bold text-ink no-underline max-md:hidden" to="/tabel">
+      <RouterLink
+        class="label text-ink no-underline transition hover:text-coral-ink max-md:hidden"
+        to="/tabel"
+      >
         Lihat semua topik →
       </RouterLink>
     </div>
@@ -46,21 +49,24 @@ const topics = [
       <article
         v-for="topic in topics"
         :key="topic.title"
-        class="min-h-[230px] rounded-card p-[26px] max-md:min-h-0"
-        :class="topic.tone"
+        class="min-h-[230px] rounded-card border border-line bg-white p-[26px] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_-18px_rgba(6,6,6,.25)] max-md:min-h-0"
       >
         <span
-          class="mb-[31px] grid h-[46px] w-[46px] place-items-center rounded-[14px] bg-white/60 text-[1.45rem]"
+          class="mb-[31px] grid h-[46px] w-[46px] place-items-center rounded-[14px] text-[1.45rem]"
+          :class="topic.tone"
         >
           {{ topic.icon }}
         </span>
-        <h3 class="mt-0 mb-[10px] font-display text-[1.33rem] font-bold tracking-[-.055em]">
+        <h3 class="mt-0 mb-[10px] font-display text-[1.33rem] font-bold tracking-[-.03em]">
           {{ topic.title }}
         </h3>
-        <p class="mt-0 mb-[15px] min-h-[43px] text-[.88rem] leading-[1.55] text-[#39455e] max-md:min-h-0">
+        <p class="mt-0 mb-[15px] min-h-[43px] text-[.88rem] leading-[1.55] text-muted max-md:min-h-0">
           {{ topic.description }}
         </p>
-        <RouterLink class="text-[.84rem] font-bold text-ink no-underline" :to="topic.to">
+        <RouterLink
+          class="label text-ink no-underline transition hover:text-coral-ink"
+          :to="topic.to"
+        >
           Mulai →
         </RouterLink>
       </article>
