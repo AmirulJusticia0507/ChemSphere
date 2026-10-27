@@ -10,6 +10,7 @@ const router = createRouter({
     { path: '/', name: 'home', component: () => import('../pages/HomePage.vue') },
     { path: '/tabel', name: 'table', component: () => import('../pages/TablePage.vue') },
     { path: '/eksperimen', name: 'experiment', component: () => import('../pages/ExperimentPage.vue') },
+    { path: '/kalkulator', name: 'calculator', component: () => import('../pages/CalculatorPage.vue') },
     { path: '/unsur/:id', name: 'element', component: () => import('../pages/ElementDetailPage.vue'), props: true },
     { path: '/masuk', name: 'login', component: () => import('../pages/LoginView.vue') },
     { path: '/daftar', name: 'register', component: () => import('../pages/RegisterView.vue') },

@@ -10,11 +10,12 @@ const links = [
   { label: 'Beranda', hint: 'Mulai belajar', to: '/', match: (path) => path === '/' },
   { label: 'Tabel periodik', hint: '118 unsur', to: '/tabel', match: (path) => path.startsWith('/tabel') || path.startsWith('/unsur') },
   { label: 'Eksperimen', hint: 'Simulasi senyawa', to: '/eksperimen', match: (path) => path === '/eksperimen' },
+  { label: 'Kalkulator', hint: 'Alat hitung', to: '/kalkulator', match: (path) => path === '/kalkulator' },
   { label: 'Ion poliatomik', hint: 'Kamus ion', to: '/tabel#ion', match: (path, hash) => path === '/tabel' && hash === '#ion' },
 ]
 const activeIndex = computed(() => {
   const index = links.findIndex((link) => link.match(route.path, route.hash))
-  return index === 3 && route.hash !== '#ion' ? 1 : index
+  return index === 4 && route.hash !== '#ion' ? 1 : index
 })
 function closeSidebar() { sidebarOpen.value = false }
 function onKeydown(event) { if (event.key === 'Escape') closeSidebar() }
@@ -30,6 +31,7 @@ onBeforeUnmount(() => { document.body.style.overflow = '' })
     </RouterLink>
     <div class="flex items-center gap-3">
       <RouterLink to="/eksperimen" class="hidden rounded-full border border-navy/10 bg-white px-4 py-2 text-xs font-bold text-ink no-underline shadow-sm hover:border-navy/30 sm:inline-flex">Lab eksperimen</RouterLink>
+      <RouterLink to="/kalkulator" class="hidden rounded-full border border-navy/10 bg-white px-4 py-2 text-xs font-bold text-ink no-underline shadow-sm hover:border-navy/30 md:inline-flex">Kalkulator</RouterLink>
       <button type="button" class="inline-flex h-10 cursor-pointer items-center gap-2 rounded-full bg-navy px-4 text-xs font-bold text-white shadow-sm transition hover:bg-ink" :aria-expanded="sidebarOpen" aria-controls="sidebar-navigasi" :aria-label="sidebarOpen ? 'Tutup navigasi' : 'Buka navigasi'" @click="sidebarOpen = !sidebarOpen">
         <svg width="17" height="17" viewBox="0 0 18 18" fill="none" aria-hidden="true">
           <path v-if="!sidebarOpen" d="M2 4.5h14M2 9h14M2 13.5h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />

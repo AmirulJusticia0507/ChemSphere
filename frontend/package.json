@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "node --test test/formula.test.mjs"
+    "test": "node --test test/formula.test.mjs test/stoichiometry.test.mjs"
   },
   "dependencies": {
     "vue": "^3.5.44",
