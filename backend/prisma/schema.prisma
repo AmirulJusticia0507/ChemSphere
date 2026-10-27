@@ -11,12 +11,22 @@ model User {
   name          String   @db.VarChar(100)
   email         String   @unique @db.VarChar(255)
   password      String   @db.VarChar(255)
-  role          String   @default("user") @db.VarChar(20)
+  role          UserRole @default(user)
+  isActive      Boolean  @default(true) @map("is_active")
+  lastLoginAt   DateTime? @map("last_login_at") @db.Timestamptz(6)
   refreshToken  String?  @map("refresh_token") @db.Text
   createdAt     DateTime @default(now()) @db.Timestamptz(6)
   updatedAt     DateTime @updatedAt @db.Timestamptz(6)
 
   @@map("users")
+}
+
+enum UserRole {
+  user
+  editor
+  admin
+
+  @@map("user_role")
 }
 
 model Category {

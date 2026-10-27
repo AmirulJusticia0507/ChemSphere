@@ -13,6 +13,7 @@ import categoryRoutes from './routes/categoryRoutes.js'
 import ionRoutes from './routes/ionRoutes.js'
 import authRoutes from './routes/authRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
+import profileRoutes from './routes/profileRoutes.js'
 import { apiLimiter } from './middlewares/rateLimiters.js'
 import { errorHandler, notFoundHandler } from './middlewares/errorHandler.js'
 import { logger, requestContext } from './utils/logger.js'
@@ -85,6 +86,7 @@ app.use('/api/v1/elements', elementRoutes)
 app.use('/api/v1/categories', categoryRoutes)
 app.use('/api/v1/ions', ionRoutes)
 app.use('/api/v1/auth', authRoutes)
+app.use('/api/v1/profile', profileRoutes)
 
 // Admin routes (auth + role required)
 app.use('/api/v1/admin', adminRoutes)

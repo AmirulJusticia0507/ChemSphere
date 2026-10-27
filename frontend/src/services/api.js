@@ -7,8 +7,6 @@ function authHeaders() {
 
 let refreshPromise = null
 
-// Satu permintaan penyegaran sesi dipakai bersama oleh semua request yang
-// kena 401, supaya tidak ada badai panggilan /auth/refresh sekaligus.
 async function refreshAccessToken() {
   if (!refreshPromise) {
     refreshPromise = fetch(`${BASE_URL}/auth/refresh`, {
@@ -41,7 +39,6 @@ async function send(path, options) {
 async function request(path, options = {}) {
   let response = await send(path, options)
 
-  // Access token berumur pendek: coba segarkan sekali sebelum menyerah.
   if (response.status === 401 && !options.skipRefresh) {
     const token = await refreshAccessToken()
     if (token) {
@@ -64,6 +61,14 @@ async function request(path, options = {}) {
 function asList(payload) {
   if (Array.isArray(payload)) return payload
   return payload?.data ?? []
+}
+
+function jsonBody(method, payload) {
+  return {
+    method,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  }
 }
 
 export async function getElements(options = {}) {
@@ -91,19 +96,11 @@ export async function getElement(id) {
 }
 
 export async function createElement(payload) {
-  return request('/admin/elements', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  })
+  return request('/admin/elements', jsonBody('POST', payload))
 }
 
 export async function updateElement(id, payload) {
-  return request(`/admin/elements/${encodeURIComponent(id)}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  })
+  return request(`/admin/elements/${encodeURIComponent(id)}`, jsonBody('PUT', payload))
 }
 
 export async function deleteElement(id) {
@@ -130,19 +127,11 @@ export async function getCategoriesPage(options = {}) {
 }
 
 export async function createCategory(payload) {
-  return request('/admin/categories', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  })
+  return request('/admin/categories', jsonBody('POST', payload))
 }
 
 export async function updateCategory(id, payload) {
-  return request(`/admin/categories/${encodeURIComponent(id)}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  })
+  return request(`/admin/categories/${encodeURIComponent(id)}`, jsonBody('PUT', payload))
 }
 
 export async function deleteCategory(id) {
@@ -169,21 +158,49 @@ export async function getIonsPage(options = {}) {
 }
 
 export async function createIon(payload) {
-  return request('/admin/ions', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  })
+  return request('/admin/ions', jsonBody('POST', payload))
 }
 
 export async function updateIon(id, payload) {
-  return request(`/admin/ions/${encodeURIComponent(id)}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  })
+  return request(`/admin/ions/${encodeURIComponent(id)}`, jsonBody('PUT', payload))
 }
 
 export async function deleteIon(id) {
   return request(`/admin/ions/${encodeURIComponent(id)}`, { method: 'DELETE' })
+}
+
+// --- Manajemen pengguna (admin) ---
+
+export async function getUsersPage(options = {}) {
+  const query = new URLSearchParams()
+  query.set('page', options.page ?? 1)
+  query.set('limit', options.limit ?? 10)
+  if (options.search) query.set('search', options.search)
+  if (options.role) query.set('role', options.role)
+  if (options.isActive !== undefined && options.isActive !== '') query.set('isActive', options.isActive)
+  const payload = await request(`/admin/users?${query.toString()}`)
+  if (Array.isArray(payload)) return { data: payload, pagination: null }
+  return payload
+}
+
+export async function createUser(payload) {
+  return request('/admin/users', jsonBody('POST', payload))
+}
+
+export async function updateUser(id, payload) {
+  return request(`/admin/users/${encodeURIComponent(id)}`, jsonBody('PUT', payload))
+}
+
+export async function resetUserPassword(id, password) {
+  return request(`/admin/users/${encodeURIComponent(id)}/password`, jsonBody('PUT', { password }))
+}
+
+export async function deleteUser(id) {
+  return request(`/admin/users/${encodeURIComponent(id)}`, { method: 'DELETE' })
+}
+
+// --- Profil sendiri ---
+
+export async function updateOwnProfile(payload) {
+  return request('/profile/me', jsonBody('PUT', payload))
 }

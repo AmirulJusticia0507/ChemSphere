@@ -64,6 +64,10 @@ export async function login(req, res) {
     if (!valid) {
       return res.status(401).json({ message: 'Email atau password salah' })
     }
+    if (user.isActive === false) {
+      return res.status(403).json({ message: 'Akun ini dinonaktifkan. Hubungi administrator.' })
+    }
+    await prisma.user.update({ where: { id: user.id }, data: { lastLoginAt: new Date() } })
     const accessToken = await issueSession(res, user)
     res.json({
       message: 'Login berhasil',
@@ -97,6 +101,10 @@ export async function refresh(req, res) {
     if (!user || !user.refreshToken || user.refreshToken !== hashToken(token)) {
       res.clearCookie(REFRESH_COOKIE_NAME, refreshCookieOptions())
       return res.status(401).json({ message: 'Sesi tidak valid, silakan masuk kembali' })
+    }
+    if (user.isActive === false) {
+      res.clearCookie(REFRESH_COOKIE_NAME, refreshCookieOptions())
+      return res.status(403).json({ message: 'Akun ini dinonaktifkan. Hubungi administrator.' })
     }
 
     const accessToken = await issueSession(res, user)

@@ -55,7 +55,7 @@ onBeforeUnmount(() => { document.body.style.overflow = '' })
           </RouterLink>
         </nav>
         <div class="mt-auto rounded-2xl bg-paper p-4">
-          <RouterLink v-if="auth.isAdmin" to="/admin" class="mb-3 block text-sm font-bold text-navy no-underline">Panel admin</RouterLink>
+          <RouterLink v-if="auth.canManageContent" to="/admin" class="mb-3 block text-sm font-bold text-navy no-underline">Panel admin</RouterLink>
           <RouterLink v-if="!auth.isAuthenticated" to="/masuk" class="block rounded-xl bg-navy px-4 py-3 text-center text-sm font-bold text-white no-underline">Masuk</RouterLink>
           <button v-else type="button" class="w-full cursor-pointer rounded-xl bg-[#fff0eb] px-4 py-3 text-sm font-bold text-coral-ink" @click="auth.signOut">Keluar</button>
         </div>

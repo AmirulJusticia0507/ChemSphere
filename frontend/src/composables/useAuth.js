@@ -9,6 +9,7 @@ let bootstrapped = false
 export function useAuth() {
   const isAuthenticated = computed(() => Boolean(token.value))
   const isAdmin = computed(() => user.value?.role === 'admin')
+  const canManageContent = computed(() => ['admin', 'editor'].includes(user.value?.role))
 
   async function signIn(credentials) {
     loading.value = true
@@ -71,6 +72,7 @@ export function useAuth() {
     user,
     isAuthenticated,
     isAdmin,
+    canManageContent,
     loading: computed(() => loading.value),
     signIn,
     fetchMe,

@@ -7,6 +7,13 @@
           <p class="text-muted text-sm">Kelola konten unsur, kategori, dan ion poliatomik.</p>
         </div>
         <div class="flex items-center gap-3">
+          <RouterLink
+            v-if="auth.user?.role === 'admin'"
+            to="/admin/pengguna"
+            class="rounded-xl border border-line bg-white px-3 py-2 text-xs font-bold text-navy no-underline hover:border-navy/30"
+          >
+            Manajemen pengguna
+          </RouterLink>
           <span class="label text-muted uppercase">
             {{ user?.name }} ({{ user?.role }})
           </span>

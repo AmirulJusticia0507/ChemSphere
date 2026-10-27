@@ -26,6 +26,26 @@ const router = createRouter({
           await auth.fetchMe()
         }
 
+        if (!['admin', 'editor'].includes(auth.user.value?.role)) {
+          return { name: 'home' }
+        }
+
+        return true
+      },
+    },
+    {
+      path: '/admin/pengguna',
+      name: 'admin-users',
+      component: () => import('../pages/AdminUsersPage.vue'),
+      beforeEnter: async (to) => {
+        if (!auth.isAuthenticated.value) {
+          return { name: 'login', query: { redirect: to.fullPath } }
+        }
+
+        if (!auth.user.value) {
+          await auth.fetchMe()
+        }
+
         if (auth.user.value?.role !== 'admin') {
           return { name: 'home' }
         }
