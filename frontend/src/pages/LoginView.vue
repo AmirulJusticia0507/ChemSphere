@@ -10,17 +10,19 @@ const router = useRouter()
 
 const form = reactive({ email: '', password: '' })
 const error = ref('')
-
-const loading = computed(() => auth.loading)
+const submitting = ref(false)
 
 async function handleSubmit() {
-  error.value = null
+  error.value = ''
+  submitting.value = true
   try {
     const data = await auth.signIn(form)
     const redirect = route.query.redirect
     router.push(redirect || (data.user?.role === 'admin' ? '/admin' : '/'))
   } catch (submitError) {
     error.value = submitError.message
+  } finally {
+    submitting.value = false
   }
 }
 </script>
@@ -30,9 +32,12 @@ async function handleSubmit() {
     <div class="w-full max-w-md rounded-card border border-line bg-white p-7 shadow-[0_18px_55px_#17213d0d]">
       <div class="mb-6 text-center">
         <span class="mr-1 text-coral" aria-hidden="true">◉</span>
-        <span class="font-display text-xl font-bold tracking-[-.05em] text-ink">ChemSphere</span>
+        <span class="font-display text-xl font-extrabold tracking-[-.04em] text-ink">ChemSphere</span>
       </div>
-      <h1 class="mb-1 text-center font-display text-2xl font-bold tracking-[-.04em] text-ink">
+      <p class="label mb-2 text-center text-muted">
+        <span class="text-coral-ink">[</span> Akun pengguna <span class="text-coral-ink">]</span>
+      </p>
+      <h1 class="mb-1 text-center font-display text-2xl font-extrabold tracking-[-.04em] text-ink">
         Masuk
       </h1>
       <p class="mt-0 mb-6 text-center text-sm text-muted">

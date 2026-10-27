@@ -20,19 +20,34 @@ if (!process.env.VERCEL) {
   }
 }
 
+function sendJson(res, statusCode, payload) {
+  res.statusCode = statusCode
+  res.setHeader('Content-Type', 'application/json; charset=utf-8')
+  res.end(JSON.stringify(payload))
+}
+
 function initError(err) {
   console.error('[chemsphere] bootstrap failed:', err)
-  return (req, res) => {
-    res.statusCode = 500
-    res.setHeader('Content-Type', 'application/json; charset=utf-8')
-    res.end(
-      JSON.stringify({
-        success: false,
-        message: 'Function bootstrap failed',
-        error: err?.message ?? String(err),
-        stack: String(err?.stack ?? '').split('\n').slice(0, 12),
-      }),
-    )
+  return (req, res) =>
+    sendJson(res, 500, {
+      success: false,
+      message: 'Function bootstrap failed',
+      error: err?.message ?? String(err),
+      stack: String(err?.stack ?? '').split('\n').slice(0, 12),
+    })
+}
+
+// Vercel rewrites every API path to /api, but Express routes are mounted under
+// /api/v1 and /health, so the original path is restored from the rewrite headers.
+function restorePath(req) {
+  const original =
+    req.headers['x-vercel-original-path'] ||
+    req.headers['x-original-url'] ||
+    req.headers['x-rewrite-url'] ||
+    (typeof req.headers['x-forwarded-uri'] === 'string' ? req.headers['x-forwarded-uri'] : '')
+
+  if (typeof original === 'string' && original.startsWith('/') && original !== '/api') {
+    req.url = original
   }
 }
 
@@ -40,9 +55,12 @@ let handler
 try {
   const appPath = pathToFileURL(join(rootDir, 'backend', 'src', 'app.js')).href
   const mod = await import(appPath)
-  handler = mod.default ?? mod.app
-  if (typeof handler !== 'function') {
-    throw new Error('backend app export is not a function')
+  const app = mod.default ?? mod.app
+  if (typeof app !== 'function') throw new Error('backend app export is not a function')
+
+  handler = (req, res) => {
+    restorePath(req)
+    return app(req, res)
   }
 } catch (err) {
   handler = initError(err)
