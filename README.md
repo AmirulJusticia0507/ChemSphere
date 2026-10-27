@@ -3,6 +3,10 @@
 
 Sistem Informasi berbasis web yang dirancang dengan arsitektur modern, performa tinggi, dan skalabilitas tinggi menggunakan ekosistem JavaScript/TypeScript serta PostgreSQL.
 
+## Tabel Periodik
+
+![Tabel periodik unsur dan ion poliatomik dalam Bahasa Indonesia](docs/assets/periodic-table-polyatomic-id.svg)
+
 ---
 
 ## 🛠 Tech Stack
