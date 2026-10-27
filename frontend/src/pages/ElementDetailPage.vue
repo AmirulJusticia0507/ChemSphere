@@ -2,7 +2,13 @@
 import { computed, ref, watch } from 'vue'
 
 import { styleForCategory } from '../data/categories.js'
-import { getElement, getElements, addBookmark, removeBookmark, getBookmarks } from '../services/api.js'
+import {
+  getElement,
+  getElements,
+  addBookmark,
+  removeBookmark,
+  getBookmarks,
+} from '../services/api.js'
 import { useAuth } from '../composables/useAuth.js'
 
 const props = defineProps({
@@ -52,7 +58,8 @@ const error = ref('')
 const palette = computed(() => styleForCategory(element.value?.category?.name))
 
 const categoryProperties = {
-  'logam alkali': 'Sangat reaktif, lunak, dan mudah kehilangan satu elektron valensi membentuk ion +1.',
+  'logam alkali':
+    'Sangat reaktif, lunak, dan mudah kehilangan satu elektron valensi membentuk ion +1.',
   'logam alkaline tanah':
     'Reaktif namun lebih stabil dari logam alkali, membentuk ion +2 dan banyak terdapat dalam mineral.',
   'logam alkali tanah':
@@ -179,7 +186,9 @@ watch(() => props.id, loadBookmarkState, { immediate: true })
     <nav class="mb-8 text-xs text-muted" aria-label="Breadcrumb">
       <RouterLink class="text-muted no-underline hover:text-ink" to="/">Beranda</RouterLink>
       <span class="mx-2">/</span>
-      <RouterLink class="text-muted no-underline hover:text-ink" to="/tabel">Tabel periodik</RouterLink>
+      <RouterLink class="text-muted no-underline hover:text-ink" to="/tabel"
+        >Tabel periodik</RouterLink
+      >
       <span class="mx-2">/</span>
       <span class="text-ink">{{ element?.nameId ?? 'Detail unsur' }}</span>
     </nav>
@@ -225,8 +234,12 @@ watch(() => props.id, loadBookmarkState, { immediate: true })
           class="relative isolate aspect-square w-full max-w-sm overflow-hidden rounded-card p-7 shadow-[0_24px_60px_#24345a26]"
           :style="{ backgroundColor: palette.background, color: palette.foreground }"
         >
-          <span class="absolute -top-16 -right-16 -z-10 h-56 w-56 rounded-full border border-current/10"></span>
-          <span class="absolute -top-14 -right-14 -z-10 h-56 w-56 scale-y-[.4] rotate-[55deg] rounded-full border border-current/10"></span>
+          <span
+            class="absolute -top-16 -right-16 -z-10 h-56 w-56 rounded-full border border-current/10"
+          ></span>
+          <span
+            class="absolute -top-14 -right-14 -z-10 h-56 w-56 scale-y-[.4] rotate-[55deg] rounded-full border border-current/10"
+          ></span>
 
           <div class="flex h-full flex-col justify-between">
             <div class="flex items-start justify-between">
@@ -235,11 +248,15 @@ watch(() => props.id, loadBookmarkState, { immediate: true })
                 {{ element.category?.name ?? 'Unsur' }}
               </span>
             </div>
-            <p class="m-0 text-center font-display text-[clamp(5rem,14vw,9rem)] leading-none font-bold tracking-[-.06em]">
+            <p
+              class="m-0 text-center font-display text-[clamp(5rem,14vw,9rem)] leading-none font-bold tracking-[-.06em]"
+            >
               {{ element.symbol }}
             </p>
             <div class="text-center">
-              <p class="m-0 font-display text-2xl font-bold tracking-[-.04em]">{{ element.nameId }}</p>
+              <p class="m-0 font-display text-2xl font-bold tracking-[-.04em]">
+                {{ element.nameId }}
+              </p>
               <p class="mt-1 mb-0 text-xs opacity-70">{{ formatMass(element.atomicMass) }} u</p>
             </div>
           </div>
@@ -249,7 +266,9 @@ watch(() => props.id, loadBookmarkState, { immediate: true })
           <p class="mt-0 mb-2 text-[.7rem] font-bold tracking-[.14em] text-coral-ink uppercase">
             Detail unsur
           </p>
-          <h1 class="m-0 font-display text-[clamp(2.4rem,5vw,3.8rem)] leading-[1.02] font-bold tracking-[-.055em]">
+          <h1
+            class="m-0 font-display text-[clamp(2.4rem,5vw,3.8rem)] leading-[1.02] font-bold tracking-[-.055em]"
+          >
             {{ element.nameId }}
             <span class="text-muted/70">({{ element.symbol }})</span>
           </h1>
@@ -260,13 +279,19 @@ watch(() => props.id, loadBookmarkState, { immediate: true })
           </p>
 
           <div class="flex flex-wrap gap-2">
-            <span class="rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-ink shadow-sm">
+            <span
+              class="rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-ink shadow-sm"
+            >
               Periode {{ element.period }}
             </span>
-            <span class="rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-ink shadow-sm">
+            <span
+              class="rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-ink shadow-sm"
+            >
               Golongan {{ element.group }}
             </span>
-            <span class="rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-ink shadow-sm">
+            <span
+              class="rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-ink shadow-sm"
+            >
               Massa {{ formatMass(element.atomicMass) }} u
             </span>
           </div>
@@ -275,13 +300,19 @@ watch(() => props.id, loadBookmarkState, { immediate: true })
             <button
               type="button"
               class="cursor-pointer rounded-xl border px-4 py-2 text-xs font-bold transition disabled:opacity-50"
-              :class="isBookmarked ? 'border-[#166534] bg-[#f0fdf4] text-[#166534]' : 'border-line bg-white text-ink hover:border-navy/30'"
+              :class="
+                isBookmarked
+                  ? 'border-[#166534] bg-[#f0fdf4] text-[#166534]'
+                  : 'border-line bg-white text-ink hover:border-navy/30'
+              "
               :disabled="bookmarkBusy"
               @click="toggleBookmark"
             >
               {{ isBookmarked ? '✓ Tersimpan' : 'Simpan unsur' }}
             </button>
-            <span v-if="bookmarkNotice" class="text-xs font-semibold text-muted">{{ bookmarkNotice }}</span>
+            <span v-if="bookmarkNotice" class="text-xs font-semibold text-muted">{{
+              bookmarkNotice
+            }}</span>
           </div>
         </div>
       </header>
@@ -297,7 +328,9 @@ watch(() => props.id, loadBookmarkState, { immediate: true })
           </div>
           <div class="rounded-2xl border border-line bg-white p-4">
             <dt class="text-[.68rem] font-bold tracking-[.1em] text-muted uppercase">Massa atom</dt>
-            <dd class="mt-1 mb-0 font-display text-lg font-bold">{{ formatMass(element.atomicMass) }} u</dd>
+            <dd class="mt-1 mb-0 font-display text-lg font-bold">
+              {{ formatMass(element.atomicMass) }} u
+            </dd>
           </div>
           <div class="rounded-2xl border border-line bg-white p-4">
             <dt class="text-[.68rem] font-bold tracking-[.1em] text-muted uppercase">Golongan</dt>
@@ -317,7 +350,9 @@ watch(() => props.id, loadBookmarkState, { immediate: true })
           </div>
           <div class="rounded-2xl border border-line bg-white p-4">
             <dt class="text-[.68rem] font-bold tracking-[.1em] text-muted uppercase">Kategori</dt>
-            <dd class="mt-1 mb-0 font-display text-lg font-bold">{{ element.category?.name ?? '—' }}</dd>
+            <dd class="mt-1 mb-0 font-display text-lg font-bold">
+              {{ element.category?.name ?? '—' }}
+            </dd>
           </div>
         </dl>
       </section>
@@ -327,37 +362,67 @@ watch(() => props.id, loadBookmarkState, { immediate: true })
           Sifat fisika dan kimia
         </h2>
         <dl class="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
-          <div v-for="property in physicalProperties" :key="property.label" class="rounded-2xl border border-line bg-white p-4">
-            <dt class="text-[.68rem] font-bold tracking-[.1em] text-muted uppercase">{{ property.label }}</dt>
+          <div
+            v-for="property in physicalProperties"
+            :key="property.label"
+            class="rounded-2xl border border-line bg-white p-4"
+          >
+            <dt class="text-[.68rem] font-bold tracking-[.1em] text-muted uppercase">
+              {{ property.label }}
+            </dt>
             <dd class="mt-1 mb-0 font-display text-base font-bold break-words">
               {{ property.value }}
-              <span v-if="property.unit" class="ml-1 text-xs font-semibold text-muted">{{ property.unit }}</span>
+              <span v-if="property.unit" class="ml-1 text-xs font-semibold text-muted">{{
+                property.unit
+              }}</span>
             </dd>
           </div>
         </dl>
       </section>
 
       <section v-if="element.isotopes?.length" class="mt-10" aria-labelledby="isotop">
-        <h2 id="isotop" class="m-0 mb-4 font-display text-xl font-bold tracking-[-.04em]">Isotop</h2>
+        <h2 id="isotop" class="m-0 mb-4 font-display text-xl font-bold tracking-[-.04em]">
+          Isotop
+        </h2>
         <div class="overflow-hidden rounded-card border border-line bg-white">
           <table class="w-full border-collapse text-sm">
             <thead>
               <tr class="border-b border-line bg-paper text-left">
-                <th class="px-4 py-3 text-[.68rem] font-bold tracking-[.1em] text-muted uppercase">Nomor massa</th>
-                <th class="px-4 py-3 text-[.68rem] font-bold tracking-[.1em] text-muted uppercase">Kelimpahan</th>
-                <th class="px-4 py-3 text-[.68rem] font-bold tracking-[.1em] text-muted uppercase">Waktu paruh</th>
-                <th class="px-4 py-3 text-[.68rem] font-bold tracking-[.1em] text-muted uppercase">Radioaktif</th>
+                <th class="px-4 py-3 text-[.68rem] font-bold tracking-[.1em] text-muted uppercase">
+                  Nomor massa
+                </th>
+                <th class="px-4 py-3 text-[.68rem] font-bold tracking-[.1em] text-muted uppercase">
+                  Kelimpahan
+                </th>
+                <th class="px-4 py-3 text-[.68rem] font-bold tracking-[.1em] text-muted uppercase">
+                  Waktu paruh
+                </th>
+                <th class="px-4 py-3 text-[.68rem] font-bold tracking-[.1em] text-muted uppercase">
+                  Radioaktif
+                </th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="isotope in element.isotopes" :key="isotope.id" class="border-b border-line/60 last:border-0">
-                <td class="px-4 py-3 font-semibold text-ink">{{ element.symbol }}-{{ isotope.massNumber }}</td>
-                <td class="px-4 py-3 text-muted">{{ isotope.abundance ? `${isotope.abundance}%` : '—' }}</td>
+              <tr
+                v-for="isotope in element.isotopes"
+                :key="isotope.id"
+                class="border-b border-line/60 last:border-0"
+              >
+                <td class="px-4 py-3 font-semibold text-ink">
+                  {{ element.symbol }}-{{ isotope.massNumber }}
+                </td>
+                <td class="px-4 py-3 text-muted">
+                  {{ isotope.abundance ? `${isotope.abundance}%` : '—' }}
+                </td>
                 <td class="px-4 py-3 text-muted">{{ isotope.halfLife ?? '—' }}</td>
                 <td class="px-4 py-3">
                   <span
                     class="rounded-full px-2.5 py-1 text-[.65rem] font-bold uppercase"
-                    :class="isotope.isRadioactive ? 'bg-[#fef2f2] text-[#991b1b]' : 'bg-[#f0fdf4] text-[#166534]'"
+                    :class="
+                      isotope.isRadioactive
+                        ? 'bg-[#fef2f2] text-[#991b1b]'
+                        : 'bg-[#f0fdf4] text-[#166534]'
+                    "
                   >
                     {{ isotope.isRadioactive ? 'Ya' : 'Tidak' }}
                   </span>
@@ -389,7 +454,10 @@ watch(() => props.id, loadBookmarkState, { immediate: true })
         </section>
       </div>
 
-      <nav class="mt-12 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-8" aria-label="Navigasi unsur">
+      <nav
+        class="mt-12 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-8"
+        aria-label="Navigasi unsur"
+      >
         <RouterLink
           v-if="neighbors.previous"
           class="rounded-xl border border-line bg-white px-4 py-3 text-sm font-semibold text-ink no-underline hover:border-navy/30"

@@ -46,9 +46,7 @@ export function errorHandler(err, req, res, _next) {
 
   const isProduction = process.env.NODE_ENV === 'production'
   const message =
-    err.expose || !isProduction
-      ? err.message
-      : 'Terjadi kesalahan pada server. Silakan coba lagi.'
+    err.expose || !isProduction ? err.message : 'Terjadi kesalahan pada server. Silakan coba lagi.'
 
   res.status(statusCode).json({
     message,

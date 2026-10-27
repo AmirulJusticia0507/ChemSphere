@@ -72,7 +72,9 @@ const categoryOptions = computed(() => {
 })
 
 const activeFilterCount = computed(
-  () => [search.value, categoryFilter.value, groupFilter.value, periodFilter.value].filter(Boolean).length,
+  () =>
+    [search.value, categoryFilter.value, groupFilter.value, periodFilter.value].filter(Boolean)
+      .length,
 )
 
 const activeFilters = computed(() =>
@@ -88,8 +90,11 @@ function matches(element) {
   const term = search.value.trim().toLowerCase()
   const matchesSearch =
     !term ||
-    [element.nameId, element.nameLatin, element.symbol, String(element.atomicNumber)].some((value) =>
-      String(value ?? '').toLowerCase().includes(term),
+    [element.nameId, element.nameLatin, element.symbol, String(element.atomicNumber)].some(
+      (value) =>
+        String(value ?? '')
+          .toLowerCase()
+          .includes(term),
     )
   const matchesCategory = !categoryFilter.value || element.category?.name === categoryFilter.value
   const matchesGroup = !groupFilter.value || element.group === Number(groupFilter.value)
@@ -165,7 +170,9 @@ applyQueryFilters()
         <p class="mt-0 mb-2 text-[.7rem] font-bold tracking-[.14em] text-coral-ink uppercase">
           Referensi interaktif
         </p>
-        <h1 class="m-0 font-display text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] font-bold tracking-[-.055em]">
+        <h1
+          class="m-0 font-display text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] font-bold tracking-[-.055em]"
+        >
           Tabel periodik
         </h1>
         <p class="mt-3 mb-0 max-w-xl text-[.98rem] leading-relaxed text-muted">
@@ -173,11 +180,16 @@ applyQueryFilters()
           periode, lalu klik unsur untuk membuka detailnya.
         </p>
         <div class="mt-5 flex flex-wrap gap-2">
-          <span class="rounded-full border border-navy/10 bg-white px-3 py-1.5 text-xs font-bold text-ink shadow-sm">
+          <span
+            class="rounded-full border border-navy/10 bg-white px-3 py-1.5 text-xs font-bold text-ink shadow-sm"
+          >
             118 unsur
           </span>
-          <span class="rounded-full border border-[#86efac] bg-[#f0fdf4] px-3 py-1.5 text-xs font-bold text-[#166534]">
-            <span class="mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-[#22c55e]"></span>Filter interaktif
+          <span
+            class="rounded-full border border-[#86efac] bg-[#f0fdf4] px-3 py-1.5 text-xs font-bold text-[#166534]"
+          >
+            <span class="mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-[#22c55e]"></span>Filter
+            interaktif
           </span>
         </div>
       </div>
@@ -205,19 +217,33 @@ applyQueryFilters()
     </div>
 
     <template v-else-if="!error">
-      <section class="relative isolate overflow-hidden rounded-card border border-white/80 bg-white/90 p-4 shadow-[0_18px_55px_#17213d12] backdrop-blur sm:p-5">
-        <span class="pointer-events-none absolute -top-16 -right-12 -z-10 h-40 w-40 rounded-full bg-sky/60 blur-2xl"></span>
+      <section
+        class="relative isolate overflow-hidden rounded-card border border-white/80 bg-white/90 p-4 shadow-[0_18px_55px_#17213d12] backdrop-blur sm:p-5"
+      >
+        <span
+          class="pointer-events-none absolute -top-16 -right-12 -z-10 h-40 w-40 rounded-full bg-sky/60 blur-2xl"
+        ></span>
         <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p class="m-0 text-[.68rem] font-bold tracking-[.13em] text-coral-ink uppercase">Temukan unsur</p>
-            <p class="mt-1 mb-0 text-sm font-semibold text-ink">Gunakan satu atau beberapa filter sekaligus.</p>
+            <p class="m-0 text-[.68rem] font-bold tracking-[.13em] text-coral-ink uppercase">
+              Temukan unsur
+            </p>
+            <p class="mt-1 mb-0 text-sm font-semibold text-ink">
+              Gunakan satu atau beberapa filter sekaligus.
+            </p>
           </div>
-          <span class="rounded-full bg-navy px-3 py-1.5 text-xs font-bold text-white">{{ visibleCount }} hasil</span>
+          <span class="rounded-full bg-navy px-3 py-1.5 text-xs font-bold text-white"
+            >{{ visibleCount }} hasil</span
+          >
         </div>
-        <div class="grid gap-3 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)_minmax(0,.7fr)_minmax(0,.7fr)_auto]">
+        <div
+          class="grid gap-3 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)_minmax(0,.7fr)_minmax(0,.7fr)_auto]"
+        >
           <label class="relative block">
             <span class="sr-only">Cari unsur</span>
-            <span class="pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-muted">⌕</span>
+            <span class="pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-muted"
+              >⌕</span
+            >
             <input
               v-model="search"
               type="search"
@@ -233,7 +259,11 @@ applyQueryFilters()
               class="w-full cursor-pointer rounded-xl border border-line bg-paper px-3 py-2.5 text-sm text-ink outline-none focus:border-navy/40 focus:ring-2 focus:ring-navy/10"
             >
               <option value="">Semua kategori</option>
-              <option v-for="category in categoryOptions" :key="category.value" :value="category.value">
+              <option
+                v-for="category in categoryOptions"
+                :key="category.value"
+                :value="category.value"
+              >
                 {{ category.label }}
               </option>
             </select>
@@ -285,8 +315,13 @@ applyQueryFilters()
           </p>
         </div>
 
-        <div v-if="activeFilters.length" class="mt-4 flex flex-wrap items-center gap-2 border-t border-line/70 pt-4">
-          <span class="text-[.68rem] font-bold tracking-[.1em] text-muted uppercase">Filter aktif</span>
+        <div
+          v-if="activeFilters.length"
+          class="mt-4 flex flex-wrap items-center gap-2 border-t border-line/70 pt-4"
+        >
+          <span class="text-[.68rem] font-bold tracking-[.1em] text-muted uppercase"
+            >Filter aktif</span
+          >
           <button
             v-for="filter in activeFilters"
             :key="filter.key"
@@ -329,10 +364,17 @@ applyQueryFilters()
         </div>
       </section>
 
-      <section class="mt-6 overflow-hidden rounded-card border border-line bg-white shadow-[0_20px_60px_#17213d12]">
-        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-line bg-[linear-gradient(105deg,#ffffff_0%,#f4f8ff_100%)] px-4 py-3 sm:px-5">
+      <section
+        class="mt-6 overflow-hidden rounded-card border border-line bg-white shadow-[0_20px_60px_#17213d12]"
+      >
+        <div
+          class="flex flex-wrap items-center justify-between gap-3 border-b border-line bg-[linear-gradient(105deg,#ffffff_0%,#f4f8ff_100%)] px-4 py-3 sm:px-5"
+        >
           <div class="flex items-center gap-3">
-            <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-navy font-display text-sm font-bold text-[#f0d56e]">Pt</span>
+            <span
+              class="flex h-8 w-8 items-center justify-center rounded-lg bg-navy font-display text-sm font-bold text-[#f0d56e]"
+              >Pt</span
+            >
             <div>
               <p class="m-0 text-sm font-bold text-ink">Peta unsur</p>
               <p class="m-0 text-[.7rem] text-muted">Pilih kartu untuk membuka detail.</p>
@@ -345,7 +387,8 @@ applyQueryFilters()
             <PeriodicTable :elements="elements" :matches="matches" />
           </div>
           <p class="mt-3 mb-0 text-center text-xs text-muted">
-            Klik salah satu unsur untuk melihat detail lengkap. Filter aktif dapat dibagikan melalui URL.
+            Klik salah satu unsur untuk melihat detail lengkap. Filter aktif dapat dibagikan melalui
+            URL.
           </p>
         </div>
       </section>

@@ -10,7 +10,8 @@ import ElementCard from './ElementCard.vue'
   >
     <div>
       <p class="label mt-0 mb-[13px] inline-flex items-center gap-2 text-muted">
-        <span class="text-coral-ink">[</span> Ruang belajar kimia <span class="text-coral-ink">]</span>
+        <span class="text-coral-ink">[</span> Ruang belajar kimia
+        <span class="text-coral-ink">]</span>
       </p>
       <h1
         class="m-0 max-w-[590px] font-display text-[clamp(3.3rem,7vw,6.2rem)] leading-[.95] font-extrabold tracking-[-.04em]"

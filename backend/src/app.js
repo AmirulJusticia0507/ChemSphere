@@ -102,7 +102,10 @@ if (process.env.VERCEL !== '1') {
   const server = createServer(app)
   const PORT = process.env.PORT || 5000
   server.listen(PORT, () => {
-    logger.info('ChemSphere API berjalan', { port: Number(PORT), env: process.env.NODE_ENV ?? 'development' })
+    logger.info('ChemSphere API berjalan', {
+      port: Number(PORT),
+      env: process.env.NODE_ENV ?? 'development',
+    })
   })
 }
 

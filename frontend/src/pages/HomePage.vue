@@ -71,7 +71,9 @@ onMounted(load)
           <p class="label m-0 text-[#ffda3f]">
             {{ loading ? 'Memuat data unsur…' : `${elements.length} unsur menanti` }}
           </p>
-          <h2 class="mt-3 mb-0 max-w-xl font-display text-[clamp(1.8rem,4vw,2.6rem)] font-extrabold tracking-[-.04em]">
+          <h2
+            class="mt-3 mb-0 max-w-xl font-display text-[clamp(1.8rem,4vw,2.6rem)] font-extrabold tracking-[-.04em]"
+          >
             Mulai dari satu unsur, pahami semuanya.
           </h2>
           <p class="mt-3 mb-0 max-w-lg text-sm leading-relaxed text-white/80">

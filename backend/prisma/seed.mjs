@@ -213,12 +213,14 @@ const rawElements = [
 
 const details = {
   H: {
-    description: 'Unsur paling ringan dan paling melimpah di alam semesta; menyusun sekitar tiga per empat massa bintang.',
+    description:
+      'Unsur paling ringan dan paling melimpah di alam semesta; menyusun sekitar tiga per empat massa bintang.',
     uses: 'Bahan bakar sel bahan bakar, produksi amonia, dan hidrogenasi minyak.',
     hazard: 'Sangat mudah terbakar dan dapat membentuk campuran eksplosif dengan udara.',
   },
   He: {
-    description: 'Gas mulia tak berwarna, tak berbau, dan tak beracun dengan titik didih terendah di antara semua unsur.',
+    description:
+      'Gas mulia tak berwarna, tak berbau, dan tak beracun dengan titik didih terendah di antara semua unsur.',
     uses: 'Pendingin MRI, pengisi balon, dan atmosfer pelindung pada pengelasan.',
     hazard: 'Dapat menyebabkan sesak napas jika menggantikan oksigen di ruang tertutup.',
   },
@@ -233,12 +235,14 @@ const details = {
     hazard: 'Debu berilium sangat beracun dan dapat menyebabkan penyakit paru kronis.',
   },
   B: {
-    description: 'Metaloid yang ditemukan dalam boraks dan mineral boron; penting bagi pertumbuhan tanaman.',
+    description:
+      'Metaloid yang ditemukan dalam boraks dan mineral boron; penting bagi pertumbuhan tanaman.',
     uses: 'Kaca borosilikat, deterjen, dan bahan semikonduktor.',
     hazard: 'Dapat mengiritasi kulit dan mata; hindari paparan debu.',
   },
   C: {
-    description: 'Kerangka utama senyawa organik dan salah satu unsur paling melimpah di kerak bumi.',
+    description:
+      'Kerangka utama senyawa organik dan salah satu unsur paling melimpah di kerak bumi.',
     uses: 'Bahan bakar, baja, pensil, dan material karbon canggih.',
     hazard: 'Umumnya aman; debu karbon dapat mengiritasi saluran napas.',
   },
@@ -248,7 +252,8 @@ const details = {
     hazard: 'Dapat menyebabkan sesak napas jika menggantikan oksigen di ruang tertutup.',
   },
   O: {
-    description: 'Gas nonlogam esensial untuk pernapasan dan pembakaran; unsur paling melimpah di kerak bumi.',
+    description:
+      'Gas nonlogam esensial untuk pernapasan dan pembakaran; unsur paling melimpah di kerak bumi.',
     uses: 'Pernapasan medis, pengolahan air, dan proses industri.',
     hazard: 'Mendukung pembakaran; konsentrasi tinggi meningkatkan risiko kebakaran.',
   },
@@ -313,7 +318,8 @@ const details = {
     hazard: 'Reaktif terhadap air; dapat mengiritasi kulit dan mata.',
   },
   Sc: {
-    description: 'Logam transisi ringan yang jarang ditemukan dan sering dipadukan dengan aluminium.',
+    description:
+      'Logam transisi ringan yang jarang ditemukan dan sering dipadukan dengan aluminium.',
     uses: 'Paduan kedirgantaraan dan lampu stadion.',
     hazard: 'Debu dapat mengiritasi; senyawa tertentu perlu ditangani hati-hati.',
   },
@@ -338,7 +344,8 @@ const details = {
     hazard: 'Paparan debu mangan berlebih dapat merusak sistem saraf.',
   },
   Fe: {
-    description: 'Logam transisi paling banyak digunakan; inti Bumi sebagian besar tersusun dari besi.',
+    description:
+      'Logam transisi paling banyak digunakan; inti Bumi sebagian besar tersusun dari besi.',
     uses: 'Konstruksi, baja, kendaraan, dan hemoglobin.',
     hazard: 'Umumnya aman; kelebihan zat besi dapat merusak organ.',
   },
@@ -548,7 +555,8 @@ const details = {
     hazard: 'Sangat beracun, terutama bagi anak-anak; merusak sistem saraf.',
   },
   Bi: {
-    description: 'Logam pasca-transisi berat yang relatif tidak beracun dan mudah membentuk kristal.',
+    description:
+      'Logam pasca-transisi berat yang relatif tidak beracun dan mudah membentuk kristal.',
     uses: 'Obat lambung, kosmetik, dan paduan titik leleh rendah.',
     hazard: 'Umumnya aman; penggunaan jangka panjang perlu pengawasan.',
   },
@@ -623,13 +631,34 @@ const exceptions = {
 }
 
 const orbitalOrder = [
-  ['1s', 2], ['2s', 2], ['2p', 6], ['3s', 2], ['3p', 6], ['4s', 2], ['3d', 10],
-  ['4p', 6], ['5s', 2], ['4d', 10], ['5p', 6], ['6s', 2], ['4f', 14], ['5d', 10],
-  ['6p', 6], ['7s', 2], ['5f', 14], ['6d', 10], ['7p', 6],
+  ['1s', 2],
+  ['2s', 2],
+  ['2p', 6],
+  ['3s', 2],
+  ['3p', 6],
+  ['4s', 2],
+  ['3d', 10],
+  ['4p', 6],
+  ['5s', 2],
+  ['4d', 10],
+  ['5p', 6],
+  ['6s', 2],
+  ['4f', 14],
+  ['5d', 10],
+  ['6p', 6],
+  ['7s', 2],
+  ['5f', 14],
+  ['6d', 10],
+  ['7p', 6],
 ]
 
 const nobleGasCores = [
-  [2, 'He'], [10, 'Ne'], [18, 'Ar'], [36, 'Kr'], [54, 'Xe'], [86, 'Rn'],
+  [2, 'He'],
+  [10, 'Ne'],
+  [18, 'Ar'],
+  [36, 'Kr'],
+  [54, 'Xe'],
+  [86, 'Rn'],
 ]
 
 function orbitalSort([a], [b]) {
@@ -687,34 +716,149 @@ function defaultDescription(element) {
 }
 
 const ions = [
-  ['Amonium', 'NH₄⁺', '+1', 'Kation poliatomik yang terbentuk ketika amonia menerima proton; hampir semua garam amonium larut dalam air.'],
-  ['Hidroksida', 'OH⁻', '-1', 'Anion yang bertanggung jawab atas sifat basa dan terbentuk saat basa melepaskan ion hidroksida.'],
-  ['Nitrat', 'NO₃⁻', '-1', 'Anion okso nitrogen yang stabil dan merupakan oksidator; semua garam nitrat larut dalam air.'],
-  ['Nitrit', 'NO₂⁻', '-1', 'Anion okso nitrogen yang digunakan dalam garam nitrit dan pengawetan makanan.'],
-  ['Sulfat', 'SO₄²⁻', '-2', 'Anion okso sulfur yang banyak ditemukan dalam garam sulfat; sebagian besar larut kecuali barium dan timbal(II) sulfat.'],
-  ['Sulfit', 'SO₃²⁻', '-2', 'Anion okso sulfur yang merupakan basa konjugasi dari ion hidrogen sulfit.'],
-  ['Karbonat', 'CO₃²⁻', '-2', 'Anion okso karbon yang menjadi dasar garam karbonat dan menghasilkan CO₂ saat bereaksi dengan asam.'],
-  ['Bikarbonat', 'HCO₃⁻', '-1', 'Anion yang berperan sebagai penyangga pH dalam darah dan air alami.'],
-  ['Fosfat', 'PO₄³⁻', '-3', 'Anion okso fosfor yang merupakan komponen penting pupuk dan senyawa biologis.'],
-  ['Hidrogen fosfat', 'HPO₄²⁻', '-2', 'Anion fosfat terprotonasi yang berperan dalam sistem penyangga tubuh.'],
-  ['Dihidrogen fosfat', 'H₂PO₄⁻', '-1', 'Anion fosfat dengan dua atom hidrogen, sering ditemukan dalam pupuk.'],
-  ['Klorat', 'ClO₃⁻', '-1', 'Anion yang digunakan sebagai oksidator dalam korek api dan bahan peledak.'],
-  ['Perklorat', 'ClO₄⁻', '-1', 'Anion perklorat yang bersifat oksidator kuat, terutama dalam suasana asam.'],
+  [
+    'Amonium',
+    'NH₄⁺',
+    '+1',
+    'Kation poliatomik yang terbentuk ketika amonia menerima proton; hampir semua garam amonium larut dalam air.',
+  ],
+  [
+    'Hidroksida',
+    'OH⁻',
+    '-1',
+    'Anion yang bertanggung jawab atas sifat basa dan terbentuk saat basa melepaskan ion hidroksida.',
+  ],
+  [
+    'Nitrat',
+    'NO₃⁻',
+    '-1',
+    'Anion okso nitrogen yang stabil dan merupakan oksidator; semua garam nitrat larut dalam air.',
+  ],
+  [
+    'Nitrit',
+    'NO₂⁻',
+    '-1',
+    'Anion okso nitrogen yang digunakan dalam garam nitrit dan pengawetan makanan.',
+  ],
+  [
+    'Sulfat',
+    'SO₄²⁻',
+    '-2',
+    'Anion okso sulfur yang banyak ditemukan dalam garam sulfat; sebagian besar larut kecuali barium dan timbal(II) sulfat.',
+  ],
+  [
+    'Sulfit',
+    'SO₃²⁻',
+    '-2',
+    'Anion okso sulfur yang merupakan basa konjugasi dari ion hidrogen sulfit.',
+  ],
+  [
+    'Karbonat',
+    'CO₃²⁻',
+    '-2',
+    'Anion okso karbon yang menjadi dasar garam karbonat dan menghasilkan CO₂ saat bereaksi dengan asam.',
+  ],
+  [
+    'Bikarbonat',
+    'HCO₃⁻',
+    '-1',
+    'Anion yang berperan sebagai penyangga pH dalam darah dan air alami.',
+  ],
+  [
+    'Fosfat',
+    'PO₄³⁻',
+    '-3',
+    'Anion okso fosfor yang merupakan komponen penting pupuk dan senyawa biologis.',
+  ],
+  [
+    'Hidrogen fosfat',
+    'HPO₄²⁻',
+    '-2',
+    'Anion fosfat terprotonasi yang berperan dalam sistem penyangga tubuh.',
+  ],
+  [
+    'Dihidrogen fosfat',
+    'H₂PO₄⁻',
+    '-1',
+    'Anion fosfat dengan dua atom hidrogen, sering ditemukan dalam pupuk.',
+  ],
+  [
+    'Klorat',
+    'ClO₃⁻',
+    '-1',
+    'Anion yang digunakan sebagai oksidator dalam korek api dan bahan peledak.',
+  ],
+  [
+    'Perklorat',
+    'ClO₄⁻',
+    '-1',
+    'Anion perklorat yang bersifat oksidator kuat, terutama dalam suasana asam.',
+  ],
   ['Hipoklorit', 'ClO⁻', '-1', 'Anion yang menjadi zat aktif utama dalam pemutih dan disinfektan.'],
-  ['Permanganat', 'MnO₄⁻', '-1', 'Anion berwarna ungu yang merupakan oksidator kuat dan sering dipakai dalam titrasi.'],
-  ['Dikromat', 'Cr₂O₇²⁻', '-2', 'Anion berwarna oranye yang berperan sebagai oksidator dalam suasana asam.'],
+  [
+    'Permanganat',
+    'MnO₄⁻',
+    '-1',
+    'Anion berwarna ungu yang merupakan oksidator kuat dan sering dipakai dalam titrasi.',
+  ],
+  [
+    'Dikromat',
+    'Cr₂O₇²⁻',
+    '-2',
+    'Anion berwarna oranye yang berperan sebagai oksidator dalam suasana asam.',
+  ],
   ['Kromat', 'CrO₄²⁻', '-2', 'Anion berwarna kuning yang banyak digunakan sebagai pigmen.'],
-  ['Sianida', 'CN⁻', '-1', 'Anion yang sangat beracun karena mengikat besi dalam enzim sitokrom oksidase.'],
+  [
+    'Sianida',
+    'CN⁻',
+    '-1',
+    'Anion yang sangat beracun karena mengikat besi dalam enzim sitokrom oksidase.',
+  ],
   ['Tiosianat', 'SCN⁻', '-1', 'Anion yang sering dipakai untuk menguji keberadaan ion besi(III).'],
-  ['Asetat', 'CH₃COO⁻', '-1', 'Anion asetat, basa konjugasi dari asam asetat; banyak garamnya mudah larut.'],
-  ['Oksalat', 'C₂O₄²⁻', '-2', 'Anion yang dapat membentuk endapan dengan ion kalsium dan digunakan sebagai standar titrasi.'],
-  ['Tiosulfat', 'S₂O₃²⁻', '-2', 'Anion yang dipakai dalam fotografi dan sebagai zat pereduksi dalam titrasi iodometri.'],
+  [
+    'Asetat',
+    'CH₃COO⁻',
+    '-1',
+    'Anion asetat, basa konjugasi dari asam asetat; banyak garamnya mudah larut.',
+  ],
+  [
+    'Oksalat',
+    'C₂O₄²⁻',
+    '-2',
+    'Anion yang dapat membentuk endapan dengan ion kalsium dan digunakan sebagai standar titrasi.',
+  ],
+  [
+    'Tiosulfat',
+    'S₂O₃²⁻',
+    '-2',
+    'Anion yang dipakai dalam fotografi dan sebagai zat pereduksi dalam titrasi iodometri.',
+  ],
   ['Borat', 'BO₃³⁻', '-3', 'Anion boron yang ditemukan dalam garam borat dan bahan pengawet.'],
-  ['Silikat', 'SiO₃²⁻', '-2', 'Anion penyusun utama mineral dan kaca dengan struktur rantai yang beragam.'],
-  ['Peroksida', 'O₂²⁻', '-2', 'Anion dengan ikatan O–O tunggal yang bersifat oksidator, ditemukan dalam hidrogen peroksida.'],
-  ['Superoksida', 'O₂⁻', '-1', 'Anion radikal yang sangat reaktif dan ditemukan pada senyawa oksigen alkali.'],
+  [
+    'Silikat',
+    'SiO₃²⁻',
+    '-2',
+    'Anion penyusun utama mineral dan kaca dengan struktur rantai yang beragam.',
+  ],
+  [
+    'Peroksida',
+    'O₂²⁻',
+    '-2',
+    'Anion dengan ikatan O–O tunggal yang bersifat oksidator, ditemukan dalam hidrogen peroksida.',
+  ],
+  [
+    'Superoksida',
+    'O₂⁻',
+    '-1',
+    'Anion radikal yang sangat reaktif dan ditemukan pada senyawa oksigen alkali.',
+  ],
   ['Ozonida', 'O₃⁻', '-1', 'Anion yang terbentuk dari ozon dan bersifat sangat reaktif.'],
-  ['Hidronium', 'H₃O⁺', '+1', 'Kation yang terbentuk ketika asam melepaskan proton kepada molekul air.'],
+  [
+    'Hidronium',
+    'H₃O⁺',
+    '+1',
+    'Kation yang terbentuk ketika asam melepaskan proton kepada molekul air.',
+  ],
   ['Azida', 'N₃⁻', '-1', 'Anion yang digunakan dalam airbag dan bersifat sangat reaktif.'],
   ['Sianat', 'OCN⁻', '-1', 'Anion pseudohalogen yang ditemukan dalam garam sianat.'],
 ]
@@ -777,7 +921,12 @@ async function main() {
 
   console.log('Membuat ion poliatomik...')
   await prisma.polyatomicIon.createMany({
-    data: ions.map(([name, formula, charge, description]) => ({ name, formula, charge, description })),
+    data: ions.map(([name, formula, charge, description]) => ({
+      name,
+      formula,
+      charge,
+      description,
+    })),
   })
 
   if (process.env.SEED_ADMIN_EMAIL && process.env.SEED_ADMIN_PASSWORD) {

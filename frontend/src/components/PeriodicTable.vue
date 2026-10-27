@@ -64,7 +64,10 @@ function tileProps(element) {
       </a>
     </div>
 
-    <div v-if="lanthanides.length || actinides.length" class="mt-4 space-y-1.5 pl-[calc(100%/18*2)]">
+    <div
+      v-if="lanthanides.length || actinides.length"
+      class="mt-4 space-y-1.5 pl-[calc(100%/18*2)]"
+    >
       <div v-if="lanthanides.length" id="lantanida" class="scroll-mt-24">
         <p class="mb-1 ml-0.5 text-[9px] font-bold tracking-[.12em] text-[#9d174d] uppercase">
           Lantanida

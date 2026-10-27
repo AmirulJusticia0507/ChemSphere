@@ -1,17 +1,23 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 
-import {
-  generateCompounds,
-  molarMass,
-  parseFormula,
-  prettyFormula,
-} from '../src/utils/formula.js'
+import { generateCompounds, molarMass, parseFormula, prettyFormula } from '../src/utils/formula.js'
 
 const names = {
-  H: 'Hidrogen', O: 'Oksigen', Na: 'Natrium', Cl: 'Klorin', Fe: 'Besi',
-  S: 'Sulfur', N: 'Nitrogen', C: 'Karbon', Al: 'Aluminium', Ca: 'Kalsium',
-  He: 'Helium', Cu: 'Tembaga', P: 'Fosfor', Mg: 'Magnesium',
+  H: 'Hidrogen',
+  O: 'Oksigen',
+  Na: 'Natrium',
+  Cl: 'Klorin',
+  Fe: 'Besi',
+  S: 'Sulfur',
+  N: 'Nitrogen',
+  C: 'Karbon',
+  Al: 'Aluminium',
+  Ca: 'Kalsium',
+  He: 'Helium',
+  Cu: 'Tembaga',
+  P: 'Fosfor',
+  Mg: 'Magnesium',
 }
 const nameOf = (symbol) => names[symbol] ?? null
 
@@ -62,7 +68,12 @@ test('hydrogen and nitrogen does not invent NH5', () => {
 })
 
 test('no duplicate formulas are returned', () => {
-  for (const [a, b] of [['H', 'O'], ['S', 'O'], ['Fe', 'O'], ['Al', 'O']]) {
+  for (const [a, b] of [
+    ['H', 'O'],
+    ['S', 'O'],
+    ['Fe', 'O'],
+    ['Al', 'O'],
+  ]) {
     const list = formulas(generateCompounds(a, b, nameOf))
     assert.equal(new Set(list).size, list.length, `duplicates for ${a}+${b}: ${list.join(', ')}`)
   }

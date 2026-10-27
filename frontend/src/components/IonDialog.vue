@@ -45,7 +45,10 @@ onBeforeUnmount(() => {
             Ion poliatomik
           </p>
           <div class="mt-2 flex items-end justify-between gap-4">
-            <h2 :id="`ion-${ion.id}-title`" class="m-0 font-display text-2xl font-bold tracking-[-.04em]">
+            <h2
+              :id="`ion-${ion.id}-title`"
+              class="m-0 font-display text-2xl font-bold tracking-[-.04em]"
+            >
               {{ ion.name }}
             </h2>
             <span class="rounded-full bg-white/10 px-3 py-1 text-xs font-bold whitespace-nowrap">
@@ -57,20 +60,24 @@ onBeforeUnmount(() => {
 
         <div class="space-y-5 px-7 py-6">
           <div>
-            <h3 class="mt-0 mb-1.5 text-[.7rem] font-bold tracking-[.13em] text-coral-ink uppercase">
+            <h3
+              class="mt-0 mb-1.5 text-[.7rem] font-bold tracking-[.13em] text-coral-ink uppercase"
+            >
               Tentang ion ini
             </h3>
             <p class="m-0 text-sm leading-relaxed text-[#39455e]">
               {{
                 ion.description ??
-                  info?.description ??
-                  `Ion poliatomik ${ion.name} memiliki rumus ${ion.formula} dengan muatan ${ion.charge}. Ion ini terbentuk dari sekelompok atom yang terikat secara kovalen dan bermuatan total.`
+                info?.description ??
+                `Ion poliatomik ${ion.name} memiliki rumus ${ion.formula} dengan muatan ${ion.charge}. Ion ini terbentuk dari sekelompok atom yang terikat secara kovalen dan bermuatan total.`
               }}
             </p>
           </div>
 
           <div v-if="info?.example">
-            <h3 class="mt-0 mb-1.5 text-[.7rem] font-bold tracking-[.13em] text-coral-ink uppercase">
+            <h3
+              class="mt-0 mb-1.5 text-[.7rem] font-bold tracking-[.13em] text-coral-ink uppercase"
+            >
               Contoh senyawa
             </h3>
             <p class="m-0 text-sm text-[#39455e]">{{ info.example }}</p>

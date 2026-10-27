@@ -111,8 +111,14 @@ test('molarity divides moles by litres', () => {
 })
 
 test('dilution solves for the missing value', () => {
-  assert.deepEqual(dilution({ m1: null, v1: 0.1, m2: 0.5, v2: 0.5 }), { value: 2.5, solvedFor: 'M1' })
-  assert.deepEqual(dilution({ m1: 2, v1: null, m2: 0.5, v2: 0.5 }), { value: 0.125, solvedFor: 'V1' })
+  assert.deepEqual(dilution({ m1: null, v1: 0.1, m2: 0.5, v2: 0.5 }), {
+    value: 2.5,
+    solvedFor: 'M1',
+  })
+  assert.deepEqual(dilution({ m1: 2, v1: null, m2: 0.5, v2: 0.5 }), {
+    value: 0.125,
+    solvedFor: 'V1',
+  })
 })
 
 test('dilution requires exactly three values', () => {

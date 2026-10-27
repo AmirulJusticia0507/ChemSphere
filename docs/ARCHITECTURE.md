@@ -1,10 +1,12 @@
-
 ---
+
 ### File 4: `docs/ARCHITECTURE.md`
 
-```markdown
+````markdown
 # System Architecture
+
 ---
+
 ## 🏗 High-Level Architecture Diagram
 
 Sistem menggunakan pola arsitektur **Client-Server Separated (Decoupled Architecture)** dengan REST API sebagai media komunikasi.
@@ -59,3 +61,4 @@ Kalo kamu butuh penyesuaian khusus (misalnya nama aplikasinya, jenis ORM yang di
 
 <FollowUp label="Mau disesuaikan dengan studi kasus atau nama project tertentu?" query="Bisa sesuaikan template dokumen di atas untuk nama project dan kasus spesifik?"/>
 ```
+````

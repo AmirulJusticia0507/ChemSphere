@@ -1,4 +1,3 @@
-
 # System Information Platform
 
 Sistem Informasi berbasis web yang dirancang dengan arsitektur modern, performa tinggi, dan skalabilitas tinggi menggunakan ekosistem JavaScript/TypeScript serta PostgreSQL.
@@ -11,11 +10,11 @@ Sistem Informasi berbasis web yang dirancang dengan arsitektur modern, performa 
 
 ## 🛠 Tech Stack
 
-* **Frontend:** Vue.js 3 (Options/Composition API) + Tailwind CSS + Pinia + Vue Router
-* **Backend:** Node.js + Express.js
-* **Database:** PostgreSQL
-* **ORM / Query Builder:** Prisma / Sequelize / Knex.js
-* **Authentication:** JWT (JSON Web Token) / HttpOnly Cookies
+- **Frontend:** Vue.js 3 (Options/Composition API) + Tailwind CSS + Pinia + Vue Router
+- **Backend:** Node.js + Express.js
+- **Database:** PostgreSQL
+- **ORM / Query Builder:** Prisma / Sequelize / Knex.js
+- **Authentication:** JWT (JSON Web Token) / HttpOnly Cookies
 
 ---
 
@@ -23,9 +22,9 @@ Sistem Informasi berbasis web yang dirancang dengan arsitektur modern, performa 
 
 ### Prasyarat
 
-* Node.js (v18+)
-* PostgreSQL (v14+)
-* npm / pnpm / yarn
+- Node.js (v18+)
+- PostgreSQL (v14+)
+- npm / pnpm / yarn
 
 ### 1. Clone Repository
 

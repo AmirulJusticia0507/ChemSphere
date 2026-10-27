@@ -37,8 +37,7 @@ export const ionInfo = {
     example: 'CaCO₃ (kalsium karbonat)',
   },
   HCO3: {
-    description:
-      'Anion bikarbonat yang berperan sebagai penyangga pH dalam darah dan air alami.',
+    description: 'Anion bikarbonat yang berperan sebagai penyangga pH dalam darah dan air alami.',
     example: 'NaHCO₃ (natrium bikarbonat)',
   },
   PO4: {
@@ -52,8 +51,7 @@ export const ionInfo = {
     example: 'KClO₄ (kalium perklorat)',
   },
   ClO3: {
-    description:
-      'Anion klorat yang digunakan sebagai oksidator dalam korek api dan bahan peledak.',
+    description: 'Anion klorat yang digunakan sebagai oksidator dalam korek api dan bahan peledak.',
     example: 'KClO₃ (kalium klorat)',
   },
   ClO: {

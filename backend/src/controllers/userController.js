@@ -19,8 +19,7 @@ const publicFields = {
 function parsePagination(query) {
   const page = Number(query.page)
   const limit = Number(query.limit)
-  const usePagination =
-    Number.isInteger(page) && Number.isInteger(limit) && page > 0 && limit > 0
+  const usePagination = Number.isInteger(page) && Number.isInteger(limit) && page > 0 && limit > 0
   return usePagination ? { page, limit } : null
 }
 
@@ -50,7 +49,11 @@ export const listUsers = asyncHandler(async (req, res) => {
   const pagination = parsePagination(req.query)
 
   if (!pagination) {
-    const users = await prisma.user.findMany({ where, select: publicFields, orderBy: { createdAt: 'desc' } })
+    const users = await prisma.user.findMany({
+      where,
+      select: publicFields,
+      orderBy: { createdAt: 'desc' },
+    })
     return res.json(users)
   }
 
@@ -85,8 +88,10 @@ export const createUser = asyncHandler(async (req, res) => {
 
   if (!name?.trim()) throw new AppError(400, 'Nama wajib diisi')
   if (!email?.trim()) throw new AppError(400, 'Email wajib diisi')
-  if (!password || String(password).length < 8) throw new AppError(400, 'Password minimal 8 karakter')
-  if (!ROLES.includes(role)) throw new AppError(400, `Role harus salah satu dari: ${ROLES.join(', ')}`)
+  if (!password || String(password).length < 8)
+    throw new AppError(400, 'Password minimal 8 karakter')
+  if (!ROLES.includes(role))
+    throw new AppError(400, `Role harus salah satu dari: ${ROLES.join(', ')}`)
 
   const normalizedEmail = String(email).trim().toLowerCase()
   const existing = await prisma.user.findUnique({ where: { email: normalizedEmail } })
@@ -128,7 +133,8 @@ export const updateUser = asyncHandler(async (req, res) => {
   }
 
   if (role !== undefined) {
-    if (!ROLES.includes(role)) throw new AppError(400, `Role harus salah satu dari: ${ROLES.join(', ')}`)
+    if (!ROLES.includes(role))
+      throw new AppError(400, `Role harus salah satu dari: ${ROLES.join(', ')}`)
     // Admin terakhir tidak boleh diturunkan menjadi non-admin, supaya tidak
     // ada kondisi di mana tidak seorang pun bisa mengelola aplikasi.
     if (target.role === 'admin' && role !== 'admin') {
@@ -162,7 +168,8 @@ export const updateUser = asyncHandler(async (req, res) => {
 
 export const resetUserPassword = asyncHandler(async (req, res) => {
   const { password } = req.body
-  if (!password || String(password).length < 8) throw new AppError(400, 'Password minimal 8 karakter')
+  if (!password || String(password).length < 8)
+    throw new AppError(400, 'Password minimal 8 karakter')
 
   const target = await prisma.user.findUnique({ where: { id: req.params.id } })
   if (!target) throw new AppError(404, 'Pengguna tidak ditemukan')

@@ -31,7 +31,8 @@ const topics = [
     <div class="mb-[27px] flex items-end justify-between gap-[25px] max-md:items-start">
       <div>
         <p class="label mt-0 mb-[13px] inline-flex items-center gap-2 text-muted">
-          <span class="text-coral-ink">[</span> Mulai dari sini <span class="text-coral-ink">]</span>
+          <span class="text-coral-ink">[</span> Mulai dari sini
+          <span class="text-coral-ink">]</span>
         </p>
         <h2 class="m-0 font-display text-[clamp(2rem,4vw,3rem)] font-extrabold tracking-[-.04em]">
           Pilih cara belajarmu
@@ -60,7 +61,9 @@ const topics = [
         <h3 class="mt-0 mb-[10px] font-display text-[1.33rem] font-bold tracking-[-.03em]">
           {{ topic.title }}
         </h3>
-        <p class="mt-0 mb-[15px] min-h-[43px] text-[.88rem] leading-[1.55] text-muted max-md:min-h-0">
+        <p
+          class="mt-0 mb-[15px] min-h-[43px] text-[.88rem] leading-[1.55] text-muted max-md:min-h-0"
+        >
           {{ topic.description }}
         </p>
         <RouterLink

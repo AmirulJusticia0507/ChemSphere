@@ -25,10 +25,7 @@ export function parseSide(text) {
 
 // Memisahkan persamaan "A + B -> C + D" menjadi dua sisi.
 export function parseEquation(equation) {
-  const normalized = String(equation)
-    .replace(/[→⟶]/g, '->')
-    .replace(/⇌/g, '->')
-    .replace(/=/g, '->')
+  const normalized = String(equation).replace(/[→⟶]/g, '->').replace(/⇌/g, '->').replace(/=/g, '->')
 
   const parts = normalized.split('->')
   if (parts.length !== 2) {
@@ -210,7 +207,9 @@ export function balanceEquation(equation) {
 
   const render = (list) =>
     list
-      .map((item) => `${item.coefficient === 1 ? '' : item.coefficient}${prettyFormula(item.formula)}`)
+      .map(
+        (item) => `${item.coefficient === 1 ? '' : item.coefficient}${prettyFormula(item.formula)}`,
+      )
       .join(' + ')
 
   return {
@@ -278,12 +277,17 @@ export function molarity(moles, volumeLiter) {
 
 export function dilution({ m1, v1, m2, v2 }) {
   // M1·V1 = M2·V2, selesaikan variabel yang kosong.
-  const known = [m1, v1, m2, v2].filter((value) => value !== null && value !== undefined && value !== '')
+  const known = [m1, v1, m2, v2].filter(
+    (value) => value !== null && value !== undefined && value !== '',
+  )
   if (known.length !== 3) {
     return { error: 'Isi tepat tiga nilai; satu nilai akan dihitung.' }
   }
-  if (m1 === null || m1 === undefined || m1 === '') return { value: (m2 * v2) / v1, solvedFor: 'M1' }
-  if (v1 === null || v1 === undefined || v1 === '') return { value: (m2 * v2) / m1, solvedFor: 'V1' }
-  if (m2 === null || m2 === undefined || m2 === '') return { value: (m1 * v1) / v2, solvedFor: 'M2' }
+  if (m1 === null || m1 === undefined || m1 === '')
+    return { value: (m2 * v2) / v1, solvedFor: 'M1' }
+  if (v1 === null || v1 === undefined || v1 === '')
+    return { value: (m2 * v2) / m1, solvedFor: 'V1' }
+  if (m2 === null || m2 === undefined || m2 === '')
+    return { value: (m1 * v1) / v2, solvedFor: 'M2' }
   return { value: (m1 * v1) / m2, solvedFor: 'V2' }
 }

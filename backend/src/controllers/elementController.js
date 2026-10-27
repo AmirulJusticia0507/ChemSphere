@@ -80,13 +80,17 @@ export const getElementById = asyncHandler(async (req, res) => {
 })
 
 const NUMERIC_FIELDS = [
-  'meltingPoint', 'boilingPoint', 'density', 'electronegativity',
-  'ionizationEnergy', 'atomicRadius', 'covalentRadius', 'molarHeat',
+  'meltingPoint',
+  'boilingPoint',
+  'density',
+  'electronegativity',
+  'ionizationEnergy',
+  'atomicRadius',
+  'covalentRadius',
+  'molarHeat',
 ]
 
-const TEXT_FIELDS = [
-  'oxidationStates', 'phaseAtRoomTemp', 'block', 'appearance', 'discoveredBy',
-]
+const TEXT_FIELDS = ['oxidationStates', 'phaseAtRoomTemp', 'block', 'appearance', 'discoveredBy']
 
 // Hanya kolom yang dikirim yang ikut ditulis, sehingga PATCH-like update tidak
 // menghapus properti yang tidak disebutkan.
@@ -102,7 +106,10 @@ function propertyData(body) {
     data[field] = body[field] === null || body[field] === '' ? null : String(body[field]).trim()
   }
   if (body.yearDiscovered !== undefined) {
-    const year = body.yearDiscovered === null || body.yearDiscovered === '' ? null : Number(body.yearDiscovered)
+    const year =
+      body.yearDiscovered === null || body.yearDiscovered === ''
+        ? null
+        : Number(body.yearDiscovered)
     data.yearDiscovered = Number.isInteger(year) ? year : null
   }
   return data
@@ -110,8 +117,18 @@ function propertyData(body) {
 
 export const createElement = asyncHandler(async (req, res) => {
   const {
-    atomicNumber, symbol, nameId, nameLatin, atomicMass,
-    electronConfig, period, group, categoryId, description, uses, hazardWarning,
+    atomicNumber,
+    symbol,
+    nameId,
+    nameLatin,
+    atomicMass,
+    electronConfig,
+    period,
+    group,
+    categoryId,
+    description,
+    uses,
+    hazardWarning,
   } = req.body
   const element = await prisma.element.create({
     data: {
@@ -136,8 +153,18 @@ export const createElement = asyncHandler(async (req, res) => {
 
 export const updateElement = asyncHandler(async (req, res) => {
   const {
-    atomicNumber, symbol, nameId, nameLatin, atomicMass,
-    electronConfig, period, group, categoryId, description, uses, hazardWarning,
+    atomicNumber,
+    symbol,
+    nameId,
+    nameLatin,
+    atomicMass,
+    electronConfig,
+    period,
+    group,
+    categoryId,
+    description,
+    uses,
+    hazardWarning,
   } = req.body
   const element = await prisma.element.update({
     where: { id: req.params.id },

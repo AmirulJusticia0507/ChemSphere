@@ -177,7 +177,8 @@ export async function getUsersPage(options = {}) {
   query.set('limit', options.limit ?? 10)
   if (options.search) query.set('search', options.search)
   if (options.role) query.set('role', options.role)
-  if (options.isActive !== undefined && options.isActive !== '') query.set('isActive', options.isActive)
+  if (options.isActive !== undefined && options.isActive !== '')
+    query.set('isActive', options.isActive)
   const payload = await request(`/admin/users?${query.toString()}`)
   if (Array.isArray(payload)) return { data: payload, pagination: null }
   return payload

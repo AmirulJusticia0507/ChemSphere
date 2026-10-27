@@ -33,13 +33,10 @@ function go(next) {
 </script>
 
 <template>
-  <div
-    v-if="totalPages > 1"
-    class="mt-4 flex flex-wrap items-center justify-between gap-3"
-  >
+  <div v-if="totalPages > 1" class="mt-4 flex flex-wrap items-center justify-between gap-3">
     <p class="m-0 text-xs text-muted">
-      Menampilkan <span class="font-semibold text-ink">{{ rangeStart }}–{{ rangeEnd }}</span>
-      dari <span class="font-semibold text-ink">{{ total }}</span> data
+      Menampilkan <span class="font-semibold text-ink">{{ rangeStart }}–{{ rangeEnd }}</span> dari
+      <span class="font-semibold text-ink">{{ total }}</span> data
     </p>
 
     <nav class="flex items-center gap-1" aria-label="Navigasi halaman">

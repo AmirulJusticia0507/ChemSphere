@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.vercel/
+coverage/
+package-lock.json
+backend/prisma/element-properties.json
+docs/assets/

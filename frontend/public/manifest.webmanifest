@@ -1,1 +1,12 @@
-{"name":"ChemSphere — Jelajahi Kimia","short_name":"ChemSphere","description":"Tabel periodik interaktif, ion poliatomik, dan lab eksperimen kimia.","start_url":"/","display":"standalone","background_color":"#f8fafc","theme_color":"#16213e","icons":[{"src":"/favicon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}
+{
+  "name": "ChemSphere — Jelajahi Kimia",
+  "short_name": "ChemSphere",
+  "description": "Tabel periodik interaktif, ion poliatomik, dan lab eksperimen kimia.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#16213e",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

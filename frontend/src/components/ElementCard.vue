@@ -10,8 +10,12 @@
       class="absolute top-[60px] -right-[45px] -z-10 h-[230px] w-[230px] scale-y-[.36] rotate-[62deg] rounded-full border border-white/15"
     ></span>
 
-    <p class="m-0 text-[.68rem] font-bold tracking-[.15em] uppercase opacity-[.68]">Unsur hari ini</p>
-    <strong class="mt-[3px] block font-display text-[clamp(9rem,18vw,12rem)] leading-[.9] text-[#f0d56e]">
+    <p class="m-0 text-[.68rem] font-bold tracking-[.15em] uppercase opacity-[.68]">
+      Unsur hari ini
+    </p>
+    <strong
+      class="mt-[3px] block font-display text-[clamp(9rem,18vw,12rem)] leading-[.9] text-[#f0d56e]"
+    >
       O
     </strong>
     <h2 class="mt-1 mb-[25px] font-display text-[1.6rem] font-bold tracking-[-.055em]">Oksigen</h2>

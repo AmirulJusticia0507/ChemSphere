@@ -25,7 +25,10 @@ export const addBookmark = asyncHandler(async (req, res) => {
   const { elementId, note } = req.body
   if (!elementId) throw new AppError(400, 'elementId wajib diisi')
 
-  const element = await prisma.element.findUnique({ where: { id: elementId }, select: { id: true } })
+  const element = await prisma.element.findUnique({
+    where: { id: elementId },
+    select: { id: true },
+  })
   if (!element) throw new AppError(404, 'Unsur tidak ditemukan')
 
   const existing = await prisma.bookmark.findUnique({

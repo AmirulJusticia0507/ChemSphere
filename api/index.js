@@ -33,7 +33,9 @@ function initError(err) {
       success: false,
       message: 'Function bootstrap failed',
       error: err?.message ?? String(err),
-      stack: String(err?.stack ?? '').split('\n').slice(0, 12),
+      stack: String(err?.stack ?? '')
+        .split('\n')
+        .slice(0, 12),
     })
 }
 

@@ -37,10 +37,7 @@ const colCount = computed(() => props.columns.length)
               v-for="col in columns"
               :key="col.key"
               class="px-4 py-3 align-middle"
-              :class="[
-                col.align === 'right' ? 'text-right' : 'text-left',
-                col.cellClass ?? '',
-              ]"
+              :class="[col.align === 'right' ? 'text-right' : 'text-left', col.cellClass ?? '']"
             >
               <slot :name="`cell-${col.key}`" :row="row" :value="row[col.key]">
                 {{ row[col.key] }}
@@ -57,11 +54,7 @@ const colCount = computed(() => props.columns.length)
       </table>
     </div>
 
-    <div
-      v-if="loading"
-      class="space-y-2 border-t border-line px-4 py-4"
-      aria-live="polite"
-    >
+    <div v-if="loading" class="space-y-2 border-t border-line px-4 py-4" aria-live="polite">
       <div class="h-4 w-1/3 animate-pulse rounded bg-white/70"></div>
       <div class="h-4 w-full animate-pulse rounded bg-white/50"></div>
       <div class="h-4 w-2/3 animate-pulse rounded bg-white/50"></div>

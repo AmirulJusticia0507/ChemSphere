@@ -24,7 +24,8 @@ export function validateAuth(mode) {
 export function validateElement(req, res, next) {
   const body = req.body ?? {}
   const requiredText = ['symbol', 'nameId', 'nameLatin', 'electronConfig', 'categoryId']
-  if (requiredText.some((field) => !nonEmpty(body[field]))) return fail(res, 'Data unsur wajib diisi lengkap')
+  if (requiredText.some((field) => !nonEmpty(body[field])))
+    return fail(res, 'Data unsur wajib diisi lengkap')
   if (!uuidPattern.test(body.categoryId)) return fail(res, 'Kategori tidak valid')
 
   const atomicNumber = Number(body.atomicNumber)
@@ -34,9 +35,12 @@ export function validateElement(req, res, next) {
   if (!Number.isInteger(atomicNumber) || atomicNumber < 1 || atomicNumber > 118) {
     return fail(res, 'Nomor atom harus antara 1 dan 118')
   }
-  if (!Number.isFinite(atomicMass) || atomicMass <= 0) return fail(res, 'Massa atom harus lebih dari 0')
-  if (!Number.isInteger(period) || period < 1 || period > 7) return fail(res, 'Periode harus antara 1 dan 7')
-  if (!Number.isInteger(group) || group < 1 || group > 18) return fail(res, 'Golongan harus antara 1 dan 18')
+  if (!Number.isFinite(atomicMass) || atomicMass <= 0)
+    return fail(res, 'Massa atom harus lebih dari 0')
+  if (!Number.isInteger(period) || period < 1 || period > 7)
+    return fail(res, 'Periode harus antara 1 dan 7')
+  if (!Number.isInteger(group) || group < 1 || group > 18)
+    return fail(res, 'Golongan harus antara 1 dan 18')
 
   // Properti opsional: bila dikirim, nilainya harus masuk akal.
   const numericChecks = [
@@ -58,7 +62,11 @@ export function validateElement(req, res, next) {
     }
   }
 
-  if (body.yearDiscovered !== undefined && body.yearDiscovered !== null && body.yearDiscovered !== '') {
+  if (
+    body.yearDiscovered !== undefined &&
+    body.yearDiscovered !== null &&
+    body.yearDiscovered !== ''
+  ) {
     const year = Number(body.yearDiscovered)
     if (!Number.isInteger(year) || year < -10000 || year > 2100) {
       return fail(res, 'Tahun penemuan harus berupa bilangan bulat yang wajar')
@@ -77,7 +85,8 @@ export function validateCategory(req, res, next) {
 
 export function validateIon(req, res, next) {
   const { name, formula, charge } = req.body ?? {}
-  if (![name, formula, charge].every(nonEmpty)) return fail(res, 'Nama, rumus, dan muatan ion wajib diisi')
+  if (![name, formula, charge].every(nonEmpty))
+    return fail(res, 'Nama, rumus, dan muatan ion wajib diisi')
   if (name.trim().length > 100 || formula.trim().length > 50 || charge.trim().length > 20) {
     return fail(res, 'Data ion melebihi batas panjang yang diizinkan')
   }

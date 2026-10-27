@@ -9,11 +9,24 @@ const router = createRouter({
   routes: [
     { path: '/', name: 'home', component: () => import('../pages/HomePage.vue') },
     { path: '/tabel', name: 'table', component: () => import('../pages/TablePage.vue') },
-    { path: '/eksperimen', name: 'experiment', component: () => import('../pages/ExperimentPage.vue') },
-    { path: '/kalkulator', name: 'calculator', component: () => import('../pages/CalculatorPage.vue') },
+    {
+      path: '/eksperimen',
+      name: 'experiment',
+      component: () => import('../pages/ExperimentPage.vue'),
+    },
+    {
+      path: '/kalkulator',
+      name: 'calculator',
+      component: () => import('../pages/CalculatorPage.vue'),
+    },
     { path: '/kuis', name: 'quiz', component: () => import('../pages/QuizPage.vue') },
     { path: '/progres', name: 'progress', component: () => import('../pages/ProgressPage.vue') },
-    { path: '/unsur/:id', name: 'element', component: () => import('../pages/ElementDetailPage.vue'), props: true },
+    {
+      path: '/unsur/:id',
+      name: 'element',
+      component: () => import('../pages/ElementDetailPage.vue'),
+      props: true,
+    },
     { path: '/masuk', name: 'login', component: () => import('../pages/LoginView.vue') },
     { path: '/daftar', name: 'register', component: () => import('../pages/RegisterView.vue') },
     {
@@ -56,7 +69,11 @@ const router = createRouter({
         return true
       },
     },
-    { path: '/:pathMatch(.*)*', name: 'not-found', component: () => import('../pages/NotFoundPage.vue') },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () => import('../pages/NotFoundPage.vue'),
+    },
   ],
   scrollBehavior(to, _from, savedPosition) {
     if (savedPosition) return savedPosition

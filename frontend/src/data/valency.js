@@ -98,14 +98,16 @@ V.At = { valency: 1, kind: 'nonlogam', states: [1], anionValency: 1 }
 V.H = { valency: 1, kind: 'nonlogam', states: [1], anionValency: 1 }
 
 // Lantanida dan aktinida: hampir selalu +3
-add(
-  ['La', 'Ce', 'Pr', 'Nd', 'Pm', 'Sm', 'Eu', 'Gd', 'Tb', 'Dy', 'Ho', 'Er', 'Tm', 'Yb', 'Lu'],
-  { valency: 3, kind: 'logam', states: [3] },
-)
-add(
-  ['Ac', 'Th', 'Pa', 'Np', 'Pu', 'Am', 'Cm', 'Bk', 'Cf', 'Es', 'Fm', 'Md', 'No', 'Lr'],
-  { valency: 3, kind: 'logam', states: [3] },
-)
+add(['La', 'Ce', 'Pr', 'Nd', 'Pm', 'Sm', 'Eu', 'Gd', 'Tb', 'Dy', 'Ho', 'Er', 'Tm', 'Yb', 'Lu'], {
+  valency: 3,
+  kind: 'logam',
+  states: [3],
+})
+add(['Ac', 'Th', 'Pa', 'Np', 'Pu', 'Am', 'Cm', 'Bk', 'Cf', 'Es', 'Fm', 'Md', 'No', 'Lr'], {
+  valency: 3,
+  kind: 'logam',
+  states: [3],
+})
 V.U = { valency: 6, kind: 'logam', states: [3, 4, 6] }
 
 export const ELEMENT_VALENCY = V
@@ -148,27 +150,119 @@ export const COVALENT_PREFIX = [
 // Urutan keelektronegatifan untuk menentukan unsur mana yang ditulis lebih dulu
 // pada senyawa biner kovalen (kiri = kurang elektronegatif).
 export const ELECTRONEGATIVITY_ORDER = [
-  'B', 'Si', 'C', 'Sb', 'As', 'P', 'N', 'H', 'Te', 'Se', 'S', 'I', 'Br', 'Cl', 'O', 'F',
+  'B',
+  'Si',
+  'C',
+  'Sb',
+  'As',
+  'P',
+  'N',
+  'H',
+  'Te',
+  'Se',
+  'S',
+  'I',
+  'Br',
+  'Cl',
+  'O',
+  'F',
 ]
 
 // Ion poliatomik yang lazim. `contains` dipakai untuk menawarkan alternatif
 // ketika pengguna memilih pasangan logam + unsur nonlogam terkait.
 export const POLYATOMIC_IONS = [
-  { formula: 'NH4', charge: 1, name: 'amonium', display: 'NH₄', polarity: 'kation', contains: ['N'] },
-  { formula: 'OH', charge: 1, name: 'hidroksida', display: 'OH', polarity: 'anion', contains: ['O'] },
+  {
+    formula: 'NH4',
+    charge: 1,
+    name: 'amonium',
+    display: 'NH₄',
+    polarity: 'kation',
+    contains: ['N'],
+  },
+  {
+    formula: 'OH',
+    charge: 1,
+    name: 'hidroksida',
+    display: 'OH',
+    polarity: 'anion',
+    contains: ['O'],
+  },
   { formula: 'NO3', charge: 1, name: 'nitrat', display: 'NO₃', polarity: 'anion', contains: ['N'] },
   { formula: 'NO2', charge: 1, name: 'nitrit', display: 'NO₂', polarity: 'anion', contains: ['N'] },
-  { formula: 'CN', charge: 1, name: 'sianida', display: 'CN', polarity: 'anion', contains: ['C', 'N'] },
-  { formula: 'HCO3', charge: 1, name: 'bikarbonat', display: 'HCO₃', polarity: 'anion', contains: ['C'] },
-  { formula: 'CH3COO', charge: 1, name: 'asetat', display: 'CH₃COO', polarity: 'anion', contains: ['C'] },
-  { formula: 'ClO3', charge: 1, name: 'klorat', display: 'ClO₃', polarity: 'anion', contains: ['Cl'] },
-  { formula: 'ClO', charge: 1, name: 'hipoklorit', display: 'ClO', polarity: 'anion', contains: ['Cl'] },
-  { formula: 'MnO4', charge: 1, name: 'permanganat', display: 'MnO₄', polarity: 'anion', contains: ['Mn'] },
+  {
+    formula: 'CN',
+    charge: 1,
+    name: 'sianida',
+    display: 'CN',
+    polarity: 'anion',
+    contains: ['C', 'N'],
+  },
+  {
+    formula: 'HCO3',
+    charge: 1,
+    name: 'bikarbonat',
+    display: 'HCO₃',
+    polarity: 'anion',
+    contains: ['C'],
+  },
+  {
+    formula: 'CH3COO',
+    charge: 1,
+    name: 'asetat',
+    display: 'CH₃COO',
+    polarity: 'anion',
+    contains: ['C'],
+  },
+  {
+    formula: 'ClO3',
+    charge: 1,
+    name: 'klorat',
+    display: 'ClO₃',
+    polarity: 'anion',
+    contains: ['Cl'],
+  },
+  {
+    formula: 'ClO',
+    charge: 1,
+    name: 'hipoklorit',
+    display: 'ClO',
+    polarity: 'anion',
+    contains: ['Cl'],
+  },
+  {
+    formula: 'MnO4',
+    charge: 1,
+    name: 'permanganat',
+    display: 'MnO₄',
+    polarity: 'anion',
+    contains: ['Mn'],
+  },
   { formula: 'SO4', charge: 2, name: 'sulfat', display: 'SO₄', polarity: 'anion', contains: ['S'] },
   { formula: 'SO3', charge: 2, name: 'sulfit', display: 'SO₃', polarity: 'anion', contains: ['S'] },
-  { formula: 'CO3', charge: 2, name: 'karbonat', display: 'CO₃', polarity: 'anion', contains: ['C'] },
-  { formula: 'CrO4', charge: 2, name: 'kromat', display: 'CrO₄', polarity: 'anion', contains: ['Cr'] },
-  { formula: 'Cr2O7', charge: 2, name: 'dikromat', display: 'Cr₂O₇', polarity: 'anion', contains: ['Cr'] },
+  {
+    formula: 'CO3',
+    charge: 2,
+    name: 'karbonat',
+    display: 'CO₃',
+    polarity: 'anion',
+    contains: ['C'],
+  },
+  {
+    formula: 'CrO4',
+    charge: 2,
+    name: 'kromat',
+    display: 'CrO₄',
+    polarity: 'anion',
+    contains: ['Cr'],
+  },
+  {
+    formula: 'Cr2O7',
+    charge: 2,
+    name: 'dikromat',
+    display: 'Cr₂O₇',
+    polarity: 'anion',
+    contains: ['Cr'],
+  },
   { formula: 'PO4', charge: 3, name: 'fosfat', display: 'PO₄', polarity: 'anion', contains: ['P'] },
 ]
 
@@ -189,15 +283,18 @@ export const CURATED_COMPOUNDS = {
   },
   CH4: {
     name: 'Metana',
-    description: 'Komponen utama gas alam; gas rumah kaca yang jauh lebih kuat dari CO₂ per molekul.',
+    description:
+      'Komponen utama gas alam; gas rumah kaca yang jauh lebih kuat dari CO₂ per molekul.',
   },
   CO2: {
     name: 'Karbon dioksida',
-    description: 'Hasil pembakaran sempurna karbon; dipakai dalam minuman berkarbonasi dan pemadam api.',
+    description:
+      'Hasil pembakaran sempurna karbon; dipakai dalam minuman berkarbonasi dan pemadam api.',
   },
   CO: {
     name: 'Karbon monoksida',
-    description: 'Gas tidak berwarna dan tidak berbau yang sangat beracun karena mengikat hemoglobin.',
+    description:
+      'Gas tidak berwarna dan tidak berbau yang sangat beracun karena mengikat hemoglobin.',
   },
   NaCl: {
     name: 'Natrium klorida',
@@ -209,7 +306,8 @@ export const CURATED_COMPOUNDS = {
   },
   Al2O3: {
     name: 'Aluminium oksida',
-    description: 'Dikenal sebagai alumina; mineral korundum, bahan dasar logam aluminium dan abrasif.',
+    description:
+      'Dikenal sebagai alumina; mineral korundum, bahan dasar logam aluminium dan abrasif.',
   },
   SiO2: {
     name: 'Silikon dioksida',
@@ -269,7 +367,8 @@ export const CURATED_COMPOUNDS = {
   },
   NH4Cl: {
     name: 'Amonium klorida',
-    description: 'Garam yang menyublim saat dipanaskan; dipakai sebagai elektrolit baterai dan pupuk.',
+    description:
+      'Garam yang menyublim saat dipanaskan; dipakai sebagai elektrolit baterai dan pupuk.',
   },
   CaSO4: {
     name: 'Kalsium sulfat',

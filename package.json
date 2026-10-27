@@ -1,0 +1,25 @@
+{
+  "name": "chemsphere",
+  "private": true,
+  "version": "1.0.0",
+  "description": "ChemSphere - platform informasi kimia dengan tabel periodik Bahasa Indonesia",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "npm run test --prefix backend && npm run test --prefix frontend",
+    "build": "npm run build --prefix frontend",
+    "dev:backend": "npm run dev --prefix backend",
+    "dev:frontend": "npm run dev --prefix frontend"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "eslint": "^9.39.1",
+    "eslint-plugin-vue": "^10.6.2",
+    "globals": "^16.5.0",
+    "prettier": "^3.6.2",
+    "vue-eslint-parser": "^10.2.0"
+  }
+}

@@ -30,7 +30,7 @@ defineProps({
 
     <template v-else>
       <div
-        v-for="(stat, index) in stats"
+        v-for="stat in stats"
         :key="stat.label"
         class="grid gap-1.5 border-l border-line pl-6.25 first:border-l-0 first:pl-0 max-md:even:border-l-0 max-md:even:pl-0 max-md:nth-3:border-l-0 max-md:nth-3:pl-0"
       >

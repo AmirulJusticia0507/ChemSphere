@@ -56,7 +56,9 @@ export async function login(req, res) {
     if (!email || !password) {
       return res.status(400).json({ message: 'Email dan password wajib diisi' })
     }
-    const user = await prisma.user.findUnique({ where: { email: String(email).trim().toLowerCase() } })
+    const user = await prisma.user.findUnique({
+      where: { email: String(email).trim().toLowerCase() },
+    })
     if (!user) {
       return res.status(401).json({ message: 'Email atau password salah' })
     }

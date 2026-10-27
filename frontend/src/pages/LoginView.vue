@@ -29,10 +29,14 @@ async function handleSubmit() {
 
 <template>
   <div class="shell flex min-h-[calc(100vh-220px)] items-center justify-center py-14">
-    <div class="w-full max-w-md rounded-card border border-line bg-white p-7 shadow-[0_18px_55px_#17213d0d]">
+    <div
+      class="w-full max-w-md rounded-card border border-line bg-white p-7 shadow-[0_18px_55px_#17213d0d]"
+    >
       <div class="mb-6 text-center">
         <span class="mr-1 text-coral" aria-hidden="true">◉</span>
-        <span class="font-display text-xl font-extrabold tracking-[-.04em] text-ink">ChemSphere</span>
+        <span class="font-display text-xl font-extrabold tracking-[-.04em] text-ink"
+          >ChemSphere</span
+        >
       </div>
       <p class="label mb-2 text-center text-muted">
         <span class="text-coral-ink">[</span> Akun pengguna <span class="text-coral-ink">]</span>
@@ -64,9 +68,7 @@ async function handleSubmit() {
           />
         </div>
         <div>
-          <label for="login-password" class="label mb-1.5 block text-muted">
-            Kata sandi
-          </label>
+          <label for="login-password" class="label mb-1.5 block text-muted"> Kata sandi </label>
           <input
             id="login-password"
             v-model="form.password"

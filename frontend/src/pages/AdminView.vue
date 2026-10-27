@@ -3,7 +3,9 @@
     <div class="shell py-8">
       <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
         <div>
-          <h1 class="font-display text-2xl font-extrabold tracking-[-.04em] text-ink">Panel Admin</h1>
+          <h1 class="font-display text-2xl font-extrabold tracking-[-.04em] text-ink">
+            Panel Admin
+          </h1>
           <p class="text-muted text-sm">Kelola konten unsur, kategori, dan ion poliatomik.</p>
         </div>
         <div class="flex items-center gap-3">
@@ -14,14 +16,8 @@
           >
             Manajemen pengguna
           </RouterLink>
-          <span class="label text-muted uppercase">
-            {{ user?.name }} ({{ user?.role }})
-          </span>
-          <button
-            type="button"
-            class="label text-coral-ink hover:underline"
-            @click="auth.signOut"
-          >
+          <span class="label text-muted uppercase"> {{ user?.name }} ({{ user?.role }}) </span>
+          <button type="button" class="label text-coral-ink hover:underline" @click="auth.signOut">
             Keluar
           </button>
         </div>
@@ -47,7 +43,9 @@
           <div class="flex flex-wrap items-center gap-3">
             <label class="relative block">
               <span class="sr-only">Cari unsur</span>
-              <span class="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-muted">⌕</span>
+              <span class="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-muted"
+                >⌕</span
+              >
               <input
                 v-model="elementSearch"
                 type="search"
@@ -110,7 +108,9 @@
           <div class="flex flex-wrap items-center gap-3">
             <label class="relative block">
               <span class="sr-only">Cari kategori</span>
-              <span class="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-muted">⌕</span>
+              <span class="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-muted"
+                >⌕</span
+              >
               <input
                 v-model="categorySearch"
                 type="search"
@@ -170,7 +170,9 @@
           <div class="flex flex-wrap items-center gap-3">
             <label class="relative block">
               <span class="sr-only">Cari ion</span>
-              <span class="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-muted">⌕</span>
+              <span class="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-muted"
+                >⌕</span
+              >
               <input
                 v-model="ionSearch"
                 type="search"
@@ -224,7 +226,11 @@
       </section>
 
       <!-- FORM MODAL -->
-      <div v-if="showModal" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm" @click="closeModal">
+      <div
+        v-if="showModal"
+        class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm"
+        @click="closeModal"
+      >
         <div
           class="absolute top-1/2 left-1/2 max-h-[90vh] w-full max-w-md -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-xl border border-line bg-white p-6 shadow-xl"
           @click.stop
@@ -260,7 +266,9 @@
                 step="0.0001"
                 class="w-full border border-line rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-navy outline-none"
               />
-              <label class="block text-xs font-semibold text-muted mt-2">Konfigurasi Elektron</label>
+              <label class="block text-xs font-semibold text-muted mt-2"
+                >Konfigurasi Elektron</label
+              >
               <input
                 v-model="formData.electronConfig"
                 class="w-full border border-line rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-navy outline-none"
@@ -358,9 +366,18 @@
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue'
 import {
-  getElementsPage, createElement, updateElement, deleteElement as deleteElementApi,
-  getCategoriesPage, createCategory, updateCategory, deleteCategory as deleteCategoryApi,
-  getIonsPage, createIon, updateIon, deleteIon as deleteIonApi,
+  getElementsPage,
+  createElement,
+  updateElement,
+  deleteElement as deleteElementApi,
+  getCategoriesPage,
+  createCategory,
+  updateCategory,
+  deleteCategory as deleteCategoryApi,
+  getIonsPage,
+  createIon,
+  updateIon,
+  deleteIon as deleteIonApi,
 } from '@/services/api.js'
 import { useAuth } from '@/composables/useAuth.js'
 import DataTable from '@/components/DataTable.vue'
@@ -420,9 +437,21 @@ const editingCategory = ref(null)
 const editingIon = ref(null)
 
 const blankForm = () => ({
-  nameId: '', symbol: '', nameLatin: '', atomicMass: '', electronConfig: '',
-  atomicNumber: '', period: '', group: '', description: '', uses: '', hazardWarning: '',
-  categoryId: '', name: '', formula: '', charge: '',
+  nameId: '',
+  symbol: '',
+  nameLatin: '',
+  atomicMass: '',
+  electronConfig: '',
+  atomicNumber: '',
+  period: '',
+  group: '',
+  description: '',
+  uses: '',
+  hazardWarning: '',
+  categoryId: '',
+  name: '',
+  formula: '',
+  charge: '',
 })
 
 const formData = ref(blankForm())
@@ -486,9 +515,7 @@ function switchTab(tab) {
 function openElementForm(el = null) {
   editingElement.value = el
   modalTitle.value = el ? 'Ubah Unsur' : 'Tambah Unsur'
-  formData.value = el
-    ? { ...blankForm(), ...el }
-    : blankForm()
+  formData.value = el ? { ...blankForm(), ...el } : blankForm()
   showModal.value = true
 }
 

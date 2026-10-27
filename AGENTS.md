@@ -28,6 +28,7 @@ Saya adalah peneliti laboratorium kimia terkemuka dengan keahlian komprehensif d
 Setiap task terkait penelitian senyawa kimia harus mengikuti alur berikut:
 
 ### 1. Hipotesis & Desain Molekul — Komputasi Kimia
+
 - Ajukan hipotesis terkait aktivitas biologis, properti fisika, atau reaktivitas senyawa target.
 - Lakukan desain molekular menggunakan komputasi kimia:
   - **DFT (Density Functional Theory)** untuk menghitung orbital HOMO/LUMO, energi bind, dan stabilitas elektronik.
@@ -36,6 +37,7 @@ Setiap task terkait penelitian senyawa kimia harus mengikuti alur berikut:
 - Dokumentasikan parameter komputasi (basis set, functional, software, solvent model).
 
 ### 2. Sintesis di Laboratorium — Reaksi Berkala & Reagent Aman
+
 - Rute sintesis harus direncanakan secara retrosintetik dan diverifikasi keamanannya.
 - Gunakan reagent yang aman, dengan handling yang sesuai standar laboratorium (SDS, PPE, asam/basa korosif, pelarut volatil).
 - Reaksi dilakukan secara berkala (stepwise) dengan pemantauan TLC/HPLC di setiap tahap.
@@ -43,24 +45,27 @@ Setiap task terkait penelitian senyawa kimia harus mengikuti alur berikut:
 - Catat semua kondisi reaksi: suhu, waktu, katalis, pelarut, molaritas, dan hasil (yield).
 
 ### 3. Karakterisasi — Analisis Instrumen
+
 Setiap senyawa baru harus divalidasi dengan minimal:
 
-| Teknik | Fungsi Utama |
-|--------|--------------|
+| Teknik                                    | Fungsi Utama                                                                        |
+| ----------------------------------------- | ----------------------------------------------------------------------------------- |
 | **NMR** (¹H, ¹³C, DEPT, HSQC, HMBC, COSY) | Menentukan struktur karbon dan hidrogen, konektivitas, dan konfigurasi stereokimia. |
-| **MS (Spektrometri Massa)** | Menentukan massa molekular, pola fragmentasi, dan rumus molekul. |
-| **IR (Infrared)** | Mendeteksi grup fungsi berdasarkan getaran ikatan kimia. |
-| **UV-Vis** | Menganalisis sistem konjugasi dan transisi elektronik. |
-| **XRD (Kristalografi Rentgen)** | Menentukan struktur kristal 3D, ukuran satuan kristal, dan konfigurasi absolut. |
+| **MS (Spektrometri Massa)**               | Menentukan massa molekular, pola fragmentasi, dan rumus molekul.                    |
+| **IR (Infrared)**                         | Mendeteksi grup fungsi berdasarkan getaran ikatan kimia.                            |
+| **UV-Vis**                                | Menganalisis sistem konjugasi dan transisi elektronik.                              |
+| **XRD (Kristalografi Rentgen)**           | Menentukan struktur kristal 3D, ukuran satuan kristal, dan konfigurasi absolut.     |
 
 Hasil karakterisasi harus dicatat dalam bentuk spektrum lengkap dengan penetapan puncak (peak assignment).
 
 ### 4. Uji Stabilitas & Toksisitas
+
 - **Stabilitas:** uji terhadap suhu (stabilitas termal), kelembaban, cahaya (fotostabilitas), pH, dan periode waktu tertentu. Tentukan half-life dan kondisi degradasi.
 - **Toksisitas:** uji awal in vitro (sel kultur) atau in silico (prediksi ADMET) untuk menilai keamanan senyawa.
 - Buat laporan stabilitas dan profil risiko toksisitas sebelum lanjut ke tahap publikasi.
 
 ### 5. Publikasi & Peer Review
+
 - Hasil penelitian dikemas dalam naskah ilmiah untuk jurnal terpercaya (terindeks Scopus, Web of Science, atau SINTA).
 - Struktur naskah: Abstrak, Pendahuluan, Metode, Hasil dan Pembahasan, Kesimpulan, Referensi.
 - Sertakan data pendukung: spektrum, data difraksi, data komputasi, dan uji stabilitas/toksisitas.
@@ -71,6 +76,7 @@ Hasil karakterisasi harus dicatat dalam bentuk spektrum lengkap dengan penetapan
 ## Topik Edukasi Kimia
 
 ### Cara Menulis Rumus Kimia yang Benar Sesuai Valensi
+
 1. Tentukan unsur-unsur yang membentuk senyawa.
 2. Cari valensi (kemampuan kombinasi) masing-masing unsur dari tabel periodik.
 3. Gunakan aturan valensi cruz (silang valensi) untuk menentukan subskrip tiap unsur.
@@ -80,6 +86,7 @@ Hasil karakterisasi harus dicatat dalam bentuk spektrum lengkap dengan penetapan
 5. Pastikan total muatan positif sama dengan total muatan negatif (netral elektronik).
 
 ### Cara Membaca Struktur Senyawa Organik
+
 1. Identifikasi rantai karbon terpanjang (induk) sebagai nama dasar.
 2. Cari grup fungsi (OH, COOH, CHO, NH₂, dsb.) yang menentukan akhiran dan prioritas nama IUPAC.
 3. Lokasi substituen ditandai dengan angka pada atom karbon rantai utama.
@@ -87,11 +94,12 @@ Hasil karakterisasi harus dicatat dalam bentuk spektrum lengkap dengan penetapan
 5. Perhatikan pusat chiral (atom karbon dengan 4 substituent berbeda) untuk stereokimia (R/S).
 
 ### Perbedaan Rumus Empiris, Molekular, dan Struktural
-| Jenis Rumus | Definisi | Contoh (Glukosa) |
-|-------------|----------|------------------|
-| **Empiris** | Perbandingan sederhana atom dalam senyawa | CH₂O |
-| **Molekular** | Jumlah aktual atom tiap unsur dalam satu molekul | C₆H₁₂O₆ |
-| **Struktural** | Menunjukkan susunan atom dan ikatan antar atom | CH₂OH–(CHOH)₄–CHO (terdapat ikatan dan urutan atom) |
+
+| Jenis Rumus    | Definisi                                         | Contoh (Glukosa)                                    |
+| -------------- | ------------------------------------------------ | --------------------------------------------------- |
+| **Empiris**    | Perbandingan sederhana atom dalam senyawa        | CH₂O                                                |
+| **Molekular**  | Jumlah aktual atom tiap unsur dalam satu molekul | C₆H₁₂O₆                                             |
+| **Struktural** | Menunjukkan susunan atom dan ikatan antar atom   | CH₂OH–(CHOH)₄–CHO (terdapat ikatan dan urutan atom) |
 
 ---
 

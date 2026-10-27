@@ -12,10 +12,16 @@ function run(middleware, user) {
     {
       status: (code) => {
         statusCode = code
-        return { json: (payload) => { body = payload } }
+        return {
+          json: (payload) => {
+            body = payload
+          },
+        }
       },
     },
-    () => { called = true },
+    () => {
+      called = true
+    },
   )
   return { called, statusCode, body }
 }

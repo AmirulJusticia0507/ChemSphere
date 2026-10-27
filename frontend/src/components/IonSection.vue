@@ -16,7 +16,9 @@ const filteredIons = computed(() => {
 
   return props.ions.filter((ion) =>
     [ion.name, ion.formula, ion.charge].some((value) =>
-      String(value ?? '').toLowerCase().includes(term),
+      String(value ?? '')
+        .toLowerCase()
+        .includes(term),
     ),
   )
 })
@@ -53,10 +55,7 @@ function isPositive(charge) {
       </label>
     </div>
 
-    <div
-      v-if="filteredIons.length"
-      class="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-4"
-    >
+    <div v-if="filteredIons.length" class="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-4">
       <button
         v-for="ion in filteredIons"
         :key="ion.id"
@@ -66,7 +65,9 @@ function isPositive(charge) {
       >
         <span
           class="inline-flex rounded-full px-2 py-0.5 text-[.65rem] font-bold"
-          :class="isPositive(ion.charge) ? 'bg-[#dcfce7] text-[#166534]' : 'bg-[#ffe0d6] text-[#9a3412]'"
+          :class="
+            isPositive(ion.charge) ? 'bg-[#dcfce7] text-[#166534]' : 'bg-[#ffe0d6] text-[#9a3412]'
+          "
         >
           {{ ion.charge }}
         </span>
@@ -77,7 +78,10 @@ function isPositive(charge) {
       </button>
     </div>
 
-    <p v-else class="rounded-2xl border border-dashed border-line bg-white/60 px-5 py-8 text-center text-sm text-muted">
+    <p
+      v-else
+      class="rounded-2xl border border-dashed border-line bg-white/60 px-5 py-8 text-center text-sm text-muted"
+    >
       Tidak ada ion yang cocok dengan pencarian “{{ search }}”.
     </p>
 

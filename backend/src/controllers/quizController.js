@@ -90,8 +90,12 @@ export const startQuiz = asyncHandler(async (req, res) => {
   }
 
   const pool = elements.map((element) => element.symbol)
-  const categoryPool = [...new Set(elements.map((element) => element.category?.name).filter(Boolean))]
-  const positionPool = elements.map((element) => `Golongan ${element.group}, periode ${element.period}`)
+  const categoryPool = [
+    ...new Set(elements.map((element) => element.category?.name).filter(Boolean)),
+  ]
+  const positionPool = elements.map(
+    (element) => `Golongan ${element.group}, periode ${element.period}`,
+  )
 
   const picked = shuffle(elements).slice(0, count)
   const questions = picked.map((element, index) => {

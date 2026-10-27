@@ -1,17 +1,16 @@
-
 # System Design & UI/UX Guidelines
 
 ---
 
 ## 🎨 UI/UX Theme & Layout
 
-* **Design System:** Clean, Data-Dense Admin Dashboard.
-* **Color Palette:**
-  * Primary: `#1E40AF` (Tailwind Blue 800)
-  * Secondary: `#0F172A` (Tailwind Slate 900)
-  * Accent: `#10B981` (Tailwind Emerald 500)
-  * Background: `#F8FAFC` (Tailwind Slate 50)
-* **Typography:** Inter / Plus Jakarta Sans.
+- **Design System:** Clean, Data-Dense Admin Dashboard.
+- **Color Palette:**
+  - Primary: `#1E40AF` (Tailwind Blue 800)
+  - Secondary: `#0F172A` (Tailwind Slate 900)
+  - Accent: `#10B981` (Tailwind Emerald 500)
+  - Background: `#F8FAFC` (Tailwind Slate 50)
+- **Typography:** Inter / Plus Jakarta Sans.
 
 ---
 

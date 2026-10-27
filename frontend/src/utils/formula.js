@@ -299,7 +299,6 @@ export function generateCompounds(symbolA, symbolB, nameOf = () => null) {
   }
 
   if (symbolA === symbolB) {
-    const elementInfo = info(symbolA)
     if (isNobleGas(symbolA)) {
       return {
         compounds: [],
@@ -308,15 +307,51 @@ export function generateCompounds(symbolA, symbolB, nameOf = () => null) {
       }
     }
     const homonuclear = {
-      H: { formula: 'H2', name: 'Gas hidrogen', description: 'Dua atom hidrogen berikatan kovalen tunggal.' },
-      O: { formula: 'O2', name: 'Gas oksigen', description: 'Ikatan rangkap dua antara dua atom oksigen.' },
-      N: { formula: 'N2', name: 'Gas nitrogen', description: 'Ikatan rangkap tiga yang sangat kuat, membuat N₂ sangat stabil.' },
-      F: { formula: 'F2', name: 'Gas fluorin', description: 'Gas kuning pucat yang sangat reaktif.' },
-      Cl: { formula: 'Cl2', name: 'Gas klorin', description: 'Gas kuning kehijauan yang dipakai sebagai disinfektan air.' },
-      Br: { formula: 'Br2', name: 'Bromin', description: 'Cairan merah kecokelatan pada suhu kamar.' },
-      I: { formula: 'I2', name: 'Iodin', description: 'Padatan ungu kehitaman yang menyublim menjadi uap ungu.' },
-      S: { formula: 'S8', name: 'Belerang', description: 'Belerang unsur tersusun sebagai cincin S₈.' },
-      P: { formula: 'P4', name: 'Fosfor putih', description: 'Fosfor putih tersusun sebagai tetrahedron P₄.' },
+      H: {
+        formula: 'H2',
+        name: 'Gas hidrogen',
+        description: 'Dua atom hidrogen berikatan kovalen tunggal.',
+      },
+      O: {
+        formula: 'O2',
+        name: 'Gas oksigen',
+        description: 'Ikatan rangkap dua antara dua atom oksigen.',
+      },
+      N: {
+        formula: 'N2',
+        name: 'Gas nitrogen',
+        description: 'Ikatan rangkap tiga yang sangat kuat, membuat N₂ sangat stabil.',
+      },
+      F: {
+        formula: 'F2',
+        name: 'Gas fluorin',
+        description: 'Gas kuning pucat yang sangat reaktif.',
+      },
+      Cl: {
+        formula: 'Cl2',
+        name: 'Gas klorin',
+        description: 'Gas kuning kehijauan yang dipakai sebagai disinfektan air.',
+      },
+      Br: {
+        formula: 'Br2',
+        name: 'Bromin',
+        description: 'Cairan merah kecokelatan pada suhu kamar.',
+      },
+      I: {
+        formula: 'I2',
+        name: 'Iodin',
+        description: 'Padatan ungu kehitaman yang menyublim menjadi uap ungu.',
+      },
+      S: {
+        formula: 'S8',
+        name: 'Belerang',
+        description: 'Belerang unsur tersusun sebagai cincin S₈.',
+      },
+      P: {
+        formula: 'P4',
+        name: 'Fosfor putih',
+        description: 'Fosfor putih tersusun sebagai tetrahedron P₄.',
+      },
     }
     const known = homonuclear[symbolA]
     if (known) {
@@ -371,7 +406,9 @@ export function generateCompounds(symbolA, symbolB, nameOf = () => null) {
   return {
     compounds,
     ions,
-    reason: compounds.length ? null : 'Tidak ada senyawa biner sederhana yang dapat disusun dari pasangan ini.',
+    reason: compounds.length
+      ? null
+      : 'Tidak ada senyawa biner sederhana yang dapat disusun dari pasangan ini.',
   }
 }
 
