@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "npm install --prefix backend && cd backend && npx prisma generate && cd .. && cd frontend && npm install && npm run build",
+  "buildCommand": "bash build.sh",
   "outputDirectory": "frontend/dist",
   "framework": null,
   "rewrites": [
