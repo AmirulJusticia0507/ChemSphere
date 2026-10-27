@@ -75,6 +75,15 @@ const activeFilterCount = computed(
   () => [search.value, categoryFilter.value, groupFilter.value, periodFilter.value].filter(Boolean).length,
 )
 
+const activeFilters = computed(() =>
+  [
+    search.value.trim() && { key: 'search', label: `Pencarian: ${search.value.trim()}` },
+    categoryFilter.value && { key: 'category', label: categoryFilter.value },
+    groupFilter.value && { key: 'group', label: `Golongan ${groupFilter.value}` },
+    periodFilter.value && { key: 'period', label: `Periode ${periodFilter.value}` },
+  ].filter(Boolean),
+)
+
 function matches(element) {
   const term = search.value.trim().toLowerCase()
   const matchesSearch =
@@ -97,6 +106,13 @@ function resetFilters() {
   categoryFilter.value = ''
   groupFilter.value = ''
   periodFilter.value = ''
+}
+
+function clearFilter(key) {
+  if (key === 'search') search.value = ''
+  if (key === 'category') categoryFilter.value = ''
+  if (key === 'group') groupFilter.value = ''
+  if (key === 'period') periodFilter.value = ''
 }
 
 function scrollToHash() {
@@ -156,6 +172,14 @@ applyQueryFilters()
           118 unsur dalam Bahasa Indonesia. Cari, saring berdasarkan kategori, golongan, atau
           periode, lalu klik unsur untuk membuka detailnya.
         </p>
+        <div class="mt-5 flex flex-wrap gap-2">
+          <span class="rounded-full border border-navy/10 bg-white px-3 py-1.5 text-xs font-bold text-ink shadow-sm">
+            118 unsur
+          </span>
+          <span class="rounded-full border border-[#86efac] bg-[#f0fdf4] px-3 py-1.5 text-xs font-bold text-[#166534]">
+            <span class="mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-[#22c55e]"></span>Filter interaktif
+          </span>
+        </div>
       </div>
       <RouterLink class="text-sm font-bold text-ink no-underline" to="/">
         ← Kembali ke beranda
@@ -181,7 +205,15 @@ applyQueryFilters()
     </div>
 
     <template v-else-if="!error">
-      <section class="rounded-card border border-line bg-white p-4 shadow-[0_18px_55px_#17213d0d] sm:p-5">
+      <section class="relative isolate overflow-hidden rounded-card border border-white/80 bg-white/90 p-4 shadow-[0_18px_55px_#17213d12] backdrop-blur sm:p-5">
+        <span class="pointer-events-none absolute -top-16 -right-12 -z-10 h-40 w-40 rounded-full bg-sky/60 blur-2xl"></span>
+        <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <p class="m-0 text-[.68rem] font-bold tracking-[.13em] text-coral-ink uppercase">Temukan unsur</p>
+            <p class="mt-1 mb-0 text-sm font-semibold text-ink">Gunakan satu atau beberapa filter sekaligus.</p>
+          </div>
+          <span class="rounded-full bg-navy px-3 py-1.5 text-xs font-bold text-white">{{ visibleCount }} hasil</span>
+        </div>
         <div class="grid gap-3 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)_minmax(0,.7fr)_minmax(0,.7fr)_auto]">
           <label class="relative block">
             <span class="sr-only">Cari unsur</span>
@@ -252,6 +284,20 @@ applyQueryFilters()
             Tidak ada unsur yang cocok. Coba kata kunci lain atau reset filter.
           </p>
         </div>
+
+        <div v-if="activeFilters.length" class="mt-4 flex flex-wrap items-center gap-2 border-t border-line/70 pt-4">
+          <span class="text-[.68rem] font-bold tracking-[.1em] text-muted uppercase">Filter aktif</span>
+          <button
+            v-for="filter in activeFilters"
+            :key="filter.key"
+            type="button"
+            class="inline-flex cursor-pointer items-center gap-2 rounded-full bg-navy px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-ink"
+            :aria-label="`Hapus filter ${filter.label}`"
+            @click="clearFilter(filter.key)"
+          >
+            {{ filter.label }} <span aria-hidden="true">×</span>
+          </button>
+        </div>
       </section>
 
       <section
@@ -283,13 +329,25 @@ applyQueryFilters()
         </div>
       </section>
 
-      <section class="mt-6 rounded-card border border-line bg-white p-3 shadow-[0_18px_55px_#17213d0d] sm:p-5">
-        <div class="overflow-x-auto pb-2">
-          <PeriodicTable :elements="elements" :matches="matches" />
+      <section class="mt-6 overflow-hidden rounded-card border border-line bg-white shadow-[0_20px_60px_#17213d12]">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-line bg-[linear-gradient(105deg,#ffffff_0%,#f4f8ff_100%)] px-4 py-3 sm:px-5">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-navy font-display text-sm font-bold text-[#f0d56e]">Pt</span>
+            <div>
+              <p class="m-0 text-sm font-bold text-ink">Peta unsur</p>
+              <p class="m-0 text-[.7rem] text-muted">Pilih kartu untuk membuka detail.</p>
+            </div>
+          </div>
+          <span class="text-xs font-semibold text-muted">Geser horizontal di perangkat kecil</span>
         </div>
-        <p class="mt-3 mb-0 text-center text-xs text-muted">
-          Klik salah satu unsur untuk melihat detail lengkap.
-        </p>
+        <div class="p-3 sm:p-5">
+          <div class="overflow-x-auto pb-2">
+            <PeriodicTable :elements="elements" :matches="matches" />
+          </div>
+          <p class="mt-3 mb-0 text-center text-xs text-muted">
+            Klik salah satu unsur untuk melihat detail lengkap. Filter aktif dapat dibagikan melalui URL.
+          </p>
+        </div>
       </section>
 
       <section id="ion" class="mt-20 scroll-mt-24">
