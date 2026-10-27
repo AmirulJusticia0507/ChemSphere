@@ -10,6 +10,7 @@ const mobileMenuOpen = ref(false)
 const links = [
   { label: 'Beranda', to: '/', match: (path) => path === '/' },
   { label: 'Tabel periodik', to: '/tabel', match: (path, hash) => path.startsWith('/tabel') || path.startsWith('/unsur') },
+  { label: 'Eksperimen', to: '/eksperimen', match: (path) => path === '/eksperimen' },
   { label: 'Ion poliatomik', to: '/tabel#ion', match: (path, hash) => path === '/tabel' && hash === '#ion' },
 ]
 
