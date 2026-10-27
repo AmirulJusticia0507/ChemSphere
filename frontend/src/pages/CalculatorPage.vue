@@ -283,7 +283,7 @@ const constants = [
 
         <template v-if="molarResult && !molarResult.error">
           <p
-            class="mt-4 mb-0 font-display text-[clamp(2.2rem,6vw,3.6rem)] leading-none font-bold tracking-[-.05em] text-navy"
+            class="mt-4 mb-0 font-display text-[clamp(2.2rem,6vw,3.6rem)] leading-none font-bold tracking-tighter text-navy"
           >
             {{ formatNumber(molarResult.total, 4) }}
           </p>
@@ -292,14 +292,14 @@ const constants = [
           <table class="mt-5 w-full border-collapse text-sm">
             <thead>
               <tr class="border-b border-navy/10 text-left">
-                <th class="py-2 text-[.65rem] font-bold tracking-[.1em] text-muted uppercase">
+                <th class="py-2 text-[.65rem] font-bold tracking-widest text-muted uppercase">
                   Unsur
                 </th>
-                <th class="py-2 text-[.65rem] font-bold tracking-[.1em] text-muted uppercase">
+                <th class="py-2 text-[.65rem] font-bold tracking-widest text-muted uppercase">
                   Jumlah
                 </th>
                 <th
-                  class="py-2 text-right text-[.65rem] font-bold tracking-[.1em] text-muted uppercase"
+                  class="py-2 text-right text-[.65rem] font-bold tracking-widest text-muted uppercase"
                 >
                   Kontribusi
                 </th>
@@ -373,14 +373,14 @@ const constants = [
 
         <template v-if="balanceResult.ok">
           <p
-            class="mt-4 mb-0 font-display text-xl leading-snug font-bold tracking-[-.03em] text-navy break-words"
+            class="mt-4 mb-0 font-display text-xl leading-snug font-bold tracking-[-.03em] text-navy wrap-break-word"
           >
             {{ balanceResult.balanced }}
           </p>
 
           <div class="mt-5 grid gap-4 sm:grid-cols-2">
             <div>
-              <p class="m-0 text-[.65rem] font-bold tracking-[.1em] text-muted uppercase">
+              <p class="m-0 text-[.65rem] font-bold tracking-widest text-muted uppercase">
                 Reaktan
               </p>
               <ul class="mt-2 mb-0 list-none space-y-1 p-0 text-sm">
@@ -395,7 +395,7 @@ const constants = [
               </ul>
             </div>
             <div>
-              <p class="m-0 text-[.65rem] font-bold tracking-[.1em] text-muted uppercase">Produk</p>
+              <p class="m-0 text-[.65rem] font-bold tracking-widest text-muted uppercase">Produk</p>
               <ul class="mt-2 mb-0 list-none space-y-1 p-0 text-sm">
                 <li
                   v-for="item in balanceResult.right"
@@ -476,7 +476,7 @@ const constants = [
         <p class="m-0 text-[.68rem] font-bold tracking-[.12em] text-coral-ink uppercase">Hasil</p>
         <template v-if="molResult">
           <p
-            class="mt-4 mb-0 font-display text-[clamp(1.8rem,5vw,3rem)] leading-none font-bold tracking-[-.05em] text-navy break-words"
+            class="mt-4 mb-0 font-display text-[clamp(1.8rem,5vw,3rem)] leading-none font-bold tracking-tighter text-navy wrap-break-word"
           >
             {{ molResult.primary }}
           </p>
@@ -624,7 +624,7 @@ const constants = [
         <p class="m-0 text-[.68rem] font-bold tracking-[.12em] text-coral-ink uppercase">Hasil</p>
         <template v-if="solutionResult && !solutionResult.error">
           <p
-            class="mt-4 mb-0 font-display text-[clamp(1.8rem,5vw,3rem)] leading-none font-bold tracking-[-.05em] text-navy"
+            class="mt-4 mb-0 font-display text-[clamp(1.8rem,5vw,3rem)] leading-none font-bold tracking-tighter text-navy"
           >
             {{ solutionResult.primary }}
           </p>
