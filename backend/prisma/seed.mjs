@@ -1,8 +1,21 @@
 import 'dotenv/config'
 
+import { readFile } from 'node:fs/promises'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
+
 import { PrismaPg } from '@prisma/adapter-pg'
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
+
+// Properti fisika dan kimia per simbol unsur, diambil dari dataset referensi
+// publik (Periodic-Table-JSON) dan disimpan lokal agar seed dapat diulang
+// tanpa akses jaringan.
+const elementProperties = JSON.parse(
+  await readFile(join(__dirname, 'element-properties.json'), 'utf8'),
+)
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL })
 const prisma = new PrismaClient({ adapter })
@@ -725,6 +738,7 @@ async function main() {
       const detail = details[symbol] ?? {}
       const defaults = categoryDefaults[category]
       const base = { nameId, symbol, atomicNumber, category, period, group }
+      const props = elementProperties[symbol] ?? {}
 
       return {
         atomicNumber,
@@ -739,6 +753,22 @@ async function main() {
         uses: detail.uses ?? defaults.uses,
         hazardWarning: detail.hazard ?? defaults.hazard,
         categoryId: categoryMap[category],
+
+        // Properti fisika dan kimia
+        meltingPoint: props.melt ?? null,
+        boilingPoint: props.boil ?? null,
+        density: props.density ?? null,
+        electronegativity: props.electronegativity ?? null,
+        ionizationEnergy: props.ionization ?? null,
+        atomicRadius: props.atomicRadius ?? null,
+        covalentRadius: props.covalentRadius ?? null,
+        molarHeat: props.molarHeat ?? null,
+        oxidationStates: props.oxidationStates ?? null,
+        phaseAtRoomTemp: props.phase ?? null,
+        block: props.block ?? null,
+        appearance: props.appearance ?? null,
+        discoveredBy: props.discoveredBy ?? null,
+        yearDiscovered: props.yearDiscovered ?? null,
       }
     },
   )

@@ -37,6 +37,34 @@ export function validateElement(req, res, next) {
   if (!Number.isFinite(atomicMass) || atomicMass <= 0) return fail(res, 'Massa atom harus lebih dari 0')
   if (!Number.isInteger(period) || period < 1 || period > 7) return fail(res, 'Periode harus antara 1 dan 7')
   if (!Number.isInteger(group) || group < 1 || group > 18) return fail(res, 'Golongan harus antara 1 dan 18')
+
+  // Properti opsional: bila dikirim, nilainya harus masuk akal.
+  const numericChecks = [
+    ['meltingPoint', -273.15, 10000, 'Titik leleh'],
+    ['boilingPoint', -273.15, 10000, 'Titik didih'],
+    ['density', 0, 100000, 'Massa jenis'],
+    ['electronegativity', 0, 4, 'Elektronegativitas'],
+    ['ionizationEnergy', 0, 20000, 'Energi ionisasi'],
+    ['atomicRadius', 0, 1000, 'Jari-jari atom'],
+    ['covalentRadius', 0, 1000, 'Jari-jari kovalen'],
+    ['molarHeat', 0, 1000, 'Kalor molar'],
+  ]
+  for (const [field, min, max, label] of numericChecks) {
+    const raw = body[field]
+    if (raw === undefined || raw === null || raw === '') continue
+    const value = Number(raw)
+    if (!Number.isFinite(value) || value < min || value > max) {
+      return fail(res, `${label} harus berupa angka antara ${min} dan ${max}`)
+    }
+  }
+
+  if (body.yearDiscovered !== undefined && body.yearDiscovered !== null && body.yearDiscovered !== '') {
+    const year = Number(body.yearDiscovered)
+    if (!Number.isInteger(year) || year < -10000 || year > 2100) {
+      return fail(res, 'Tahun penemuan harus berupa bilangan bulat yang wajar')
+    }
+  }
+
   next()
 }
 

@@ -43,6 +43,61 @@ const properties = computed(() => {
   )
 })
 
+function num(value) {
+  if (value === null || value === undefined || value === '') return null
+  const parsed = Number(value)
+  return Number.isFinite(parsed) ? parsed : null
+}
+
+function formatNumber(value, digits = 2) {
+  const parsed = num(value)
+  if (parsed === null) return null
+  return parsed.toLocaleString('id-ID', { maximumFractionDigits: digits })
+}
+
+// Daftar properti fisika dan kimia yang benar-benar tersedia untuk unsur ini.
+const physicalProperties = computed(() => {
+  const el = element.value
+  if (!el) return []
+
+  const rows = []
+  const push = (label, value, unit) => {
+    if (value === null || value === undefined || value === '') return
+    rows.push({ label, value, unit })
+  }
+
+  const melt = formatNumber(el.meltingPoint, 2)
+  if (melt !== null) {
+    const kelvin = num(el.meltingPoint)
+    push('Titik leleh', `${melt} °C`, kelvin !== null ? `(${(kelvin + 273.15).toFixed(2)} K)` : '')
+  }
+
+  const boil = formatNumber(el.boilingPoint, 2)
+  if (boil !== null) {
+    const kelvin = num(el.boilingPoint)
+    push('Titik didih', `${boil} °C`, kelvin !== null ? `(${(kelvin + 273.15).toFixed(2)} K)` : '')
+  }
+
+  push('Massa jenis', formatNumber(el.density, 4), 'g/cm³')
+  push('Elektronegativitas', formatNumber(el.electronegativity, 2), 'Pauling')
+  push('Energi ionisasi', formatNumber(el.ionizationEnergy, 1), 'kJ/mol')
+  push('Jari-jari atom', formatNumber(el.atomicRadius, 0), 'pm')
+  push('Jari-jari kovalen', formatNumber(el.covalentRadius, 0), 'pm')
+  push('Kalor molar', formatNumber(el.molarHeat, 2), 'J/(mol·K)')
+  push('Bilangan oksidasi', el.oxidationStates, '')
+  push('Wujud (25 °C)', el.phaseAtRoomTemp, '')
+  push('Blok', el.block, '')
+  push('Penampilan', el.appearance, '')
+  push('Ditemukan oleh', el.discoveredBy, '')
+
+  if (el.yearDiscovered !== null && el.yearDiscovered !== undefined) {
+    const year = Number(el.yearDiscovered)
+    push('Tahun penemuan', year < 0 ? `${Math.abs(year)} SM` : String(year), '')
+  }
+
+  return rows
+})
+
 const neighbors = computed(() => {
   if (!element.value || !allElements.value.length) return { previous: null, next: null }
 
@@ -215,6 +270,52 @@ watch(() => props.id, load, { immediate: true })
             <dd class="mt-1 mb-0 font-display text-lg font-bold">{{ element.category?.name ?? '—' }}</dd>
           </div>
         </dl>
+      </section>
+
+      <section v-if="physicalProperties.length" class="mt-10" aria-labelledby="sifat-fisika">
+        <h2 id="sifat-fisika" class="m-0 mb-4 font-display text-xl font-bold tracking-[-.04em]">
+          Sifat fisika dan kimia
+        </h2>
+        <dl class="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+          <div v-for="property in physicalProperties" :key="property.label" class="rounded-2xl border border-line bg-white p-4">
+            <dt class="text-[.68rem] font-bold tracking-[.1em] text-muted uppercase">{{ property.label }}</dt>
+            <dd class="mt-1 mb-0 font-display text-base font-bold break-words">
+              {{ property.value }}
+              <span v-if="property.unit" class="ml-1 text-xs font-semibold text-muted">{{ property.unit }}</span>
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+      <section v-if="element.isotopes?.length" class="mt-10" aria-labelledby="isotop">
+        <h2 id="isotop" class="m-0 mb-4 font-display text-xl font-bold tracking-[-.04em]">Isotop</h2>
+        <div class="overflow-hidden rounded-card border border-line bg-white">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-line bg-paper text-left">
+                <th class="px-4 py-3 text-[.68rem] font-bold tracking-[.1em] text-muted uppercase">Nomor massa</th>
+                <th class="px-4 py-3 text-[.68rem] font-bold tracking-[.1em] text-muted uppercase">Kelimpahan</th>
+                <th class="px-4 py-3 text-[.68rem] font-bold tracking-[.1em] text-muted uppercase">Waktu paruh</th>
+                <th class="px-4 py-3 text-[.68rem] font-bold tracking-[.1em] text-muted uppercase">Radioaktif</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="isotope in element.isotopes" :key="isotope.id" class="border-b border-line/60 last:border-0">
+                <td class="px-4 py-3 font-semibold text-ink">{{ element.symbol }}-{{ isotope.massNumber }}</td>
+                <td class="px-4 py-3 text-muted">{{ isotope.abundance ? `${isotope.abundance}%` : '—' }}</td>
+                <td class="px-4 py-3 text-muted">{{ isotope.halfLife ?? '—' }}</td>
+                <td class="px-4 py-3">
+                  <span
+                    class="rounded-full px-2.5 py-1 text-[.65rem] font-bold uppercase"
+                    :class="isotope.isRadioactive ? 'bg-[#fef2f2] text-[#991b1b]' : 'bg-[#f0fdf4] text-[#166534]'"
+                  >
+                    {{ isotope.isRadioactive ? 'Ya' : 'Tidak' }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <div class="mt-8 grid gap-4 lg:grid-cols-3">

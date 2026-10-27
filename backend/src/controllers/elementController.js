@@ -71,13 +71,42 @@ export const getElements = asyncHandler(async (req, res) => {
 export const getElementById = asyncHandler(async (req, res) => {
   const element = await prisma.element.findUnique({
     where: { id: req.params.id },
-    include: { category: true },
+    include: { category: true, isotopes: { orderBy: { massNumber: 'asc' } } },
   })
   if (!element) {
     throw new AppError(404, 'Unsur tidak ditemukan')
   }
   res.json(element)
 })
+
+const NUMERIC_FIELDS = [
+  'meltingPoint', 'boilingPoint', 'density', 'electronegativity',
+  'ionizationEnergy', 'atomicRadius', 'covalentRadius', 'molarHeat',
+]
+
+const TEXT_FIELDS = [
+  'oxidationStates', 'phaseAtRoomTemp', 'block', 'appearance', 'discoveredBy',
+]
+
+// Hanya kolom yang dikirim yang ikut ditulis, sehingga PATCH-like update tidak
+// menghapus properti yang tidak disebutkan.
+function propertyData(body) {
+  const data = {}
+  for (const field of NUMERIC_FIELDS) {
+    if (body[field] === undefined) continue
+    const value = body[field] === null || body[field] === '' ? null : Number(body[field])
+    data[field] = Number.isFinite(value) ? value : null
+  }
+  for (const field of TEXT_FIELDS) {
+    if (body[field] === undefined) continue
+    data[field] = body[field] === null || body[field] === '' ? null : String(body[field]).trim()
+  }
+  if (body.yearDiscovered !== undefined) {
+    const year = body.yearDiscovered === null || body.yearDiscovered === '' ? null : Number(body.yearDiscovered)
+    data.yearDiscovered = Number.isInteger(year) ? year : null
+  }
+  return data
+}
 
 export const createElement = asyncHandler(async (req, res) => {
   const {
@@ -98,6 +127,7 @@ export const createElement = asyncHandler(async (req, res) => {
       description,
       uses,
       hazardWarning,
+      ...propertyData(req.body),
     },
     include: { category: true },
   })
@@ -124,6 +154,7 @@ export const updateElement = asyncHandler(async (req, res) => {
       description,
       uses,
       hazardWarning,
+      ...propertyData(req.body),
     },
     include: { category: true },
   })
