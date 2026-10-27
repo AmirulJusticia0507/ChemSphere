@@ -10,6 +10,7 @@ import {
   getBookmarks,
 } from '../services/api.js'
 import { useAuth } from '../composables/useAuth.js'
+import { usePageMeta } from '../composables/usePageMeta.js'
 
 const props = defineProps({
   id: { type: String, required: true },
@@ -19,6 +20,36 @@ const auth = useAuth()
 const isBookmarked = ref(false)
 const bookmarkBusy = ref(false)
 const bookmarkNotice = ref('')
+
+usePageMeta(() => {
+  const el = element.value
+  if (!el) return { title: 'Detail unsur' }
+  const parts = [
+    `${el.nameId} (${el.symbol})`,
+    `nomor atom ${el.atomicNumber}`,
+    el.category?.name ? `kategori ${el.category.name}` : null,
+    `golongan ${el.group}, periode ${el.period}`,
+  ].filter(Boolean)
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ChemicalSubstance',
+    name: el.nameId,
+    alternateName: [el.nameLatin, el.symbol].filter(Boolean),
+    identifier: el.symbol,
+    chemicalFormula: el.symbol,
+    description: (el.description ?? '').slice(0, 500),
+    ...(Number(el.atomicMass)
+      ? { molecularWeight: Number(el.atomicMass) }
+      : {}),
+    url: `https://chemsphere.vercel.app/unsur/${el.id}`,
+    inLanguage: 'id',
+  }
+  return {
+    title: `${el.nameId} (${el.symbol}) — Unsur ${el.atomicNumber}`,
+    description: `${parts.join(', ')}. ${el.description ?? ''}`.trim().slice(0, 300),
+    jsonLd,
+  }
+})
 
 async function loadBookmarkState() {
   if (!auth.isAuthenticated.value) return

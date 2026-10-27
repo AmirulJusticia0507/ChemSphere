@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /masuk
+Disallow: /daftar
+Disallow: /progres
+
+Sitemap: https://chemsphere.vercel.app/sitemap.xml

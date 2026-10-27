@@ -5,6 +5,13 @@ import ExploreSection from '../components/ExploreSection.vue'
 import HeroSection from '../components/HeroSection.vue'
 import QuickStats from '../components/QuickStats.vue'
 import { getElements } from '../services/api.js'
+import { usePageMeta } from '../composables/usePageMeta.js'
+
+usePageMeta(() => ({
+  title: 'Tabel Periodik dan Belajar Kimia Bahasa Indonesia',
+  description:
+    'Jelajahi 118 unsur kimia lengkap dengan sifat fisika-kimia, ion poliatomik, kalkulator kimia, dan kuis latihan. Semua dalam Bahasa Indonesia.',
+}))
 
 const elements = ref([])
 const loading = ref(true)

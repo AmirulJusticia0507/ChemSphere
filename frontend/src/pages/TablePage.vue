@@ -7,6 +7,13 @@ import PeriodicTable from '../components/PeriodicTable.vue'
 import { styleForCategory } from '../data/categories.js'
 import { getCategories, getIons } from '../services/api.js'
 import { useElementsStore } from '../stores/elements.js'
+import { usePageMeta } from '../composables/usePageMeta.js'
+
+usePageMeta(() => ({
+  title: 'Tabel Periodik Unsur',
+  description:
+    'Tabel periodik interaktif 118 unsur dalam Bahasa Indonesia. Cari berdasarkan nama, simbol, kategori, golongan, dan periode, lengkap dengan ion poliatomik.',
+}))
 
 const route = useRoute()
 const router = useRouter()

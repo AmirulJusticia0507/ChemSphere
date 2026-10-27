@@ -6,8 +6,54 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="theme-color" content="#fff9f1" />
-    <meta name="description" content="ChemSphere — jelajahi unsur dan ion poliatomik." />
-    <title>ChemSphere | Jelajahi Kimia</title>
+
+    <title>ChemSphere | Tabel Periodik dan Belajar Kimia Bahasa Indonesia</title>
+    <meta
+      name="description"
+      content="ChemSphere adalah tabel periodik interaktif Bahasa Indonesia: 118 unsur lengkap dengan sifat fisika-kimia, ion poliatomik, kalkulator kimia, dan kuis latihan."
+    />
+    <meta name="keywords" content="tabel periodik, unsur kimia, kimia, ion poliatomik, kalkulator kimia, belajar kimia, Indonesia" />
+    <meta name="author" content="ChemSphere" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://chemsphere.vercel.app/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="ChemSphere" />
+    <meta property="og:locale" content="id_ID" />
+    <meta property="og:title" content="ChemSphere | Tabel Periodik dan Belajar Kimia Bahasa Indonesia" />
+    <meta
+      property="og:description"
+      content="118 unsur dengan sifat fisika-kimia lengkap, ion poliatomik, kalkulator kimia, dan kuis latihan. Semua dalam Bahasa Indonesia."
+    />
+    <meta property="og:url" content="https://chemsphere.vercel.app/" />
+    <meta property="og:image" content="https://chemsphere.vercel.app/assets/periodic-table-polyatomic-id.svg" />
+    <meta property="og:image:alt" content="Tabel periodik unsur dan ion poliatomik dalam Bahasa Indonesia" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ChemSphere | Tabel Periodik Bahasa Indonesia" />
+    <meta
+      name="twitter:description"
+      content="118 unsur, ion poliatomik, kalkulator kimia, dan kuis latihan dalam Bahasa Indonesia."
+    />
+    <meta name="twitter:image" content="https://chemsphere.vercel.app/assets/periodic-table-polyatomic-id.svg" />
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "ChemSphere",
+        "url": "https://chemsphere.vercel.app/",
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "Any",
+        "inLanguage": "id",
+        "description": "Tabel periodik interaktif Bahasa Indonesia dengan 118 unsur, ion poliatomik, kalkulator kimia, dan kuis latihan.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "IDR" }
+      }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,6 +63,12 @@
   </head>
   <body>
     <div id="app"></div>
+    <noscript>
+      <p>
+        ChemSphere membutuhkan JavaScript untuk menampilkan tabel periodik interaktif.
+        Aktifkan JavaScript pada browser Anda untuk menggunakan aplikasi ini.
+      </p>
+    </noscript>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

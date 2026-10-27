@@ -21,6 +21,7 @@ import { logger, requestContext } from './utils/logger.js'
 import { reportError } from './utils/errorReporting.js'
 import { getMetrics } from './controllers/metricsController.js'
 import { getApiDocsPage, getOpenApiSpec } from './controllers/docsController.js'
+import { getRobots, getSitemap } from './controllers/seoController.js'
 
 const app = express()
 
@@ -76,6 +77,10 @@ app.get('/metrics', getMetrics)
 // Dokumentasi API
 app.get('/openapi.json', getOpenApiSpec)
 app.get('/docs', getApiDocsPage)
+
+// SEO
+app.get('/sitemap.xml', getSitemap)
+app.get('/robots.txt', getRobots)
 
 // Root
 app.get('/', (_req, res) => {
