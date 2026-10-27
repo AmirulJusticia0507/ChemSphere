@@ -25,8 +25,24 @@ function asList(payload) {
   return payload?.data ?? []
 }
 
-export async function getElements() {
-  return asList(await request('/elements'))
+export async function getElements(options = {}) {
+  const query = new URLSearchParams()
+  if (options.page) query.set('page', options.page)
+  if (options.limit) query.set('limit', options.limit)
+  if (options.search) query.set('search', options.search)
+  const qs = query.toString()
+  return asList(await request(`/elements${qs ? `?${qs}` : ''}`))
+}
+
+// Mengembalikan struktur paginasi utuh { data, pagination } untuk panel admin.
+export async function getElementsPage(options = {}) {
+  const query = new URLSearchParams()
+  query.set('page', options.page ?? 1)
+  query.set('limit', options.limit ?? 10)
+  if (options.search) query.set('search', options.search)
+  const payload = await request(`/elements?${query.toString()}`)
+  if (Array.isArray(payload)) return { data: payload, pagination: null }
+  return payload
 }
 
 export async function getElement(id) {
@@ -53,8 +69,23 @@ export async function deleteElement(id) {
   return request(`/admin/elements/${encodeURIComponent(id)}`, { method: 'DELETE' })
 }
 
-export async function getCategories() {
-  return asList(await request('/categories'))
+export async function getCategories(options = {}) {
+  const query = new URLSearchParams()
+  if (options.page) query.set('page', options.page)
+  if (options.limit) query.set('limit', options.limit)
+  if (options.search) query.set('search', options.search)
+  const qs = query.toString()
+  return asList(await request(`/categories${qs ? `?${qs}` : ''}`))
+}
+
+export async function getCategoriesPage(options = {}) {
+  const query = new URLSearchParams()
+  query.set('page', options.page ?? 1)
+  query.set('limit', options.limit ?? 10)
+  if (options.search) query.set('search', options.search)
+  const payload = await request(`/categories?${query.toString()}`)
+  if (Array.isArray(payload)) return { data: payload, pagination: null }
+  return payload
 }
 
 export async function createCategory(payload) {
@@ -77,8 +108,23 @@ export async function deleteCategory(id) {
   return request(`/admin/categories/${encodeURIComponent(id)}`, { method: 'DELETE' })
 }
 
-export async function getIons() {
-  return asList(await request('/ions'))
+export async function getIons(options = {}) {
+  const query = new URLSearchParams()
+  if (options.page) query.set('page', options.page)
+  if (options.limit) query.set('limit', options.limit)
+  if (options.search) query.set('search', options.search)
+  const qs = query.toString()
+  return asList(await request(`/ions${qs ? `?${qs}` : ''}`))
+}
+
+export async function getIonsPage(options = {}) {
+  const query = new URLSearchParams()
+  query.set('page', options.page ?? 1)
+  query.set('limit', options.limit ?? 10)
+  if (options.search) query.set('search', options.search)
+  const payload = await request(`/ions?${query.toString()}`)
+  if (Array.isArray(payload)) return { data: payload, pagination: null }
+  return payload
 }
 
 export async function createIon(payload) {

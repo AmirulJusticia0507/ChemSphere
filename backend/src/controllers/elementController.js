@@ -2,7 +2,7 @@ import prisma from '../config/db.js'
 
 export async function getElements(req, res) {
   try {
-    const { category, search, group, period } = req.query
+    const { category, search, group, period, page, limit } = req.query
     const where = {}
 
     if (category) where.category = { name: category }
@@ -31,12 +31,41 @@ export async function getElements(req, res) {
       }
     }
 
+    const usePagination =
+      Number.isInteger(Number(page)) &&
+      Number.isInteger(Number(limit)) &&
+      Number(page) > 0 &&
+      Number(limit) > 0
+
+    if (!usePagination) {
+      const elements = await prisma.element.findMany({
+        where,
+        include: { category: true },
+        orderBy: { atomicNumber: 'asc' },
+      })
+      return res.json(elements)
+    }
+
+    const currentPage = Number(page)
+    const perPage = Number(limit)
+    const total = await prisma.element.count({ where })
     const elements = await prisma.element.findMany({
       where,
       include: { category: true },
       orderBy: { atomicNumber: 'asc' },
+      skip: (currentPage - 1) * perPage,
+      take: perPage,
     })
-    res.json(elements)
+
+    res.json({
+      data: elements,
+      pagination: {
+        page: currentPage,
+        limit: perPage,
+        total,
+        totalPages: Math.max(1, Math.ceil(total / perPage)),
+      },
+    })
   } catch (error) {
     res.status(500).json({ message: error.message })
   }

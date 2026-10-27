@@ -10,11 +10,47 @@ function slugify(value) {
 
 export async function getCategories(req, res) {
   try {
+    const { page, limit, search } = req.query
+    const where = {}
+    if (search) {
+      where.name = { contains: String(search).trim(), mode: 'insensitive' }
+    }
+
+    const usePagination =
+      Number.isInteger(Number(page)) &&
+      Number.isInteger(Number(limit)) &&
+      Number(page) > 0 &&
+      Number(limit) > 0
+
+    if (!usePagination) {
+      const categories = await prisma.category.findMany({
+        where,
+        include: { _count: { select: { elements: true } } },
+        orderBy: { name: 'asc' },
+      })
+      return res.json(categories)
+    }
+
+    const currentPage = Number(page)
+    const perPage = Number(limit)
+    const total = await prisma.category.count({ where })
     const categories = await prisma.category.findMany({
+      where,
       include: { _count: { select: { elements: true } } },
       orderBy: { name: 'asc' },
+      skip: (currentPage - 1) * perPage,
+      take: perPage,
     })
-    res.json(categories)
+
+    res.json({
+      data: categories,
+      pagination: {
+        page: currentPage,
+        limit: perPage,
+        total,
+        totalPages: Math.max(1, Math.ceil(total / perPage)),
+      },
+    })
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
