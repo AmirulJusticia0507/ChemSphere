@@ -8,8 +8,10 @@
     "dev": "node --watch src/app.js",
     "start": "node src/app.js",
     "migrate": "prisma migrate dev",
+    "migrate:deploy": "prisma migrate deploy",
     "generate": "prisma generate",
     "studio": "prisma studio",
+    "seed": "node prisma/seed.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
