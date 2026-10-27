@@ -26,3 +26,20 @@ Contoh pemulihan:
 ```powershell
 pg_restore --clean --if-exists --no-owner --dbname $env:DATABASE_URL .\backups\chemsphere-YYYYMMDD-HHMMSS.dump
 ```
+
+## Index pencarian
+
+Migrasi `20261027150000_search_trigram_indexes` mengaktifkan ekstensi `pg_trgm` dan
+membuat index GIN pada kolom yang dipakai pencarian (`elements.nameId`,
+`elements.nameLatin`, `elements.symbol`, `polyatomic_ions.name`,
+`polyatomic_ions.formula`, `categories.name`, `users.name`, `users.email`).
+
+Ekstensi ini membutuhkan hak superuser pada sebagian penyedia database. Bila
+`CREATE EXTENSION` ditolak, minta admin database mengaktifkannya lebih dulu:
+
+```sql
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
+```
+
+Setelah ekstensi tersedia, jalankan `npx prisma migrate deploy`. Pencarian tetap
+berfungsi tanpa index ini, hanya lebih lambat pada tabel besar.
