@@ -16,12 +16,13 @@ import authRoutes from './routes/authRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
 
 const app = express()
-const server = createServer(app)
-const PORT = process.env.PORT || 5000
 
 // Security middleware
 app.use(helmet())
-app.use(cors({ origin: process.env.CORS_ORIGIN || 'http://localhost:5173', credentials: true }))
+app.use(cors({
+  origin: process.env.CORS_ORIGIN || true,
+  credentials: true,
+}))
 app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }))
 app.use(cookieParser())
 app.use(express.json())
@@ -56,8 +57,13 @@ app.use('/api/v1/auth', authRoutes)
 // Admin routes (auth + role required)
 app.use('/api/v1/admin', adminRoutes)
 
-server.listen(PORT, () => {
-  console.log(`ChemSphere API berjalan di http://localhost:${PORT}`)
-})
+// Only listen when running locally (not on Vercel serverless)
+if (process.env.VERCEL !== '1') {
+  const server = createServer(app)
+  const PORT = process.env.PORT || 5000
+  server.listen(PORT, () => {
+    console.log(`ChemSphere API berjalan di http://localhost:${PORT}`)
+  })
+}
 
 export default app
