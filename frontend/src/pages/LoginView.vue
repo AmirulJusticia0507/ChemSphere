@@ -1,5 +1,5 @@
 <script setup>
-import { computed, reactive, ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import { useAuth } from '@/composables/useAuth.js'
@@ -53,18 +53,18 @@ async function handleSubmit() {
 
       <form class="space-y-4" @submit.prevent="handleSubmit">
         <div>
-          <label for="login-email" class="mb-1 block text-sm font-semibold text-ink">Email</label>
+          <label for="login-email" class="label mb-1.5 block text-muted">Email</label>
           <input
             id="login-email"
             v-model="form.email"
             type="email"
             autocomplete="email"
             required
-            class="w-full rounded-xl border border-line bg-paper px-3.5 py-2.5 text-sm text-ink outline-none focus:border-navy/40 focus:ring-2 focus:ring-navy/10"
+            class="w-full rounded-xl border border-line bg-white px-3.5 py-2.5 text-sm text-ink outline-none focus:border-ink/40 focus:ring-2 focus:ring-ink/10"
           />
         </div>
         <div>
-          <label for="login-password" class="mb-1 block text-sm font-semibold text-ink">
+          <label for="login-password" class="label mb-1.5 block text-muted">
             Kata sandi
           </label>
           <input
@@ -73,7 +73,7 @@ async function handleSubmit() {
             type="password"
             autocomplete="current-password"
             required
-            class="w-full rounded-xl border border-line bg-paper px-3.5 py-2.5 text-sm text-ink outline-none focus:border-navy/40 focus:ring-2 focus:ring-navy/10"
+            class="w-full rounded-xl border border-line bg-white px-3.5 py-2.5 text-sm text-ink outline-none focus:border-ink/40 focus:ring-2 focus:ring-ink/10"
           />
         </div>
 
@@ -83,10 +83,10 @@ async function handleSubmit() {
 
         <button
           type="submit"
-          :disabled="loading"
-          class="w-full cursor-pointer rounded-xl bg-navy px-5 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-60"
+          :disabled="submitting"
+          class="w-full cursor-pointer rounded-full bg-navy px-5 py-3.5 font-mono text-[.72rem] font-medium tracking-[.14em] text-white uppercase transition-transform duration-200 hover:scale-[1.01] active:scale-[.99] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100"
         >
-          {{ loading ? 'Memproses…' : 'Masuk' }}
+          {{ submitting ? 'Memproses…' : 'Masuk' }}
         </button>
       </form>
 

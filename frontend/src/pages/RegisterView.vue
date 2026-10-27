@@ -30,9 +30,12 @@ async function handleSubmit() {
     <div class="w-full max-w-md rounded-card border border-line bg-white p-7 shadow-[0_18px_55px_#17213d0d]">
       <div class="mb-6 text-center">
         <span class="mr-1 text-coral" aria-hidden="true">◉</span>
-        <span class="font-display text-xl font-bold tracking-[-.05em] text-ink">ChemSphere</span>
+        <span class="font-display text-xl font-extrabold tracking-[-.04em] text-ink">ChemSphere</span>
       </div>
-      <h1 class="mb-1 text-center font-display text-2xl font-bold tracking-[-.04em] text-ink">
+      <p class="label mb-2 text-center text-muted">
+        <span class="text-coral-ink">[</span> Akun baru <span class="text-coral-ink">]</span>
+      </p>
+      <h1 class="mb-1 text-center font-display text-2xl font-extrabold tracking-[-.04em] text-ink">
         Daftar
       </h1>
       <p class="mt-0 mb-6 text-center text-sm text-muted">
@@ -41,29 +44,29 @@ async function handleSubmit() {
 
       <form class="space-y-4" @submit.prevent="handleSubmit">
         <div>
-          <label for="register-name" class="mb-1 block text-sm font-semibold text-ink">Nama</label>
+          <label for="register-name" class="label mb-1.5 block text-muted">Nama</label>
           <input
             id="register-name"
             v-model="form.name"
             type="text"
             autocomplete="name"
             required
-            class="w-full rounded-xl border border-line bg-paper px-3.5 py-2.5 text-sm text-ink outline-none focus:border-navy/40 focus:ring-2 focus:ring-navy/10"
+            class="w-full rounded-xl border border-line bg-white px-3.5 py-2.5 text-sm text-ink outline-none focus:border-ink/40 focus:ring-2 focus:ring-ink/10"
           />
         </div>
         <div>
-          <label for="register-email" class="mb-1 block text-sm font-semibold text-ink">Email</label>
+          <label for="register-email" class="label mb-1.5 block text-muted">Email</label>
           <input
             id="register-email"
             v-model="form.email"
             type="email"
             autocomplete="email"
             required
-            class="w-full rounded-xl border border-line bg-paper px-3.5 py-2.5 text-sm text-ink outline-none focus:border-navy/40 focus:ring-2 focus:ring-navy/10"
+            class="w-full rounded-xl border border-line bg-white px-3.5 py-2.5 text-sm text-ink outline-none focus:border-ink/40 focus:ring-2 focus:ring-ink/10"
           />
         </div>
         <div>
-          <label for="register-password" class="mb-1 block text-sm font-semibold text-ink">
+          <label for="register-password" class="label mb-1.5 block text-muted">
             Kata sandi
           </label>
           <input
@@ -73,7 +76,7 @@ async function handleSubmit() {
             autocomplete="new-password"
             minlength="8"
             required
-            class="w-full rounded-xl border border-line bg-paper px-3.5 py-2.5 text-sm text-ink outline-none focus:border-navy/40 focus:ring-2 focus:ring-navy/10"
+            class="w-full rounded-xl border border-line bg-white px-3.5 py-2.5 text-sm text-ink outline-none focus:border-ink/40 focus:ring-2 focus:ring-ink/10"
           />
           <p class="mt-1 mb-0 text-xs text-muted">Minimal 8 karakter.</p>
         </div>
@@ -85,7 +88,7 @@ async function handleSubmit() {
         <button
           type="submit"
           :disabled="loading"
-          class="w-full cursor-pointer rounded-xl bg-navy px-5 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-60"
+          class="w-full cursor-pointer rounded-full bg-navy px-5 py-3.5 font-mono text-[.72rem] font-medium tracking-[.14em] text-white uppercase transition-transform duration-200 hover:scale-[1.01] active:scale-[.99] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100"
         >
           {{ loading ? 'Memproses…' : 'Buat akun' }}
         </button>
