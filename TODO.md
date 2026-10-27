@@ -9,8 +9,8 @@
 ## Fitur utama
 
 - [x] Tampilkan tabel periodik Bahasa Indonesia dari `docs/assets/periodic-table-polyatomic-id.svg`.
-- [ ] Tambahkan pencarian, filter kategori, golongan, dan periode unsur.
-- [ ] Buat halaman detail unsur: nomor atom, massa atom, konfigurasi elektron, sifat, kegunaan, dan peringatan bahaya.
+- [x] Tambahkan pencarian, filter kategori, golongan, dan periode unsur.
+- [x] Buat halaman detail unsur: nomor atom, massa atom, konfigurasi elektron, sifat, kegunaan, dan peringatan bahaya.
 - [x] Tampilkan detail ion poliatomik yang tersedia pada tabel.
 - [x] Tambahkan autentikasi pengguna bila fitur memerlukan akun.
 
