@@ -1,14 +1,11 @@
 <script setup>
 import { computed, ref } from 'vue'
 
-import IonDialog from './IonDialog.vue'
-
 const props = defineProps({
   ions: { type: Array, default: () => [] },
 })
 
 const search = ref('')
-const selectedIon = ref(null)
 
 const filteredIons = computed(() => {
   const term = search.value.trim().toLowerCase()
@@ -56,12 +53,11 @@ function isPositive(charge) {
     </div>
 
     <div v-if="filteredIons.length" class="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-4">
-      <button
+      <RouterLink
         v-for="ion in filteredIons"
         :key="ion.id"
-        type="button"
-        class="group cursor-pointer rounded-2xl border border-line bg-white p-4 text-left transition hover:-translate-y-0.5 hover:border-navy/20 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coral"
-        @click="selectedIon = ion"
+        :to="`/ion/${ion.id}`"
+        class="group block rounded-2xl border border-line bg-white p-4 text-left no-underline transition hover:-translate-y-0.5 hover:border-navy/20 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coral"
       >
         <span
           class="inline-flex rounded-full px-2 py-0.5 text-[.65rem] font-bold"
@@ -75,7 +71,7 @@ function isPositive(charge) {
           {{ ion.formula }}
         </span>
         <span class="mt-1 block text-xs text-muted">{{ ion.name }}</span>
-      </button>
+      </RouterLink>
     </div>
 
     <p
@@ -88,7 +84,5 @@ function isPositive(charge) {
     <p class="mt-4 mb-0 text-xs text-muted">
       {{ filteredIons.length }} dari {{ ions.length }} ion ditampilkan.
     </p>
-
-    <IonDialog v-if="selectedIon" :ion="selectedIon" @close="selectedIon = null" />
   </div>
 </template>

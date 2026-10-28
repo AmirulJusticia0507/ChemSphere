@@ -147,6 +147,10 @@ export async function getIons(options = {}) {
   return asList(await request(`/ions${qs ? `?${qs}` : ''}`))
 }
 
+export async function getIon(id) {
+  return request(`/ions/${encodeURIComponent(id)}`)
+}
+
 export async function getIonsPage(options = {}) {
   const query = new URLSearchParams()
   query.set('page', options.page ?? 1)

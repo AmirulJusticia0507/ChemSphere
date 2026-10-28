@@ -47,6 +47,12 @@ export const getIons = asyncHandler(async (req, res) => {
   })
 })
 
+export const getIonById = asyncHandler(async (req, res) => {
+  const ion = await prisma.polyatomicIon.findUnique({ where: { id: req.params.id } })
+  if (!ion) return res.status(404).json({ message: 'Ion tidak ditemukan' })
+  res.json(ion)
+})
+
 export const createIon = asyncHandler(async (req, res) => {
   const { name, formula, charge, description } = req.body
   const ion = await prisma.polyatomicIon.create({ data: { name, formula, charge, description } })
