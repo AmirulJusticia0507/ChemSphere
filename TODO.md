@@ -18,7 +18,7 @@
 - [x] Mode gelap tersimpan di browser.
 - [x] Tren periodik interaktif (peringkat elektronegativitas) tersedia di `/belajar`.
 - [x] Tabel kelarutan ringkas tersedia di `/belajar`.
-- [ ] Elemen hari ini.
+- [x] Elemen hari ini di beranda, berganti otomatis berdasarkan tanggal.
 
 ## Pemeriksaan
 

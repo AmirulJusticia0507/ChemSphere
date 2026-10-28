@@ -24,6 +24,15 @@ const stats = computed(() => [
   { value: '∞', label: 'Rasa ingin tahu' },
 ])
 
+const elementOfTheDay = computed(() => {
+  if (!elements.value.length) return null
+  const today = new Date()
+  const day = Math.floor(
+    Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()) / 86_400_000,
+  )
+  return elements.value[day % elements.value.length]
+})
+
 async function load() {
   loading.value = true
   error.value = ''
@@ -69,6 +78,29 @@ onMounted(load)
     </p>
 
     <ExploreSection />
+
+    <section
+      v-if="elementOfTheDay"
+      class="mt-12 rounded-card border border-line bg-white p-6 sm:p-8"
+      aria-label="Elemen hari ini"
+    >
+      <p class="m-0 text-xs font-bold tracking-[.14em] text-coral-ink uppercase">Elemen hari ini</p>
+      <div class="mt-3 flex flex-wrap items-center justify-between gap-5">
+        <div>
+          <p class="m-0 font-display text-5xl font-bold text-navy">{{ elementOfTheDay.symbol }}</p>
+          <h2 class="mt-1 mb-0 font-display text-2xl font-bold">{{ elementOfTheDay.nameId }}</h2>
+          <p class="mt-2 mb-0 max-w-2xl text-sm text-muted">
+            {{ elementOfTheDay.description || `Unsur nomor atom ${elementOfTheDay.atomicNumber}.` }}
+          </p>
+        </div>
+        <RouterLink
+          :to="`/unsur/${elementOfTheDay.id}`"
+          class="rounded-xl bg-navy px-5 py-3 text-sm font-bold text-white no-underline"
+        >
+          Pelajari unsur
+        </RouterLink>
+      </div>
+    </section>
 
     <section
       class="relative mt-24 overflow-hidden rounded-card bg-[linear-gradient(180deg,#3d8fdb_0%,#3176b9_55%,#2f6aa4_100%)] px-8 py-14 text-white sm:px-12"
