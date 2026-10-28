@@ -14,8 +14,8 @@
 ## Belum dikerjakan
 
 - [x] Flashcard mode dan tren elektronegativitas tersedia di `/belajar`.
-- [ ] Filter tabel periodik lanjutan: blok, fase, dan radioaktivitas.
-- [ ] Mode gelap.
+- [x] Filter tabel periodik lanjutan: blok, fase, dan radioaktivitas.
+- [x] Mode gelap tersimpan di browser.
 - [x] Tren periodik interaktif (peringkat elektronegativitas) tersedia di `/belajar`.
 - [x] Tabel kelarutan ringkas tersedia di `/belajar`.
 - [ ] Elemen hari ini.

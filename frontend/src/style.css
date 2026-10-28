@@ -37,6 +37,17 @@
 }
 
 @layer base {
+  html.dark {
+    --color-ink: #f8fafc;
+    --color-muted: #b8c0cc;
+    --color-paper: #141820;
+    --color-line: #364152;
+    --color-navy: #edf2f7;
+  }
+
+  html.dark body {
+    background: #141820;
+  }
   html {
     scroll-behavior: smooth;
   }

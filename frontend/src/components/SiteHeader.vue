@@ -9,6 +9,8 @@ const router = useRouter()
 const auth = useAuth()
 const sidebarOpen = ref(false)
 const globalSearch = ref('')
+const dark = ref(localStorage.getItem('theme') === 'dark')
+document.documentElement.classList.toggle('dark', dark.value)
 const links = [
   { label: 'Beranda', hint: 'Mulai belajar', to: '/', match: (path) => path === '/' },
   {
@@ -59,6 +61,11 @@ async function submitSearch() {
   await router.push({ name: 'table', query: { q } })
   closeSidebar()
 }
+function toggleTheme() {
+  dark.value = !dark.value
+  document.documentElement.classList.toggle('dark', dark.value)
+  localStorage.setItem('theme', dark.value ? 'dark' : 'light')
+}
 async function signOut() {
   await auth.signOut()
   closeSidebar()
@@ -84,6 +91,14 @@ onBeforeUnmount(() => {
       <span class="mr-[7px] text-coral" aria-hidden="true">◉</span>ChemSphere
     </RouterLink>
     <div class="flex items-center gap-3">
+      <button
+        type="button"
+        class="rounded-full border border-line bg-white px-3 py-2 text-xs font-bold text-ink"
+        :aria-label="dark ? 'Gunakan mode terang' : 'Gunakan mode gelap'"
+        @click="toggleTheme"
+      >
+        {{ dark ? '☀' : '◐' }}
+      </button>
       <form class="hidden lg:block" role="search" @submit.prevent="submitSearch">
         <label class="sr-only" for="global-search">Cari unsur</label>
         <input

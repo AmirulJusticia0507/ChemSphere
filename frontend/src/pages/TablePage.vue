@@ -29,6 +29,9 @@ const search = ref('')
 const categoryFilter = ref('')
 const groupFilter = ref('')
 const periodFilter = ref('')
+const blockFilter = ref('')
+const phaseFilter = ref('')
+const radioactiveFilter = ref('')
 
 const groups = Array.from({ length: 18 }, (_, index) => index + 1)
 const periods = Array.from({ length: 7 }, (_, index) => index + 1)
@@ -46,6 +49,9 @@ function applyQueryFilters() {
 
   const period = Number(stringQuery(route.query.periode))
   periodFilter.value = periods.includes(period) ? String(period) : ''
+  blockFilter.value = stringQuery(route.query.blok)
+  phaseFilter.value = stringQuery(route.query.fase)
+  radioactiveFilter.value = stringQuery(route.query.radioaktif)
 }
 
 function updateQuery() {
@@ -54,6 +60,9 @@ function updateQuery() {
   if (categoryFilter.value) query.kategori = categoryFilter.value
   if (groupFilter.value) query.golongan = groupFilter.value
   if (periodFilter.value) query.periode = periodFilter.value
+  if (blockFilter.value) query.blok = blockFilter.value
+  if (phaseFilter.value) query.fase = phaseFilter.value
+  if (radioactiveFilter.value) query.radioaktif = radioactiveFilter.value
 
   const currentQuery = Object.fromEntries(
     Object.entries(route.query).filter(([, value]) => typeof value === 'string'),
@@ -82,8 +91,15 @@ const categoryOptions = computed(() => {
 
 const activeFilterCount = computed(
   () =>
-    [search.value, categoryFilter.value, groupFilter.value, periodFilter.value].filter(Boolean)
-      .length,
+    [
+      search.value,
+      categoryFilter.value,
+      groupFilter.value,
+      periodFilter.value,
+      blockFilter.value,
+      phaseFilter.value,
+      radioactiveFilter.value,
+    ].filter(Boolean).length,
 )
 
 const activeFilters = computed(() =>
@@ -108,8 +124,22 @@ function matches(element) {
   const matchesCategory = !categoryFilter.value || element.category?.name === categoryFilter.value
   const matchesGroup = !groupFilter.value || element.group === Number(groupFilter.value)
   const matchesPeriod = !periodFilter.value || element.period === Number(periodFilter.value)
+  const matchesBlock = !blockFilter.value || element.block === blockFilter.value
+  const matchesPhase = !phaseFilter.value || element.phaseAtRoomTemp === phaseFilter.value
+  const radioactive =
+    element.atomicNumber === 43 || element.atomicNumber === 61 || element.atomicNumber >= 84
+  const matchesRadioactive =
+    !radioactiveFilter.value || (radioactiveFilter.value === 'ya' ? radioactive : !radioactive)
 
-  return matchesSearch && matchesCategory && matchesGroup && matchesPeriod
+  return (
+    matchesSearch &&
+    matchesCategory &&
+    matchesGroup &&
+    matchesPeriod &&
+    matchesBlock &&
+    matchesPhase &&
+    matchesRadioactive
+  )
 }
 
 const visibleCount = computed(() => elements.value.filter(matches).length)
@@ -120,6 +150,9 @@ function resetFilters() {
   categoryFilter.value = ''
   groupFilter.value = ''
   periodFilter.value = ''
+  blockFilter.value = ''
+  phaseFilter.value = ''
+  radioactiveFilter.value = ''
 }
 
 function clearFilter(key) {
@@ -127,6 +160,9 @@ function clearFilter(key) {
   if (key === 'category') categoryFilter.value = ''
   if (key === 'group') groupFilter.value = ''
   if (key === 'period') periodFilter.value = ''
+  if (key === 'block') blockFilter.value = ''
+  if (key === 'phase') phaseFilter.value = ''
+  if (key === 'radioactive') radioactiveFilter.value = ''
 }
 
 function scrollToHash() {
@@ -169,7 +205,10 @@ watch(search, () => {
   clearTimeout(searchTimer)
   searchTimer = setTimeout(updateQuery, 250)
 })
-watch([categoryFilter, groupFilter, periodFilter], updateQuery)
+watch(
+  [categoryFilter, groupFilter, periodFilter, blockFilter, phaseFilter, radioactiveFilter],
+  updateQuery,
+)
 watch(() => route.query, applyQueryFilters)
 
 applyQueryFilters()
@@ -284,6 +323,43 @@ applyQueryFilters()
               >
                 {{ category.label }}
               </option>
+            </select>
+          </label>
+
+          <label class="block">
+            <span class="sr-only">Filter blok</span>
+            <select
+              v-model="blockFilter"
+              class="w-full cursor-pointer rounded-xl border border-line bg-paper px-3 py-2.5 text-sm text-ink"
+            >
+              <option value="">Blok</option>
+              <option value="s">s</option>
+              <option value="p">p</option>
+              <option value="d">d</option>
+              <option value="f">f</option>
+            </select>
+          </label>
+          <label class="block">
+            <span class="sr-only">Filter fase</span>
+            <select
+              v-model="phaseFilter"
+              class="w-full cursor-pointer rounded-xl border border-line bg-paper px-3 py-2.5 text-sm text-ink"
+            >
+              <option value="">Fase</option>
+              <option value="Solid">Padat</option>
+              <option value="Liquid">Cair</option>
+              <option value="Gas">Gas</option>
+            </select>
+          </label>
+          <label class="block">
+            <span class="sr-only">Filter radioaktif</span>
+            <select
+              v-model="radioactiveFilter"
+              class="w-full cursor-pointer rounded-xl border border-line bg-paper px-3 py-2.5 text-sm text-ink"
+            >
+              <option value="">Radioaktivitas</option>
+              <option value="ya">Radioaktif</option>
+              <option value="tidak">Tidak radioaktif</option>
             </select>
           </label>
 
