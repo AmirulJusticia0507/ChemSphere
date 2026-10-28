@@ -3,6 +3,7 @@ import { reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import { useAuth } from '@/composables/useAuth.js'
+import { showError, showSuccess } from '@/services/alert.js'
 
 const auth = useAuth()
 const route = useRoute()
@@ -19,8 +20,10 @@ async function handleSubmit() {
     const data = await auth.signIn(form)
     const redirect = route.query.redirect
     router.push(redirect || (data.user?.role === 'admin' ? '/admin' : '/'))
+    await showSuccess('Selamat datang', 'Login berhasil.')
   } catch (submitError) {
     error.value = submitError.message
+    await showError(error.value, 'Login gagal')
   } finally {
     submitting.value = false
   }

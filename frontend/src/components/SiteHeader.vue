@@ -2,6 +2,7 @@
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuth } from '@/composables/useAuth.js'
+import { showSuccess } from '@/services/alert.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -55,6 +56,7 @@ async function signOut() {
   await auth.signOut()
   closeSidebar()
   await router.push({ name: 'home' })
+  await showSuccess('Berhasil keluar', 'Sesi Anda telah diakhiri.')
 }
 watch(() => route.fullPath, closeSidebar)
 watch(sidebarOpen, (isOpen) => {

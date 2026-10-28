@@ -382,6 +382,7 @@ import {
 import { useAuth } from '@/composables/useAuth.js'
 import DataTable from '@/components/DataTable.vue'
 import Pagination from '@/components/Pagination.vue'
+import { confirmAction, showError, showSuccess } from '@/services/alert.js'
 
 const auth = useAuth()
 const user = computed(() => auth.user)
@@ -501,7 +502,7 @@ async function loadData() {
     ionTotal.value = ionRes.pagination ? ionRes.pagination.total : ionRes.data.length
     ionTotalPages.value = ionRes.pagination ? ionRes.pagination.totalPages : 1
   } catch (error) {
-    alert(error.message)
+    await showError(error.message)
   } finally {
     loading.value = false
   }
@@ -520,12 +521,20 @@ function openElementForm(el = null) {
 }
 
 async function deleteElement(id) {
-  if (!confirm('Hapus unsur ini?')) return
+  if (
+    !(await confirmAction({
+      title: 'Hapus unsur ini?',
+      text: 'Data unsur yang dihapus tidak dapat dipulihkan.',
+      confirmButtonText: 'Ya, hapus unsur',
+    }))
+  )
+    return
   try {
     await deleteElementApi(id)
     await loadData()
+    await showSuccess('Unsur dihapus', 'Data unsur berhasil dihapus.')
   } catch (e) {
-    alert(e.message)
+    await showError(e.message)
   }
 }
 
@@ -538,12 +547,20 @@ function openCategoryForm(cat = null) {
 }
 
 async function deleteCategory(id) {
-  if (!confirm('Hapus kategori ini?')) return
+  if (
+    !(await confirmAction({
+      title: 'Hapus kategori ini?',
+      text: 'Kategori dan data terkait dapat terdampak.',
+      confirmButtonText: 'Ya, hapus kategori',
+    }))
+  )
+    return
   try {
     await deleteCategoryApi(id)
     await loadData()
+    await showSuccess('Kategori dihapus', 'Data kategori berhasil dihapus.')
   } catch (e) {
-    alert(e.message)
+    await showError(e.message)
   }
 }
 
@@ -556,12 +573,20 @@ function openIonForm(ion = null) {
 }
 
 async function deleteIon(id) {
-  if (!confirm('Hapus ion ini?')) return
+  if (
+    !(await confirmAction({
+      title: 'Hapus ion ini?',
+      text: 'Data ion yang dihapus tidak dapat dipulihkan.',
+      confirmButtonText: 'Ya, hapus ion',
+    }))
+  )
+    return
   try {
     await deleteIonApi(id)
     await loadData()
+    await showSuccess('Ion dihapus', 'Data ion berhasil dihapus.')
   } catch (e) {
-    alert(e.message)
+    await showError(e.message)
   }
 }
 
@@ -584,8 +609,9 @@ async function saveModal() {
     }
     closeModal()
     await loadData()
+    await showSuccess('Data tersimpan', 'Perubahan berhasil disimpan.')
   } catch (e) {
-    alert(e.message)
+    await showError(e.message)
   } finally {
     saving.value = false
   }

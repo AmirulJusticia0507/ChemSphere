@@ -3,6 +3,7 @@ import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { register } from '../services/auth.js'
+import { showError, showSuccess } from '../services/alert.js'
 
 const router = useRouter()
 
@@ -17,8 +18,10 @@ async function handleSubmit() {
   try {
     await register(form)
     router.push({ name: 'login', query: { registered: '1' } })
+    await showSuccess('Pendaftaran berhasil', 'Silakan masuk menggunakan akun baru Anda.')
   } catch (submitError) {
     error.value = submitError.message
+    await showError(error.value, 'Pendaftaran gagal')
   } finally {
     loading.value = false
   }
