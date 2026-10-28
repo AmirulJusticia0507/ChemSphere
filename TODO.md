@@ -71,3 +71,12 @@
    - Login sukses kredensial: `admin@chemsphere.local` / `ChemSphere123!`.
 
 Semua build `npm run build` sukses tanpa error. Semua fitur ini ter-commit ke `main` (commit terakhir `3c5b3750`).
+
+### Belum Selesai (Infrastruktur & Verifikasi)
+
+- [ ] **Perbaiki binding port backend** — `EADDRINUSE` di port 5000 disebabkan proses `node --watch` sebelumnya masih berjalan; perlu `kill` proses lama atau merestart lingkungan development.
+- [ ] **Atur ulang CORS** — Error `Origin http://localhost:5174 tidak diizinkan oleh CORS` muncul saat refresh token dari port 5174; perlu diperbaiki di `backend/src/app.js` atau hanya gunakan port `5173` saja.
+- [ ] **Larasi Prisma `melting_point`** — Error `The column elements.melting_point does not exist` masih muncul meski sudah `migrate reset`; perlu `prisma migrate reset` total + penyesuaian schema/database agar konsisten.
+- [ ] **Verifikasi kalkulator kimia lewat browser** — Pastikan `usePageMeta` bekerja, form submit ke API sukses, dan state `submitting` tidak bermasalah di `CalculatorPage.vue`.
+- [ ] **Verifikasi kuis lewat browser** — Pastikan jawaban tersimpan, skor terhitung, dan navigasi antar soal berfungsi di `QuizPage.vue`.
+- [ ] **Ringkas dokumentasi cara menjalankan** — Buat README singkat: `npm run dev` (frontend di 5173), `npm run dev` (backend di 5000), cara migrate database, serta kredensial login default.
