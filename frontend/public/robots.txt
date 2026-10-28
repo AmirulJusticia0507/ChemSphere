@@ -6,4 +6,4 @@ Disallow: /masuk
 Disallow: /daftar
 Disallow: /progres
 
-Sitemap: https://chemsphere.vercel.app/sitemap.xml
+Sitemap: https://chemsphere-app.vercel.app/sitemap.xml

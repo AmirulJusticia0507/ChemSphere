@@ -8,10 +8,11 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 
 // Basis URL publik. Di produksi isi SITE_URL; fallback ke APP_URL.
 function siteUrl() {
-  return (process.env.SITE_URL || process.env.APP_URL || 'https://chemsphere.vercel.app').replace(
-    /\/$/,
-    '',
-  )
+  return (
+    process.env.SITE_URL ||
+    process.env.APP_URL ||
+    'https://chemsphere-app.vercel.app'
+  ).replace(/\/$/, '')
 }
 
 function escapeXml(value) {

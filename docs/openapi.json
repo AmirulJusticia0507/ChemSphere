@@ -9,7 +9,7 @@
   },
   "servers": [
     { "url": "http://localhost:5000", "description": "Pengembangan lokal" },
-    { "url": "https://chemsphere.vercel.app", "description": "Produksi" }
+    { "url": "https://chemsphere-app.vercel.app", "description": "Produksi" }
   ],
   "tags": [
     { "name": "Sistem", "description": "Health check dan metrik" },

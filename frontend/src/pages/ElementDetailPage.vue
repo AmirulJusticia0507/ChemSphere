@@ -38,10 +38,8 @@ usePageMeta(() => {
     identifier: el.symbol,
     chemicalFormula: el.symbol,
     description: (el.description ?? '').slice(0, 500),
-    ...(Number(el.atomicMass)
-      ? { molecularWeight: Number(el.atomicMass) }
-      : {}),
-    url: `https://chemsphere.vercel.app/unsur/${el.id}`,
+    ...(Number(el.atomicMass) ? { molecularWeight: Number(el.atomicMass) } : {}),
+    url: `https://chemsphere-app.vercel.app/unsur/${el.id}`,
     inLanguage: 'id',
   }
   return {
