@@ -1,9 +1,10 @@
 <script setup>
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useAuth } from '@/composables/useAuth.js'
 
 const route = useRoute()
+const router = useRouter()
 const auth = useAuth()
 const sidebarOpen = ref(false)
 const links = [
@@ -49,6 +50,11 @@ function closeSidebar() {
 }
 function onKeydown(event) {
   if (event.key === 'Escape') closeSidebar()
+}
+async function signOut() {
+  await auth.signOut()
+  closeSidebar()
+  await router.push({ name: 'home' })
 }
 watch(() => route.fullPath, closeSidebar)
 watch(sidebarOpen, (isOpen) => {
@@ -170,7 +176,7 @@ onBeforeUnmount(() => {
             v-else
             type="button"
             class="w-full cursor-pointer rounded-xl bg-[#fff0eb] px-4 py-3 text-sm font-bold text-coral-ink"
-            @click="auth.signOut"
+            @click="signOut"
           >
             Keluar
           </button>
