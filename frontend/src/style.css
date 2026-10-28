@@ -40,13 +40,36 @@
   html.dark {
     --color-ink: #f8fafc;
     --color-muted: #b8c0cc;
-    --color-paper: #141820;
-    --color-line: #364152;
-    --color-navy: #edf2f7;
+    --color-paper: #161b24;
+    --color-line: #3a4557;
+    --color-navy: #dbeafe;
+    --color-white: #202734;
+    --color-black: #f8fafc;
+    color-scheme: dark;
   }
 
   html.dark body {
     background: #141820;
+  }
+
+  /* Utilitas Tailwind yang memakai warna literal tetap kontras pada tema gelap. */
+  html.dark .bg-white,
+  html.dark .bg-white\/90,
+  html.dark .bg-white\/80,
+  html.dark .bg-white\/60 {
+    background-color: #202734 !important;
+  }
+
+  html.dark .bg-\[\#fef2f2\],
+  html.dark .bg-\[\#f0fdf4\],
+  html.dark .bg-\[\#eef6ff\] {
+    background-color: #252d3a !important;
+  }
+
+  html.dark .text-\[\#991b1b\],
+  html.dark .text-\[\#166534\],
+  html.dark .text-\[\#39455e\] {
+    color: #e2e8f0 !important;
   }
   html {
     scroll-behavior: smooth;
