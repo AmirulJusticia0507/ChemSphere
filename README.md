@@ -1,79 +1,114 @@
-# System Information Platform
+# ChemSphere
 
-Sistem Informasi berbasis web yang dirancang dengan arsitektur modern, performa tinggi, dan skalabilitas tinggi menggunakan ekosistem JavaScript/TypeScript serta PostgreSQL.
+Aplikasi pembelajaran kimia berbasis web untuk menjelajahi tabel periodik, ion poliatomik, kuis, kalkulator stoikiometri, serta panel admin untuk pengelolaan data.
 
-## Tabel Periodik
+## Tech Stack
 
-![Tabel periodik unsur dan ion poliatomik dalam Bahasa Indonesia](docs/assets/periodic-table-polyatomic-id.svg)
+- **Frontend**: [Vue 3](https://vuejs.org/), [Vite](https://vitejs.dev/), [Vue Router](https://router.vuejs.org/), [Tailwind CSS v4](https://tailwindcss.com/)
+- **Backend**: [Express 5](https://expressjs.com/), [Prisma ORM](https://www.prisma.io/), [PostgreSQL](https://www.postgresql.org/) (Neon)
+- **Auth**: JWT (access + refresh token, httpOnly cookie)
+- **Deployment**: Vercel (Frontend + Serverless API)
 
----
+## Struktur Proyek
 
-## 🛠 Tech Stack
+```text
+ChemSphere/
+├── backend/   # REST API Express + Prisma
+├── frontend/  # SPA Vue 3
+├── api/       # Vercel serverless entry
+└── docs/      # Aset pendukung
+```
 
-- **Frontend:** Vue.js 3 (Options/Composition API) + Tailwind CSS + Pinia + Vue Router
-- **Backend:** Node.js + Express.js
-- **Database:** PostgreSQL
-- **ORM / Query Builder:** Prisma / Sequelize / Knex.js
-- **Authentication:** JWT (JSON Web Token) / HttpOnly Cookies
-
----
-
-## 🚀 Quick Start
+## Menjalankan Secara Lokal
 
 ### Prasyarat
+- [Node.js](https://nodejs.org/) >= 18
+- PostgreSQL (atau gunakan Neon)
 
-- Node.js (v18+)
-- PostgreSQL (v14+)
-- npm / pnpm / yarn
-
-### 1. Clone Repository
+### 1) Setup Backend
 
 ```bash
-git clone [https://github.com/username/project-name.git](https://github.com/username/project-name.git)
-cd project-name
-2. Setup Backend
-Bash
-
-
 cd backend
 npm install
-cp .env.example .env
-# Sesuaikan DATABASE_URL dan JWT_SECRET pada file .env
-npm run migrate
+cp .env.example .env  # sesuaikan nilai jika perlu
+```
+
+Isi minimal `.env`:
+
+```env
+PORT=5000
+NODE_ENV=development
+DATABASE_URL="postgresql://user:password@host:5432/dbname"
+JWT_SECRET=ubah-ke-random-string
+JWT_REFRESH_SECRET=ubah-ke-random-string-lain
+JWT_ACCESS_EXPIRES_IN=15m
+JWT_REFRESH_EXPIRES_IN=7d
+APP_URL=http://localhost:5173
+CORS_ORIGIN=http://localhost:5173,http://localhost:5174,http://127.0.0.1:5173,http://127.0.0.1:5174
+SEED_ADMIN_EMAIL=admin@chemsphere.local
+SEED_ADMIN_PASSWORD=ChemSphere123!
+```
+
+Jalankan migrasi & generate client:
+
+```bash
+npx prisma migrate dev
+npx prisma generate
+npm run seed  # isi data unsur, kategori, ion & admin (opsional)
+```
+
+Jalankan backend:
+
+```bash
 npm run dev
-3. Setup Frontend
-Bash
+# API berjalan di http://localhost:5000
+```
 
+### 2) Setup Frontend
 
-cd ../frontend
+```bash
+cd frontend
 npm install
 npm run dev
-📁 Struktur Folder Project
-Plaintext
-
-
-├── backend/
-│   ├── src/
-│   │   ├── config/         # Konfigurasi Database & Env
-│   │   ├── controllers/    # Request handler
-│   │   ├── middlewares/    # Auth & validation middlewares
-│   │   ├── models/         # Schema / Query PostgreSQL
-│   │   ├── routes/         # Endpoint API
-│   │   └── app.js          # Entry point Express
-│   └── package.json
-│
-├── frontend/
-│   ├── src/
-│   │   ├── assets/         # CSS, gambar, icons
-│   │   ├── components/     # UI Component reusabel
-│   │   ├── pages/          # Halaman utama (Views)
-│   │   ├── router/         # Vue Router config
-│   │   ├── stores/         # Pinia state management
-│   │   └── services/       # Axios API client
-│   └── package.json
-│
-└── docs/                   # Dokumentasi Arsitektur & Desain
-    ├── ARCHITECTURE.md
-    ├── DESIGN.md
-    └── SKILLS.md
+# App berjalan di http://localhost:5173
 ```
+
+Frontend otomatis mem-proxy `/api` ke backend via konfigurasi Vite.
+
+## Kredensial Default
+
+Setelah `npm run seed` di backend:
+
+- **Email**: `admin@chemsphere.local`
+- **Password**: `ChemSphere123!`
+- **Role**: `admin`
+
+Bisa dipakai untuk mengakses halaman `/admin`.
+
+## Endpoint Penting
+
+| Endpoint | Keterangan |
+| --- | --- |
+| `GET /health` | Health check |
+| `GET /api/v1/elements` | Daftar unsur (118 data) |
+| `GET /api/v1/categories` | Daftar kategori |
+| `GET /api/v1/ions` | Daftar ion poliatomik |
+| `POST /api/v1/auth/login` | Login |
+| `GET /api/v1/learn/quiz` | Mulai kuis |
+| `POST /api/v1/learn/quiz/submit` | Submit kuis |
+
+## Build & Test
+
+```bash
+# Frontend
+cd frontend
+npm run build
+npm run preview
+
+# Backend (cek sintaks)
+cd backend
+node --check src/app.js
+```
+
+## Lisensi
+Proyek ini dibuat untuk pembelajaran. Semua data kimia disajikan untuk tujuan edukatif.
