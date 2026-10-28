@@ -42,7 +42,17 @@ if (isProduction && origins.length === 0) {
 }
 
 if (!isProduction && origins.length === 0) {
-  origins.push('http://localhost:5173', 'http://127.0.0.1:5173')
+  origins.push(
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'http://localhost:5174',
+    'http://127.0.0.1:5174',
+  )
+} else if (!isProduction) {
+  // Tambahkan port dev alternatif untuk menghindari error CORS saat hot reload/port berubah
+  for (const alt of ['http://localhost:5174', 'http://127.0.0.1:5174']) {
+    if (!origins.includes(alt)) origins.push(alt)
+  }
 }
 
 app.set('trust proxy', 1)
