@@ -10,6 +10,7 @@ const router = createRouter({
     { path: '/', name: 'home', component: () => import('../pages/HomePage.vue') },
     { path: '/tabel', name: 'table', component: () => import('../pages/TablePage.vue') },
     { path: '/bandingkan', name: 'compare', component: () => import('../pages/ComparePage.vue') },
+    { path: '/belajar', name: 'study', component: () => import('../pages/StudyPage.vue') },
     {
       path: '/ion/:id',
       name: 'ion',
