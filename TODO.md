@@ -25,3 +25,6 @@
 - [x] `npm test` — 61 test lulus.
 - [x] `npm run build --prefix frontend` — build produksi lulus.
 - [x] Endpoint detail ion — respons 200 saat diverifikasi lokal.
+- [x] Verifikasi CalculatorPage (/kalkulator) — halaman bisa diakses, kalkulator bekerja setelah data unsur dimuat dari API.
+- [x] Verifikasi QuizPage — fitur topik, jawaban, timer, skor, dan riwayat bekerja (butuh login admin@chemsphere.local).
+- [x] Dokumentasi quick start — README: `npm run dev` (frontend 5173), `npm run dev` (backend 5000), cara migrate, kredensial login.
