@@ -8,6 +8,7 @@ const route = useRoute()
 const router = useRouter()
 const auth = useAuth()
 const sidebarOpen = ref(false)
+const globalSearch = ref('')
 const links = [
   { label: 'Beranda', hint: 'Mulai belajar', to: '/', match: (path) => path === '/' },
   {
@@ -52,6 +53,12 @@ function closeSidebar() {
 function onKeydown(event) {
   if (event.key === 'Escape') closeSidebar()
 }
+async function submitSearch() {
+  const q = globalSearch.value.trim()
+  if (!q) return
+  await router.push({ name: 'table', query: { q } })
+  closeSidebar()
+}
 async function signOut() {
   await auth.signOut()
   closeSidebar()
@@ -77,6 +84,16 @@ onBeforeUnmount(() => {
       <span class="mr-[7px] text-coral" aria-hidden="true">◉</span>ChemSphere
     </RouterLink>
     <div class="flex items-center gap-3">
+      <form class="hidden lg:block" role="search" @submit.prevent="submitSearch">
+        <label class="sr-only" for="global-search">Cari unsur</label>
+        <input
+          id="global-search"
+          v-model="globalSearch"
+          type="search"
+          placeholder="Cari unsur"
+          class="w-40 rounded-full border border-line bg-white px-4 py-2 text-xs outline-none focus:border-navy"
+        />
+      </form>
       <RouterLink
         to="/eksperimen"
         class="hidden rounded-full border border-navy/10 bg-white px-4 py-2 text-xs font-bold text-ink no-underline shadow-sm hover:border-navy/30 sm:inline-flex"
@@ -143,6 +160,16 @@ onBeforeUnmount(() => {
           </button>
         </div>
         <nav class="mt-5 space-y-1">
+          <form class="mb-4" role="search" @submit.prevent="submitSearch">
+            <label class="sr-only" for="sidebar-search">Cari unsur</label>
+            <input
+              id="sidebar-search"
+              v-model="globalSearch"
+              type="search"
+              placeholder="Cari unsur, simbol, nomor atom"
+              class="w-full rounded-xl border border-line px-4 py-3 text-sm outline-none focus:border-navy"
+            />
+          </form>
           <RouterLink
             v-for="(link, index) in links"
             :key="link.label"
